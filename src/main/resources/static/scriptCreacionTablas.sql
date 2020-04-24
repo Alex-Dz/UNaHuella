@@ -1,11 +1,28 @@
 
-create table PARTICULAR (id_particular char(25) PRIMARY KEY, primer_nombre_particular CHAR(30) not null, primer_apellido_particular CHAR(30) not null, 
-direccion_particular CHAR (50)not null, telefono_particular CHAR(15) not null, segundo_nombre_particular CHAR(30), segundo_apellido_particular CHAR(30), 
-correo_particular CHAR (30) not null, cantidad_mascotas_inscritas INT, estrato CHAR(1) not null);
+create table PARTICULAR (
+    id_particular char(25) PRIMARY KEY, 
+    primer_nombre_particular CHAR(30) not null, 
+    primer_apellido_particular CHAR(30) not null, 
+    direccion_particular CHAR (50)not null, 
+    telefono_particular CHAR(15) not null, 
+    segundo_nombre_particular CHAR(30), 
+    segundo_apellido_particular CHAR(30), 
+    correo_particular CHAR (30) not null, 
+    cantidad_mascotas_inscritas INT, 
+    estrato CHAR(1) not null);
 
-create table VETERINARIO (id_veterinario char(25) PRIMARY KEY, primer_nombre_veterinario CHAR(30) not null, primer_apellido_veterinario CHAR(30) not null, 
-direccion_veterinario CHAR (50)not null, telefono_veterinario CHAR(15) not null, segundo_nombre_veterinario CHAR(30), segundo_apellido_veterinario CHAR(30), 
-correo_veterinario CHAR (30) not null, num_tarjetaprof CHAR (30) not null, especializacion CHAR (50) not null, anos_experiencia INT not null);
+create table VETERINARIO (
+    id_veterinario char(25) PRIMARY KEY, 
+    primer_nombre_veterinario CHAR(30) not null, 
+    primer_apellido_veterinario CHAR(30) not null, 
+    direccion_veterinario CHAR (50)not null, 
+    telefono_veterinario CHAR(15) not null, 
+    segundo_nombre_veterinario CHAR(30), 
+    segundo_apellido_veterinario CHAR(30), 
+    correo_veterinario CHAR (30) not null, 
+    num_tarjetaprof CHAR (30) not null, 
+    especializacion CHAR (50) not null, 
+    anos_experiencia INT not null);
 
 create table GESTOR (id_gestor char(25) PRIMARY KEY, primer_nombre_gestor CHAR(30) not null, primer_apellido_gestor CHAR(30) not null, 
 direccion_gestor CHAR (50)not null, telefono_gestor CHAR(15) not null, segundo_nombre_gestor CHAR(30), segundo_apellido_gestor CHAR(30), 
