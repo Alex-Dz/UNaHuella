@@ -11,7 +11,7 @@ public class WebH2Configuration {
     
     /*
     Driver Class: org.h2.Driver
-    JDBC URL: jdbc:h2:~/test
+    JDBC URL: jdbc:h2:mem:testdb
     User Name: sa
     Pass: 
     */
