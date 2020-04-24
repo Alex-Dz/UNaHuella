@@ -7,23 +7,14 @@ public class Particular {
 
     @Id
     private String id_particular;
-
     private String a_primer_nombre_particular;
-
     private String b_primer_apellido_particular;
-
     private String c_direccion_particular;
-
     private String d_telefono_particular;
-
     private String e_segundo_nombre_particular;
-
     private String f_segundo_apellido_particular;
-
     private String g_correo_particular;
-
     private int h_cantidad_mascotas_inscritas;
-
     private char i_estrato;
 
     public String getId_particular() {
