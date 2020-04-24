@@ -1,14 +1,15 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
+
 import java.util.Date;
 import javax.persistence.*;
 
-@Entity
+@Entity @IdClass(CitaId.class)
 public class Cita {
-    @Id
-    private String a_id_mascota;
-    @Id
-    private String b_id_jornada; 
-    private Date c_fecha_cita; 
+
+    @Id private String a_id_mascota;
+    @Id private String b_id_jornada;
+    
+    private Date c_fecha_cita;
     private String d_especificacion_cita;
 
     public String getA_id_mascota() {
@@ -42,6 +43,5 @@ public class Cita {
     public void setD_especificacion_cita(String d_especificacion_cita) {
         this.d_especificacion_cita = d_especificacion_cita;
     }
-    
-    
+
 }

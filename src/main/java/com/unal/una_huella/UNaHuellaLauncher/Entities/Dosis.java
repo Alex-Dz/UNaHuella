@@ -1,12 +1,10 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import javax.persistence.*;
 
-@Entity
+@Entity @IdClass(DosisId.class)
 public class Dosis {
-    @Id
-    private String a_id_medicamento;
-    @Id
-    private String b_id_mascota;
+    @Id private String a_id_medicamento;
+    @Id private String b_id_mascota;
     private String c_cantidad_dosis;
     private String d_descripcion_dosis;
 
