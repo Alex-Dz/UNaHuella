@@ -1,4 +1,4 @@
-package com.unal.una_huella.UNaHuellaLauncher.Repository;
+package com.unal.una_huella.UNaHuellaLauncher.Configuration;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
