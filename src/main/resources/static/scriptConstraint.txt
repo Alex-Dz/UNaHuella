@@ -45,7 +45,7 @@ alter table GESTOR alter column i_nivel_acceso varchar(1) not null;
 
 alter table JORNADA alter column id_jornada varchar(10) not null;
 alter table JORNADA alter column a_id_gestor varchar(25) NOT NULL; 
-alter table JORNADA alter column b_fecha_jornada date NOT NULL; 
+alter table JORNADA alter column b_fecha_jornada timestamp NOT NULL; 
 alter table JORNADA alter column c_cant_inscritos int NOT NULL; 
 alter table JORNADA alter column d_servicios varchar (700) not null;
 
