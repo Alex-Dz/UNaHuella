@@ -7,6 +7,7 @@ public class Particular {
 
     @Id
     private String id_particular;
+
     private String a_primer_nombre_particular;
     private String b_primer_apellido_particular;
     private String c_direccion_particular;
