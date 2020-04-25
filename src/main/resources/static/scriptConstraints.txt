@@ -1,0 +1,106 @@
+alter table JORNADA add CONSTRAINT fk_Id_Gestor FOREIGN KEY (a_id_gestor) references GESTOR (id_gestor);
+
+alter table MASCOTA add CONSTRAINT fk_Id_Particular FOREIGN KEY (i_id_particular) references PARTICULAR (id_particular) ;
+
+alter table CITA add CONSTRAINT fk_Id_Mascota FOREIGN KEY (a_id_mascota) references MASCOTA (id_mascota);
+alter table CITA add CONSTRAINT fk_Id_Jornada FOREIGN KEY (b_id_jornada) references JORNADA(id_jornada);
+
+alter table DOSIS add CONSTRAINT fk_Id_Medicamento FOREIGN KEY (a_id_medicamento) references MEDICAMENTO(id_medicamento);
+alter table DOSIS add CONSTRAINT fk_Id_MascotaD FOREIGN KEY (b_id_mascota) references MASCOTA (id_mascota);
+
+alter table SALA add CONSTRAINT fk_Id_lugar FOREIGN KEY (b_id_lugar) references LUGAR (id_lugar);
+
+alter table CIRUGIA add CONSTRAINT fk_Id_Veterinario FOREIGN KEY (b_id_veterinario) references VETERINARIO (id_veterinario);
+alter table CIRUGIA add CONSTRAINT fk_Id_SalaC FOREIGN KEY (a_id_sala) references SALA (a_id_sala);
+
+alter table LUGAR_JORNADA add CONSTRAINT fk_Id_LugarL FOREIGN KEY (b_id_lugar) references LUGAR (id_lugar);
+alter table LUGAR_JORNADA add CONSTRAINT fk_Id_JornadaL FOREIGN KEY (a_id_jornada) references JORNADA (id_jornada);
+
+alter table CIRUGIA alter column id_cirugia varchar (10) not null;
+alter table CIRUGIA alter column a_id_sala varchar(5) NOT NULL;
+alter table CIRUGIA alter column b_id_veterinario varchar(25) NOT NULL; 
+alter table CIRUGIA alter column c_procedimiento varchar (300) not null;
+alter table CIRUGIA alter column d_complicaciones varchar (300);
+
+alter table CITA alter column a_id_mascota varchar(10) not null; 
+alter table CITA alter column b_id_jornada varchar(10) not null;
+alter table CITA alter column a_fecha_cita timestamp not null;
+alter table CITA alter column b_especificacion_cita varchar (500);
+
+alter table DOSIS alter column a_id_medicamento varchar(10) not null; 
+alter table DOSIS alter column b_id_mascota varchar(10) not null; 
+alter table DOSIS alter column a_cantidad_dosis varchar (25) not null;
+alter table DOSIS alter column b_descripcion_dosis varchar (500) not null;
+
+alter table GESTOR alter column id_gestor varchar(25) not null;
+alter table GESTOR alter column a_primer_nombre_gestor varchar(30) not null;
+alter table GESTOR alter column b_primer_apellido_gestor varchar(30) not null;
+alter table GESTOR alter column c_direccion_gestor varchar (50)not null; 
+alter table GESTOR alter column d_telefono_gestor varchar(15) not null; 
+alter table GESTOR alter column e_segundo_nombre_gestor varchar(30); 
+alter table GESTOR alter column f_segundo_apellido_gestor varchar(30); 
+alter table GESTOR alter column g_correo_gestor varchar (30) not null; 
+alter table GESTOR alter column h_funciones varchar (60) not null; 
+alter table GESTOR alter column i_nivel_acceso varchar(1) not null;
+
+alter table JORNADA alter column id_jornada varchar(10) not null;
+alter table JORNADA alter column a_id_gestor varchar(25) NOT NULL; 
+alter table JORNADA alter column b_fecha_jornada date NOT NULL; 
+alter table JORNADA alter column c_cant_inscritos int NOT NULL; 
+alter table JORNADA alter column d_servicios varchar (700) not null;
+
+alter table LUGAR alter column id_lugar varchar(10) not null; 
+alter table LUGAR alter column a_ubicacion_lugar varchar (50) not null;
+alter table LUGAR alter column b_nombre_lugar varchar (40) not null;
+alter table LUGAR alter column c_capacidad_pacientes int not null;
+alter table LUGAR alter column d_personal int not null;
+
+alter table LUGAR_JORNADA alter column a_id_jornada varchar(10) not null;
+alter table LUGAR_JORNADA alter column b_id_lugar varchar(10) not null;
+alter table LUGAR_JORNADA alter column nombre_jornada varchar (30);
+
+alter table MASCOTA alter column id_mascota varchar(10) not null;
+alter table MASCOTA alter column a_especie varchar(1) NOT NULL; 
+alter table MASCOTA alter column b_nombre_mascota varchar (20) NOT NULL;
+alter table MASCOTA alter column c_genero varchar (1) NOT NULL;
+alter table MASCOTA alter column d_raza varchar (25) NOT NULL;
+alter table MASCOTA alter column e_edad_mascota varchar(10) NOT NULL; 
+alter table MASCOTA alter column f_historial_cirugias varchar(500) NOT NULL; 
+alter table MASCOTA alter column g_portador_parasito varchar(50) not null;
+alter table MASCOTA alter column h_carnet_vacunacion varchar (20);
+alter table MASCOTA alter column i_id_particular varchar(25) NOT NULL; 
+
+alter table MEDICAMENTO alter column id_medicamento varchar(10) not null; 
+alter table MEDICAMENTO alter column a_nombre_medicamento varchar (50) not null;
+alter table MEDICAMENTO alter column b_tipo_medicamento varchar (60) not null;
+alter table MEDICAMENTO alter column c_presentacion_med varchar (60) not null;
+alter table MEDICAMENTO alter column d_componente_act varchar (60) not null;
+
+alter table PARTICULAR alter column id_particular varchar(25);
+alter table PARTICULAR alter column a_primer_nombre_particular varchar(30) not null;
+alter table PARTICULAR alter column b_primer_apellido_particular varchar(30) not null;
+alter table PARTICULAR alter column c_direccion_particular varchar (50)not null;
+alter table PARTICULAR alter column d_telefono_particular varchar(15) not null;
+alter table PARTICULAR alter column e_segundo_nombre_particular varchar(30);
+alter table PARTICULAR alter column f_segundo_apellido_particular varchar(30);
+alter table PARTICULAR alter column g_correo_particular varchar (30) not null; 
+alter table PARTICULAR alter column h_cantidad_mascotas_inscritas INT;
+alter table PARTICULAR alter column i_estrato varchar(1) not null;
+
+alter table veterinario alter column id_veterinario varchar(25);
+alter table veterinario alter column a_primer_nombre_veterinario varchar(30) not null;
+alter table veterinario alter column b_primer_apellido_veterinario varchar(30) not null;
+alter table veterinario alter column c_direccion_veterinario varchar (50)not null;
+alter table veterinario alter column d_telefono_veterinario varchar(15) not null;
+alter table veterinario alter column e_segundo_nombre_veterinario varchar(30);
+alter table veterinario alter column f_segundo_apellido_veterinario varchar(30);
+alter table veterinario alter column g_correo_veterinario varchar (30) not null; 
+alter table veterinario alter column h_num_tarjetaprof varchar (30) not null;
+alter table veterinario alter column i_especializacion varchar (50) not null;
+alter table veterinario alter column j_anos_experiencia INT not null;
+
+alter table SALA alter column a_id_sala varchar (5) not null;
+alter table SALA alter column b_id_lugar varchar(10) not null;
+alter table SALA alter column capacidad_sala int not null;
+
+
