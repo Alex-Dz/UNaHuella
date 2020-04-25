@@ -8,4 +8,6 @@ public interface ParticularService {
     Particular getParticularById(String id);
     
     Particular saveParticular(Particular particular);
+    
+    void deleteParticular(String id);
 }
