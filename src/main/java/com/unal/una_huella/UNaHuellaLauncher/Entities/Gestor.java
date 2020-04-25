@@ -4,8 +4,10 @@ import javax.persistence.*;
 
 @Entity
 public class Gestor {
+
     @Id
     private String id_gestor;
+
     private String a_primer_nombre_gestor;
     private String b_primer_apellido_gestor;
     private String c_direccion_gestor;
@@ -95,6 +97,5 @@ public class Gestor {
     public void setI_nivel_acceso(char i_nivel_acceso) {
         this.i_nivel_acceso = i_nivel_acceso;
     }
-    
-    
+
 }

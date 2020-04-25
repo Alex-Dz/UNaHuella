@@ -1,15 +1,18 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Entity
 public class Jornada {
-   @Id
-   private String id_jornada;
-   private String a_id_gestor;
-   private Date b_fecha_jornada;
-   private int c_cant_inscritos;
-   private String d_servicios;
+
+    @Id
+    private String id_jornada;
+
+    private String a_id_gestor;
+    private Date b_fecha_jornada;
+    private int c_cant_inscritos;
+    private String d_servicios;
 
     public String getId_jornada() {
         return id_jornada;
@@ -50,6 +53,5 @@ public class Jornada {
     public void setD_servicios(String d_servicios) {
         this.d_servicios = d_servicios;
     }
-   
-   
+
 }

@@ -1,10 +1,13 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
+
 import javax.persistence.*;
 
 @Entity
 public class Mascota {
+
     @Id
     private String id_mascota;
+    
     private String a_especie;
     private String b_nombre_mascota;
     private char c_genero;
@@ -94,6 +97,5 @@ public class Mascota {
     public void setI_id_particular(String i_id_particular) {
         this.i_id_particular = i_id_particular;
     }
-    
-    
+
 }

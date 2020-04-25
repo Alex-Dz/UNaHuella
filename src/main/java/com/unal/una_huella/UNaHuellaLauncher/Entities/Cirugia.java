@@ -1,11 +1,13 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
+
 import javax.persistence.*;
-        
 
 @Entity
 public class Cirugia {
+
     @Id
     private String id_cirugia;
+
     private String a_id_sala;
     private String b_id_veterinario;
     private String c_procedimiento;
@@ -50,6 +52,5 @@ public class Cirugia {
     public void setD_complicaciones(String d_complicaciones) {
         this.d_complicaciones = d_complicaciones;
     }
-    
-    
+
 }
