@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="es">
+
+        <title>UNa Huella API</title>
+
+        <!--/*/ <th:block th:include="headers/headerinc :: head"></th:block> /*/-->
+
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!--/*/ <th:block th:include="headers/navbarheader :: header"></th:block> /*/-->
+
+            <div th:if="${not #lists.isEmpty(particulares)}">
+                <h2>Particulares Registrados</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Id</th>
+                        <th>Primer Nombre</th>
+                        <th>Segundo Nombre</th>
+                        <th>Primer Apellido</th>
+                        <th>Primer Apellido</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>e-mail</th>
+                        <th># Mascotas</th>
+                        <th>Estrato</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                    </tr>
+                    <tr th:each="particular : ${particulares}">
+                        <td th:text="${particular.id_particular}"><a href="/particular/${particular.id_particular}">Id</a></td>
+                        <td th:text="${particular.getPrimer_nombre_particular()}">Primer Nombre</td>
+                        <td th:text="${particular.getSegundo_nombre_particular()}">Segundo Nombre</td>
+                        <td th:text="${particular.getPrimer_apellido_particular()}">Primer Apellido</td>
+                        <td th:text="${particular.getSegundo_apellido_particular()}">Segundo Apellido</td>
+                        <td th:text="${particular.getDireccion_particular()}">Direccion</td>
+                        <td th:text="${particular.getTelefono_particular()}">Telefono</td>
+                        <td th:text="${particular.getCorreo_particular()}">e-mail</td>
+                        <td th:text="${particular.getCantidad_mascotas_inscritas()}"># Mascotas</td>
+                        <td th:text="${particular.getEstrato()}">Estrato</td>
+                        <td><a th:href="${ '/particular/' + particular.id_particular}">View</a></td>
+                        <td><a th:href="${'/particular/edit/' + particular.id_particular}">Edit</a></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </body>
+</html>
