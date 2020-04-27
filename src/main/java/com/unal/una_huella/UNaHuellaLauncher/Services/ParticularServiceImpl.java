@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services;
 
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.ParticularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
