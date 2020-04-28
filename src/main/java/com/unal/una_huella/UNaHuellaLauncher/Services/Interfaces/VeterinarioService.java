@@ -3,7 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Veterinario;
 
 public interface VeterinarioService {
-    Iterable<Veterinario> listAllVeterinario();
+    Iterable<Veterinario> listAllVeterinarios();
     
     Veterinario getVeterinarioById(String id);
     

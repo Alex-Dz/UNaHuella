@@ -3,7 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 
 public interface MascotaService {
-    Iterable<Mascota> listAllMascota();
+    Iterable<Mascota> listAllMascotas();
     
     Mascota getMascotaById(String id);
     

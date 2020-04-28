@@ -3,7 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Medicamento;
 
 public interface MedicamentoService {
-    Iterable<Medicamento> listAllMedicamento();
+    Iterable<Medicamento> listAllMedicamentos();
     
     Medicamento getMedicamentoById(String id);
     

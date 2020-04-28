@@ -3,7 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Sala;
 
 public interface SalaService {
-    Iterable<Sala> listAllSala();
+    Iterable<Sala> listAllSalas();
     
     Sala getSalaById(String id);
     
