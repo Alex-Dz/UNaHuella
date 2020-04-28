@@ -53,7 +53,11 @@ public class DoubleLinkedList<T> implements List<T> {
 
     @Override
     public T topFront() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (head != null){
+            return head.key;            
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -71,7 +75,11 @@ public class DoubleLinkedList<T> implements List<T> {
 
     @Override
     public T topBack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (tail != null){
+            return tail.key;            
+        } else {
+            return null;
+        }        
     }
 
     @Override
