@@ -32,7 +32,7 @@ public class ParticularController {
     @RequestMapping("particular/{id}")
     public String showParticular(@PathVariable String id, Model model){
         model.addAttribute("particular", particularService.getParticularById(id));
-        return "particularsshow";
+        return "particularshow";
     }
     
     @RequestMapping(value = "/particulares", method = RequestMethod.GET)
