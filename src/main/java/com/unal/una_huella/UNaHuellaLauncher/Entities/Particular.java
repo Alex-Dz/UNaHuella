@@ -16,7 +16,7 @@ public class Particular {
     private String f_segundo_apellido_particular;
     private String g_correo_particular;
     private int h_cantidad_mascotas_inscritas;
-    private char i_estrato;
+    private int i_estrato;
 
     public String getId_particular() {
         return id_particular;
@@ -90,11 +90,11 @@ public class Particular {
         this.h_cantidad_mascotas_inscritas = cantidad_mascotas_inscritas;
     }
 
-    public char getEstrato() {
+    public int getEstrato() {
         return i_estrato;
     }
 
-    public void setEstrato(char estrato) {
+    public void setEstrato(int estrato) {
         this.i_estrato = estrato;
     }
 
