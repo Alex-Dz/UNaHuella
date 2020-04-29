@@ -3,7 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.ED;
 import java.util.Iterator;
 
 public class ListIterator<T> implements Iterator<T> {
-    
+
     private DoubleLinkedList list;
     long positionList;
     NodoList<T> node;
@@ -14,12 +14,14 @@ public class ListIterator<T> implements Iterator<T> {
         node = list.getHead();
     }
 
-    
-
     @Override
     public boolean hasNext() {
-
+        if (node == null) {
+            return false;
+        }
         if (node.next != null) {
+            return true;
+        } else if (node == list.getTail()) {
             return true;
         } else {
             return false;
@@ -29,11 +31,14 @@ public class ListIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         positionList++;
-        if (node.next != null) {
+        T value;
+        if (node == list.getTail() || node.next != null) {
+            value = node.key;
             node = node.next;
-            return node.prev.key;
+            return value;
         } else {
-            return node.key;
+            value = node.key;
+            return value;
         }
 
     }

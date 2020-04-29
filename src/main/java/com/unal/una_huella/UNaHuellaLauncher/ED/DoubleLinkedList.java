@@ -13,7 +13,7 @@ public class DoubleLinkedList<T> implements List<T> {
         this.head = null;
         this.tail = null;
     }
-    
+
     @Override
     public long size() {
         return size;
@@ -55,8 +55,8 @@ public class DoubleLinkedList<T> implements List<T> {
 
     @Override
     public T topFront() {
-        if (head != null){
-            return head.key;            
+        if (head != null) {
+            return head.key;
         } else {
             return null;
         }
@@ -77,11 +77,11 @@ public class DoubleLinkedList<T> implements List<T> {
 
     @Override
     public T topBack() {
-        if (tail != null){
-            return tail.key;            
+        if (tail != null) {
+            return tail.key;
         } else {
             return null;
-        }        
+        }
     }
 
     @Override
@@ -176,10 +176,10 @@ public class DoubleLinkedList<T> implements List<T> {
         return head;
     }
 
-    public void setHead(NodoList<T> head) {
-        this.head = head;
+    public NodoList<T> getTail() {
+        return tail;
     }
-    
+
     public Iterator<T> iterator() {
         Iterator<T> it = new ListIterator<T>(this);
         return it;
