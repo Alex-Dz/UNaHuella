@@ -6,9 +6,9 @@ public interface List<T> {
     public void pushFront(T key);
     public void pushBack(T key);
     public T topFront();
-    public void popFront();
+    public T popFront();
     public T topBack();
-    public void popBack();
+    public T popBack();
     public boolean find(T key);
     public void delete(T key);
     public void addBefore(NodoList node, T key);

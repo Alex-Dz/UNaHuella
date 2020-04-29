@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.ED;
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
 import java.util.Iterator;
 
 public class DoubleLinkedList<T> implements List<T> {
@@ -63,16 +64,25 @@ public class DoubleLinkedList<T> implements List<T> {
     }
 
     @Override
-    public void popFront() {
+    public T popFront() {
         if (head == null) {
             System.out.println("( ._.)/");
+            return null;
         }
-        head.next.prev = null;
+        NodoList<T> temp = head;
+        if (head != tail) {
+            head.next.prev = null;
+        }
         head = head.next;
         if (head == null) {
             tail = null;
         }
         size--;
+        if (temp != null) {
+            return temp.key;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -85,16 +95,18 @@ public class DoubleLinkedList<T> implements List<T> {
     }
 
     @Override
-    public void popBack() {
+    public T popBack() {
         if (head == null) {
             System.out.println("( ._.)/");
         }
+        NodoList<T> temp = tail;
         if (head == tail) {
             head = tail = null;
         } else {
             tail = tail.prev;
             tail.next = null;
         }
+        return temp.key;
     }
 
     @Override
@@ -120,6 +132,21 @@ public class DoubleLinkedList<T> implements List<T> {
             }
             temp = temp.next;
             i++;
+        }
+        return null;
+    }
+
+    public T findById(String id) {
+        long i = 0;
+        if (head.key instanceof Particular) {
+            NodoList<Particular> temp = (NodoList<Particular>) head;
+            while (i < size) {
+                if (temp.key.getId_particular() == id) {
+                    return (T) temp.key;
+                }
+                temp = temp.next;
+                i++;
+            }
         }
         return null;
     }

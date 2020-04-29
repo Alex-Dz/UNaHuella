@@ -48,7 +48,7 @@ public class LinkedStack<T> implements Stack<T> {
     public T top() {
         T temp;
         if (isEmpty()) {
-            System.out.println("Pila Vacia");
+            //System.out.println("Pila Vacia");
             return null;
         } else {
             temp = this.top.key;
