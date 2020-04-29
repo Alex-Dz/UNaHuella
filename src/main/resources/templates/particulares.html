@@ -29,7 +29,7 @@
                         <th>View</th>
                         <th>Edit</th>
                     </tr>
-                    <tr th:each="particular : ${particulares}">
+                    <tr th:each="particular : ${particulares.iterable()}">
                         <td th:text="${particular.id_particular}"><a href="/particular/${particular.id_particular}">Id</a></td>
                         <td th:text="${particular.getPrimer_nombre_particular()}">Primer Nombre</td>
                         <td th:text="${particular.getSegundo_nombre_particular()}">Segundo Nombre</td>

@@ -172,17 +172,28 @@ public class DoubleLinkedList<T> implements List<T> {
         }
     }
 
+    public Iterable<T> iteratorToIterable(Iterator<T> iterator) {
+        return () -> iterator;
+    }
+
+    public Iterable<T> iterable() {
+        Iterator<T> it = iterator();
+        Iterable<T> to = iteratorToIterable(it);
+
+        return to;
+    }
+
+    public Iterator<T> iterator() {
+        Iterator<T> it = new ListIterator<T>(this);
+        return it;
+    }
+
     public NodoList<T> getHead() {
         return head;
     }
 
     public NodoList<T> getTail() {
         return tail;
-    }
-
-    public Iterator<T> iterator() {
-        Iterator<T> it = new ListIterator<T>(this);
-        return it;
     }
 
 }

@@ -41,7 +41,7 @@ public class ParticularController {
         
         for (Particular particular : particularService.listAllParticulars()){
             list.pushBack(particular);
-            System.out.println(list.topBack());
+            //System.out.println(list.topBack());
         }
         return list;
     }
@@ -62,4 +62,5 @@ public class ParticularController {
         particularService.deleteParticular(id);
         return "redirect:/particulares";
     }
+    
 }
