@@ -3,6 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Services;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.ParticularRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class ParticularServiceImpl implements ParticularService {
     }
 
     @Override
-    public Iterable<Particular> listAllParticulars() {
+    public List <Particular> listAllParticulars() {
         return particularRepository.findAll();
     }
 
@@ -36,5 +37,5 @@ public class ParticularServiceImpl implements ParticularService {
     public void deleteParticular(String id) {
         particularRepository.deleteById(id);
     }
-
+    
 }

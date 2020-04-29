@@ -8,12 +8,11 @@
 
     </head>
     <body>
-
         <div class="container">
 
             <!--/*/ <th:block th:include="headers/navbarheader :: header"></th:block> /*/-->
 
-            <div th:if="${not #lists.isEmpty(particulares)}">
+            <div th:if="${particulares.isEmpty() == false}">
                 <h2>Particulares Registrados</h2>
                 <table class="table table-striped">
                     <tr>

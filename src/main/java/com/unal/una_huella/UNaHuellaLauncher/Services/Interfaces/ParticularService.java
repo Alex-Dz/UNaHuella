@@ -1,9 +1,10 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
+import java.util.List;
 
 public interface ParticularService {
-    Iterable<Particular> listAllParticulars();
+    List<Particular> listAllParticulars();
     
     Particular getParticularById(String id);
     

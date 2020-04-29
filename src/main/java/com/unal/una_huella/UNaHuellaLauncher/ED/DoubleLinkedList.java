@@ -1,5 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.ED;
 
+import java.util.Iterator;
+
 public class DoubleLinkedList<T> implements List<T> {
 
     private long size;
@@ -11,7 +13,7 @@ public class DoubleLinkedList<T> implements List<T> {
         this.head = null;
         this.tail = null;
     }
-
+    
     @Override
     public long size() {
         return size;
@@ -168,6 +170,19 @@ public class DoubleLinkedList<T> implements List<T> {
         if (tail == node) {
             tail = newNode;
         }
+    }
+
+    public NodoList<T> getHead() {
+        return head;
+    }
+
+    public void setHead(NodoList<T> head) {
+        this.head = head;
+    }
+    
+    public Iterator<T> iterator() {
+        Iterator<T> it = new ListIterator<T>(this);
+        return it;
     }
 
 }

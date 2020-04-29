@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
+import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,19 @@ public class ParticularController {
         return "particularshow";
     }
     
+    public DoubleLinkedList <Particular> getRegisters (){
+        DoubleLinkedList <Particular> list = new DoubleLinkedList<Particular>();
+        
+        for (Particular particular : particularService.listAllParticulars()){
+            list.pushBack(particular);
+            System.out.println(list.topBack());
+        }
+        return list;
+    }
+    
     @RequestMapping(value = "/particulares", method = RequestMethod.GET)
     public String list(Model model){
-        model.addAttribute("particulares", particularService.listAllParticulars());
+        model.addAttribute("particulares", getRegisters());
         return "particulares";
     }
     

@@ -3,8 +3,8 @@ package com.unal.una_huella.UNaHuellaLauncher.ED;
 public class NodoList<T> {
 
     public T key;
-    public NodoList next;
-    public NodoList prev;
+    public NodoList<T> next;
+    public NodoList<T> prev;
 
     public NodoList() {
         this.key = null;        //  nudes = nulls
