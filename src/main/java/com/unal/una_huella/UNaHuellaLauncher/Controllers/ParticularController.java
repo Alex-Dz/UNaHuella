@@ -17,8 +17,8 @@ public class ParticularController {
     LinkedStack<Particular[]> prevPag = new LinkedStack<>();
     LinkedStack<Particular[]> nextPag = new LinkedStack<>();
     
-    long time_start;
-    long time_end;
+    long time_start = 0;
+    long time_end = 0;
 
     @Autowired
     public void setParticularService(ParticularService particularService) {
@@ -50,12 +50,14 @@ public class ParticularController {
     }
 
     public DoubleLinkedList<Particular> getRegisters() {
+        time_start = 0;
         time_start = System.currentTimeMillis();
         DoubleLinkedList<Particular> list = new DoubleLinkedList<Particular>();
 
         for (Particular particular : particularService.listAllParticulars()) {
             list.pushBack(particular);
         }
+        time_end = 0;
         time_end = System.currentTimeMillis();
         System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList "+ ( time_end - time_start ) +" milliseconds");
         return list;
@@ -69,6 +71,7 @@ public class ParticularController {
         while (!prevPag.isEmpty()){
             prevPag.pop();
         }
+        time_start = 0;
         time_start = System.currentTimeMillis();
         while (!list.isEmpty()) {
             Particular[] grupo = new Particular[regsPerPage];
@@ -82,14 +85,17 @@ public class ParticularController {
             }
             prevPag.push(grupo);
         }
+        time_end = 0;
         time_end = System.currentTimeMillis();
         System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag "+ ( time_end - time_start ) +" milliseconds");
+        time_start = 0;
         time_start = System.currentTimeMillis();
         while (!prevPag.isEmpty()){
             nextPag.push(prevPag.pop());
         }
+        time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag"+ ( time_end - time_start ) +" milliseconds");
+        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag "+ ( time_end - time_start ) +" milliseconds");
         
     }
 
