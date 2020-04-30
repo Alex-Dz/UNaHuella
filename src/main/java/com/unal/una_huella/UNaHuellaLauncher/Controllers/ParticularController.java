@@ -22,6 +22,7 @@ public class ParticularController {
     @RequestMapping("particular/new")
     public String newParticular(Model model) {
         model.addAttribute("particular", new Particular());
+        model.addAttribute("edit", false);
         return "particularform";
     }
     
@@ -127,6 +128,7 @@ public class ParticularController {
     @RequestMapping("/particular/edit/{id}")
     public String editParticular(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
+        model.addAttribute("edit", true);
         return "particularform";
     }
     

@@ -16,7 +16,12 @@
 
             <div>
                 <form class="form-horizontal" th:object="${particular}" th:action="@{/particular}" method="post">
-                    <div class="form-group">
+                    <div th:if="${edit == true}" class="form-group">
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" th:field="*{id_particular}"/>
+                        </div>
+                    </div>
+                    <div th:if="${edit == false}" class="form-group">
                         <label class="col-sm-2 control-label">Numero de Documento:</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" th:field="*{id_particular}"/>
