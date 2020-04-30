@@ -10,8 +10,8 @@
         <div class="container">
             <!--/*/ <th:block th:include="headers/navbarheader :: header"></th:block> /*/-->
             
-            <h2>Particulares</h2>
-            <div>
+            <h2>Particular</h2>
+            <div th:if="${particular != null}">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Numero de Documento:</label>
@@ -21,52 +21,55 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Primer Nombre:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getPrimer_nombre_particular()}">Primer Nombre</p></div>
+                            <p class="form-control-static" th:text="${particular.getA_primer_nombre_particular()}">Primer Nombre</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Segundo Nombre:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getSegundo_nombre_particular()}">Segundo Nombre</p></div>
+                            <p class="form-control-static" th:text="${particular.getE_segundo_nombre_particular()}">Segundo Nombre</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Primer Apellido:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getPrimer_apellido_particular()}">Primer Apellido</p></div>
+                            <p class="form-control-static" th:text="${particular.getB_primer_apellido_particular()}">Primer Apellido</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Segundo Apellido:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getSegundo_apellido_particular()}">Segundo Apellido</p></div>
+                            <p class="form-control-static" th:text="${particular.getF_segundo_apellido_particular()}">Segundo Apellido</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Dirección:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getDireccion_particular()}">Dirección</p></div>
+                            <p class="form-control-static" th:text="${particular.getC_direccion_particular()}">Dirección</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Telefono:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getTelefono_particular()}">Telefono</p></div>
+                            <p class="form-control-static" th:text="${particular.getD_telefono_particular()}">Telefono</p></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">e-mail:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getCorreo_particular()}">e-mail</p>
+                            <p class="form-control-static" th:text="${particular.getG_correo_particular()}">e-mail</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"># Mascotas:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getCantidad_mascotas_inscritas()}"># Mascotas</p>
+                            <p class="form-control-static" th:text="${particular.getH_cantidad_mascotas_inscritas()}"># Mascotas</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Estrato:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${particular.getEstrato()}">Estrato</p>
+                            <p class="form-control-static" th:text="${particular.getI_estrato()}">Estrato</p>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div th:if="${particular == null}">
+                <h3>No existen registros con ese documento.</h3>
             </div>
         </div>
     </body>

@@ -97,7 +97,8 @@ public class DoubleLinkedList<T> implements List<T> {
     @Override
     public T popBack() {
         if (head == null) {
-            System.out.println("( ._.)/");
+            System.out.println("_/(._. )");
+            return null;
         }
         NodoList<T> temp = tail;
         if (head == tail) {
@@ -106,7 +107,12 @@ public class DoubleLinkedList<T> implements List<T> {
             tail = tail.prev;
             tail.next = null;
         }
-        return temp.key;
+        size--;
+        if (temp != null) {
+            return temp.key;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -138,10 +144,10 @@ public class DoubleLinkedList<T> implements List<T> {
 
     public T findById(String id) {
         long i = 0;
-        if (head.key instanceof Particular) {
+        if (head != null && head.key instanceof Particular) {
             NodoList<Particular> temp = (NodoList<Particular>) head;
-            while (i < size) {
-                if (temp.key.getId_particular() == id) {
+            while (i < this.size) {
+                if (temp.key.getId_particular().equals(id)) {
                     return (T) temp.key;
                 }
                 temp = temp.next;
@@ -171,8 +177,10 @@ public class DoubleLinkedList<T> implements List<T> {
                     temp.prev.next = temp.next;
                     temp.next = null;
                 }
+                size--;
             }
         }
+
     }
 
     @Override

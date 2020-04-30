@@ -24,6 +24,11 @@ public class ParticularController {
         model.addAttribute("particular", new Particular());
         return "particularform";
     }
+    
+    @RequestMapping(value = "idsearch", method = RequestMethod.POST)
+    public String searchParticular(Particular idSearch) {
+        return "redirect:/particular/" + idSearch.getId_particular();
+    }
 
     @RequestMapping(value = "particular", method = RequestMethod.POST)
     public String saveParticular(Particular particular) {
@@ -33,7 +38,7 @@ public class ParticularController {
 
     @RequestMapping("particular/{id}")
     public String showParticular(@PathVariable String id, Model model) {
-        model.addAttribute("particular", particularService.getParticularById(id));
+        model.addAttribute("particular", getRegisters().findById(id));
         return "particularshow";
     }
 
@@ -50,13 +55,27 @@ public class ParticularController {
     LinkedStack<Particular[]> nextPag = new LinkedStack<>();
 
     public void paginas(DoubleLinkedList<Particular> list) {
-        int regsPerPage = 5;
+        int regsPerPage = 20;
+        while (!nextPag.isEmpty()){
+            nextPag.pop();
+        }
+        while (!prevPag.isEmpty()){
+            prevPag.pop();
+        }
         while (!list.isEmpty()) {
             Particular[] grupo = new Particular[regsPerPage];
             for (int i = 0; i < regsPerPage; i++) {
-                grupo[i] = list.popFront();
+                Particular reg = list.popFront();
+                if(reg == null){
+                    break;
+                } else{
+                    grupo[i] = reg;
+                }
             }
-            nextPag.push(grupo);
+            prevPag.push(grupo);
+        }
+        while (!prevPag.isEmpty()){
+            nextPag.push(prevPag.pop());
         }
     }
 
@@ -105,12 +124,19 @@ public class ParticularController {
         return "particulares";
     }
 
-    @RequestMapping("particular/edit/{id}")
+    @RequestMapping("/particular/edit/{id}")
     public String editParticular(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
         return "particularform";
     }
+    
+    @RequestMapping("/particular/buscar")
+    public String searchParticular(Model model){
+        model.addAttribute("idSearch", new Particular());
+        return "particularsearch";
+    }
 
+    @RequestMapping("/particular/delete/{id}")
     public String deleteParticular(@PathVariable String id) {
         particularService.deleteParticular(id);
         return "redirect:/particulares";

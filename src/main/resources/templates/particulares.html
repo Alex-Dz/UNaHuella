@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head lang="es">
 
-        <title>UNa Huella API</title>
+        <title>UNa Huella API - Particulares</title>
 
         <!--/*/ <th:block th:include="headers/headerinc :: head"></th:block> /*/-->
 
@@ -23,15 +23,17 @@
                         <th>Primer Apellido</th>
                         <th>View</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     <tr th:each="particular : ${pagina}">
-                        <td th:text="${particular.id_particular}"><a href="/particular/${particular.id_particular}">Numero de Documento</a></td>
-                        <td th:text="${particular.getPrimer_nombre_particular()}">Primer Nombre</td>
-                        <td th:text="${particular.getSegundo_nombre_particular()}">Segundo Nombre</td>
-                        <td th:text="${particular.getPrimer_apellido_particular()}">Primer Apellido</td>
-                        <td th:text="${particular.getSegundo_apellido_particular()}">Segundo Apellido</td>
-                        <td><a th:href="${ '/particular/' + particular.id_particular}">View</a></td>
-                        <td><a th:href="${'/particular/edit/' + particular.id_particular}">Edit</a></td>
+                        <td th:if="${particular != null}" th:text="${particular.id_particular}"><a href="/particular/${particular.id_particular}">Numero de Documento</a></td>
+                        <td th:if="${particular != null}" th:text="${particular.getA_primer_nombre_particular()}">Primer Nombre</td>
+                        <td th:if="${particular != null}" th:text="${particular.getE_segundo_nombre_particular()}">Segundo Nombre</td>
+                        <td th:if="${particular != null}" th:text="${particular.getB_primer_apellido_particular()}">Primer Apellido</td>
+                        <td th:if="${particular != null}" th:text="${particular.getF_segundo_apellido_particular()}">Segundo Apellido</td>
+                        <td th:if="${particular != null}"><a th:href="${ '/particular/' + particular.id_particular}">View</a></td>
+                        <td th:if="${particular != null}"><a th:href="${'/particular/edit/' + particular.id_particular}">Edit</a></td>
+                        <td th:if="${particular != null}"><a th:href="${'/particular/delete/' + particular.id_particular}">Delete</a></td>
                     </tr>
                 </table>
                 <div>
@@ -47,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
     </body>

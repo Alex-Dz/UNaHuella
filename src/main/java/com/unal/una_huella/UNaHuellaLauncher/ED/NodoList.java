@@ -7,7 +7,7 @@ public class NodoList<T> {
     public NodoList<T> prev;
 
     public NodoList() {
-        this.key = null;        //  nudes = nulls
+        this.key = null;
         this.next = null;       
         this.prev = null;
     }
