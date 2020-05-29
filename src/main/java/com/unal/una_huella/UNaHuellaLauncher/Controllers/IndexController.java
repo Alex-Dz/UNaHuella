@@ -15,4 +15,9 @@ public class IndexController {
     String login(){
         return "login";
     }
+
+    @RequestMapping("/gestor")
+    String gestor(){
+        return "gestor";
+    }
 }
