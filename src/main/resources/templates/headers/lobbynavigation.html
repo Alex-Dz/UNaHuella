@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
 </head>
 <body>
 <div th:fragment="mainnavbar">
@@ -21,7 +21,7 @@
                         </ul>
                     </div>
                 </nav>
-                <ul class="sidenav" id="mobile-navbar">
+                <ul class="sidenav background-grey-1" id="mobile-navbar">
                     <li><a th:href="@{/info}" href="#">Info</a></li>
                     <li><a th:href="@{/contacto}" href="#">Contacto</a></li>
                     <li><a th:href="@{/calendario}" href="#">Calendario</a></li>
@@ -30,6 +30,5 @@
         </div>
     </div>
 </div>
-<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
 </body>
 </html>
