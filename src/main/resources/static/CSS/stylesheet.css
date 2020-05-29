@@ -1,0 +1,71 @@
+.no-float {
+    float: none;
+}
+
+.top-margin {
+    margin-top: 1em;
+}
+
+.bottom-margin {
+    margin-bottom: 1em;
+}
+
+.side-margin {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.vertical-margin {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.vertical-padding {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+
+.side-padding {
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+}
+
+.padding {
+    padding: 2em 1.5em;
+}
+
+.no-margin {
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+
+/* Color Theme Swatches in Hex */
+.colors {
+    --color1: #D9D3D2;
+    --color2: #F7F7F5;
+    --color3: #70B8FF;
+    --color4: #775CFF;
+    --color5: #8201B8;
+}
+
+.background-grey-1 {
+    background-color: #D9D3D2;
+}
+
+.background-grey-2 {
+    background-color: #F7F7F5;
+}
+
+.background-blue {
+    background-color: #70B8FF;
+}
+
+.background-violet {
+    background-color: #775CFF;
+}
+
+.background-purple {
+    background-color: #8201B8;
+}
