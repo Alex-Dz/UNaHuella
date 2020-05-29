@@ -12,12 +12,17 @@ public class IndexController {
     }
 
     @RequestMapping("/login")
-    String login(){
+    String login() {
         return "login";
     }
 
     @RequestMapping("/gestor")
-    String gestor(){
+    String gestor() {
         return "gestor";
+    }
+
+    @RequestMapping("/vet")
+    String vet() {
+        return "veterinario";
     }
 }
