@@ -41,6 +41,25 @@
     margin-right: 0em;
 }
 
+.no-padding {
+    padding-top: 0em;
+    padding-bottom: 0em;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
 /* Color Theme Swatches in Hex */
 .colors {
     --color1: #D9D3D2;

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <title>Login</title>
-
-    <!--/*/ <th:block th:include="headers/headerinc :: head"></th:block> /*/-->
-
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 <body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
 <div class="container">
     <header class="padding">
         <div class="col s1 vertical-margin">
@@ -38,5 +36,6 @@
         </div>
     </div>
 </div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
 </body>
 </html>
