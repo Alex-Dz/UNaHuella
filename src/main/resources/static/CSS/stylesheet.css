@@ -73,6 +73,10 @@
     text-align: left;
 }
 
+.adaptative-img {
+    width: 100%;
+}
+
 /* Color Theme Swatches in Hex */
 .colors {
     --color1: #d9d3d2;
