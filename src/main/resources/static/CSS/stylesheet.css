@@ -23,6 +23,11 @@
     margin-right: 1em;
 }
 
+.input-field .prefix {
+    color: #3d3939;
+}
+
+
 .vertical-margin {
     margin-top: 1em;
     margin-bottom: 1em;
@@ -70,8 +75,8 @@
 
 /* Color Theme Swatches in Hex */
 .colors {
-    --color1: #D9D3D2;
-    --color2: #F7F7F5;
+    --color1: #d9d3d2;
+    --color2: #f7f7f5;
     --color3: #70B8FF;
     --color4: #775CFF;
     --color5: #8201B8;
@@ -86,7 +91,7 @@
 }
 
 .background-grey-2 {
-    background-color: #F7F7F5;
+    background-color: #f7f7f5;
 }
 
 .background-blue {
