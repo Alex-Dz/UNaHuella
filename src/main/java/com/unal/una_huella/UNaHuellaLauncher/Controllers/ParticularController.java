@@ -25,6 +25,11 @@ public class ParticularController {
         this.particularService = particularService;
     }
 
+    @RequestMapping("/particular")
+    public String particular(){
+        return "particular";
+    }
+
     @RequestMapping("particular/new")
     public String newParticular(Model model) {
         model.addAttribute("particular", new Particular());

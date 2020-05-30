@@ -25,9 +25,4 @@ public class IndexController {
     String vet() {
         return "veterinario";
     }
-
-    @RequestMapping("/principal")
-    String principal() {
-        return "pagPrincipal";
-    }
 }

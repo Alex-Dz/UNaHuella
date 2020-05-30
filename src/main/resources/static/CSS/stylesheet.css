@@ -10,6 +10,14 @@
     margin-bottom: 1em;
 }
 
+.left-margin {
+    margin-left: 1em;
+}
+
+.right-margin {
+    margin-right: 1em;
+}
+
 .side-margin {
     margin-left: 1em;
     margin-right: 1em;
@@ -67,6 +75,10 @@
     --color3: #70B8FF;
     --color4: #775CFF;
     --color5: #8201B8;
+}
+
+.title-navbar {
+    font-size: 1.7rem;
 }
 
 .background-grey-1 {

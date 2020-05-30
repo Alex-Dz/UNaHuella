@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head lang="es">
-
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-        <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-              th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
-              rel="stylesheet" media="screen"/>
-
-        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-        th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-        
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!--/*/ <th:block th:include="headers/headerinc :: head"></th:block> /*/-->
     </head>
-    
+
     <body>
         <div class="container">
             <div th:fragment="header">
-                <nav class="navbar navbar-default">
+                <nav class="navbar navbar-default nav-wrapper">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
-                            <ul class="nav navbar-nav">
+                            <!--a class="navbar-brand brand-logo" href="#" th:href="@{/}">Home</a-->
+                            <ul class="list-inline nav navbar-nav right">
+                                <li><a href="#" th:href="@{/}">Home</a></li>
                                 <li><a href="#" th:href="@{/particulares}">Particulares</a></li>
                                 <li><a href="#" th:href="@{/particular/new}">Registrar Particular</a></li>
                                 <li><a href="#" th:href="@{/particular/buscar}">Buscar Particular</a></li>
+                                <li><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
                             </ul>
                         </div>
                     </div>
