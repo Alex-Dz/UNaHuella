@@ -34,7 +34,8 @@ public class ParticularController {
     public String newParticular(Model model) {
         model.addAttribute("particular", new Particular());
         model.addAttribute("edit", false);
-        return "registroParticular";
+        model.addAttribute("tipo", tipo = 0);
+        return "formulario";
     }
 
     @RequestMapping(value = "idsearch", method = RequestMethod.POST)
@@ -153,7 +154,8 @@ public class ParticularController {
     public String editParticular(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
         model.addAttribute("edit", true);
-        return "registroParticular";
+        model.addAttribute("tipo", tipo = 1);
+        return "formulario";
     }
 
     @RequestMapping("/particular/buscar")
@@ -183,7 +185,7 @@ public class ParticularController {
     public String newVet(Model model) {
         model.addAttribute("particular", new Particular());
         model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo = 0);
+        model.addAttribute("tipo", tipo);
         return "formulario";
     }
 
@@ -205,7 +207,7 @@ public class ParticularController {
     public String newGestor(Model model) {
         model.addAttribute("particular", new Particular());
         model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo = 3);
+        model.addAttribute("tipo", tipo);
         return "formulario";
     }
 
