@@ -52,10 +52,6 @@
     padding-right: 2.1em;
 }
 
-.btn:hover, .btn-large:hover, .btn-small:hover {
-    background-color: #4d7ba8;
-}
-
 .dropdown-content li > a, .dropdown-content li > span {
     font-size: 16px;
     color: #000000;
@@ -67,6 +63,35 @@
 .btn:focus, .btn-large:focus, .btn-small:focus {
     outline: none;
     background-color: #4d7ba8;
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: #4d7ba8;
+}
+
+.btn-flat:hover {
+    background: #8e77ff;
+    color: #d9d3d2;
+    /*padding-top: 0.5em;*/
+    border-radius: 0.5em;
+}
+
+.btn-flat:focus {
+    outline: none;
+    background-color: #8e77ff;
+    /*padding-top: 0.5em;*/
+    color: #d9d3d2;
+    border-radius: 0.5em;
+    /*height: 4em;*/
+}
+
+.btn-flat {
+    background-color: transparent;
+    text-align: center;
+    color: #d9d3d2;
+    /*padding-top: 0.5em;*/
+    border-radius: 0.5em;
+    /*height: 4em;*/
 }
 
 .top-padding{
@@ -150,4 +175,8 @@
 
 .background-purple {
     background-color: #8201B8;
+}
+
+.background-dark-grey {
+    background-color: rgba(48, 48, 50, 0.83);
 }

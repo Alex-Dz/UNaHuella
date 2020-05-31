@@ -30,4 +30,9 @@ public class IndexController {
     String asignarCita() {
         return "asignarCita";
     }
+
+    @RequestMapping("/misMascotas")
+    String misMascotas() {
+        return "misMascotas";
+    }
 }
