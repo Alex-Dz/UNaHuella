@@ -57,10 +57,10 @@ public class ParticularController {
         return "redirect:/particular/" + idSearch.getId_particular();
     }
 
-    @RequestMapping(value = "particular", method = RequestMethod.POST)
+    @RequestMapping(value = "/save-particular", method = RequestMethod.POST)
     public String saveParticular(Particular particular) {
         particularService.saveParticular(particular);
-        return "redirect:/particular/" + particular.getId_particular();
+        return "redirect:/particular/profile/" + particular.getId_particular();
     }
 
     public DoubleLinkedList<Particular> getRegisters() {
@@ -159,7 +159,6 @@ public class ParticularController {
     }
 
 
-
     @RequestMapping("/particular/buscar")
     public String searchParticular(Model model) {
         model.addAttribute("idSearch", new Particular());
@@ -199,6 +198,12 @@ public class ParticularController {
         return "formulario";
     }
 
+    @RequestMapping(value = "/save-vet", method = RequestMethod.POST)
+    public String saveVet(Particular particular) {
+        particularService.saveParticular(particular);
+        return "redirect:/vet/profile/" + particular.getId_particular();
+    }
+
     @RequestMapping("/gestor/profile/{id}")
     public String gestorProfile(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
@@ -219,5 +224,11 @@ public class ParticularController {
         model.addAttribute("edit", true);
         model.addAttribute("tipo", tipo = 3);
         return "formulario";
+    }
+
+    @RequestMapping(value = "/save-gestor", method = RequestMethod.POST)
+    public String saveGestor(Particular particular) {
+        particularService.saveParticular(particular);
+        return "redirect:/gestor/profile/" + particular.getId_particular();
     }
 }

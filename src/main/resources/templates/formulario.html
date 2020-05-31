@@ -15,13 +15,13 @@
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${particular}" th:action="@{/particular}" method="post">
+                    <form class="padding" th:object="${particular}" th:action="@{/save-particular}" method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
                                     <div class="col s10">
-                                        <!-- ESTO NO SÉ SI FUNCIONE ASÍ PERO LO CAMBIÉ DE BOOTSTRAP A MATERLIAZE-->
-                                        <input disabled value="" type="text" th:field="*{id_particular}"/>
+                                        <!-- IT'S ALIVEEEE!!! -->
+                                        <input type="hidden" th:field="*{id_particular}"/>
                                     </div>
                                 </div>
                                 <div class="input-field col s12 m3">
@@ -73,7 +73,7 @@
                         </div>
 
                         <button class="btn waves-effect waves-light background-blue"
-                                type="submit" name="action">Guardar
+                                type="submit">Guardar
                             <i class="material-icons left ">send</i>
                         </button>
                     </form>
@@ -88,13 +88,12 @@
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${particular}" th:action="@{/particular}" method="post">
+                    <form class="padding" th:object="${particular}" th:action="@{/save-vet}" method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
                                     <div class="col s10">
-                                        <!-- ESTO NO SÉ SI FUNCIONE ASÍ PERO LO CAMBIÉ DE BOOTSTRAP A MATERLIAZE-->
-                                        <input disabled value="" type="text" th:field="*{id_particular}"/>
+                                        <input type="hidden" th:field="*{id_particular}"/>
                                     </div>
                                 </div>
                                 <div class="input-field col s12 m3">
@@ -157,7 +156,7 @@
                         </div>
 
                         <button class="btn waves-effect waves-light background-blue"
-                                type="submit" name="action">Guardar
+                                type="submit">Guardar
                             <i class="material-icons left ">send</i>
                         </button>
                     </form>
@@ -172,13 +171,12 @@
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${particular}" th:action="@{/particular}" method="post">
+                    <form class="padding" th:object="${particular}" th:action="@{/save-gestor}" method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
                                     <div class="col s10">
-                                        <!-- ESTO NO SÉ SI FUNCIONE ASÍ PERO LO CAMBIÉ DE BOOTSTRAP A MATERLIAZE-->
-                                        <input disabled value="" type="text" th:field="*{id_particular}"/>
+                                        <input type="hidden" th:field="*{id_particular}"/>
                                     </div>
                                 </div>
                                 <div class="input-field col s12 m3">
@@ -235,7 +233,7 @@
                         </div>
 
                         <button class="btn waves-effect waves-light background-blue"
-                                type="submit" name="action">Guardar
+                                type="submit">Guardar
                             <i class="material-icons left ">send</i>
                         </button>
                     </form>
@@ -250,7 +248,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${particular}" th:action="@{/particular}" method="post">
+                    <form class="padding" th:object="${particular}" th:action="@{/save-particular}" method="post">
                         <div class="row">
                             <div class="input-field col s12 center-align">
                                 <select>
