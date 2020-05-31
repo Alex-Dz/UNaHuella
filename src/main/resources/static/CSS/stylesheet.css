@@ -3,7 +3,11 @@
 }
 
 .top-margin {
-    margin-top: 1em;
+    margin-top: 2em;
+}
+
+.top-margin-little {
+    margin-top: 0.3em;
 }
 
 .bottom-margin {
@@ -43,11 +47,16 @@
     padding-right: 1.1em;
 }
 
+.side-padding-big {
+    padding-left: 2.1em;
+    padding-right: 2.1em;
+}
+
 .btn:hover, .btn-large:hover, .btn-small:hover {
     background-color: #4d7ba8;
 }
 
-.dropdown-content li>a, .dropdown-content li>span {
+.dropdown-content li > a, .dropdown-content li > span {
     font-size: 16px;
     color: #000000;
     display: block;
@@ -55,17 +64,29 @@
     padding: 14px 16px;
 }
 
-.btn:focus, .btn-large:focus, .btn-small:focus{
+.btn:focus, .btn-large:focus, .btn-small:focus {
     outline: none;
     background-color: #4d7ba8;
 }
 
-.padding {
-    padding: 2em 1.5em;
+.top-padding{
+    padding-top: 1em;
 }
 
-.top-margin {
-    margin-top: 2em;
+.bottom-padding{
+    padding-bottom: 1em;
+}
+
+.left-padding{
+    padding-left: 1em;
+}
+
+.right-padding{
+    padding-right: 1em;
+}
+
+.padding {
+    padding: 2em 1.5em;
 }
 
 .no-margin {

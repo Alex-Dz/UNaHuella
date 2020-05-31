@@ -153,7 +153,7 @@ public class ParticularController {
     public String editParticular(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
         model.addAttribute("edit", true);
-        return "particularform";
+        return "registroParticular";
     }
     
     @RequestMapping("/particular/buscar")
@@ -166,6 +166,12 @@ public class ParticularController {
     public String deleteParticular(@PathVariable String id) {
         particularService.deleteParticular(id);
         return "redirect:/particulares";
+    }
+
+    @RequestMapping("/gestor/profile/{id}")
+    public String gestorProfile(@PathVariable String id, Model model){
+        model.addAttribute("particular", getRegisters().findById(id));
+        return "gestorshow";
     }
 
 }
