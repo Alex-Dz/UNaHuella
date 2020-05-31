@@ -43,6 +43,23 @@
     padding-right: 1.1em;
 }
 
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: #4d7ba8;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    font-size: 16px;
+    color: #000000;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+}
+
+.btn:focus, .btn-large:focus, .btn-small:focus{
+    outline: none;
+    background-color: #4d7ba8;
+}
+
 .padding {
     padding: 2em 1.5em;
 }

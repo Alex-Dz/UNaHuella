@@ -25,4 +25,9 @@ public class IndexController {
     String vet() {
         return "veterinario";
     }
+
+    @RequestMapping("/inscribirMascota")
+    String inscribirMascota() {
+        return "inscribirMascota";
+    }
 }
