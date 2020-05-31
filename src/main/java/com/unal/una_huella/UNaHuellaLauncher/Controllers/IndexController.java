@@ -30,4 +30,9 @@ public class IndexController {
     String inscribirMascota() {
         return "inscribirMascota";
     }
+
+    @RequestMapping("/asignarCita")
+    String asignarCita() {
+        return "asignarCita";
+    }
 }
