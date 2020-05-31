@@ -34,7 +34,7 @@ public class ParticularController {
     public String newParticular(Model model) {
         model.addAttribute("particular", new Particular());
         model.addAttribute("edit", false);
-        return "particularform";
+        return "registroParticular";
     }
     
     @RequestMapping(value = "idsearch", method = RequestMethod.POST)

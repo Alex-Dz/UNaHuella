@@ -47,6 +47,10 @@
     padding: 2em 1.5em;
 }
 
+.top-margin {
+    margin-top: 2em;
+}
+
 .no-margin {
     margin-top: 0em;
     margin-bottom: 0em;
