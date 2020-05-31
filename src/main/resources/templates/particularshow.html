@@ -13,16 +13,20 @@
                 <form class="card-panel no-margin background-grey-2">
                     <div class="row">
                         <div class="col s12">
-                            <div class="col s12 m3">
+                            <!--tipo viejo -->
+                            <!--<div class="col s12 m3">
                                 <label class="col-sm-2 control-label">Numero de Documento:</label>
                                 <p th:text="${particular.id_particular}">Numero de Documento</p>
+                            </div>-->
+
+                            <!--tipo nuevo -->
+                            <div class="col s12 m3">
+                                <div class="input-field">
+                                    <label class="col-sm-2 control-label" for="documento">Numero de Documento:</label>
+                                    <i class="material-icons prefix">cloud</i>
+                                    <input disabled value= "" id="documento" type="text" class="validate" th:value="${particular.id_particular}">
+                                </div>
                             </div>
-<!--                            <div class="col s12 m3">-->
-<!--                                <div class="input-field">-->
-<!--                                    <i class="material-icons prefix">cloud</i></input>-->
-<!--                                    <input disabled value= "" id="first_name2" type="text" class="validate" th:text="${particular.id_particular}">-->
-<!--                                </div>-->
-<!--                            </div>-->
 
                             <div class="col s12 m3">
                                 <label class="col-sm-2 control-label">Primer Nombre:</label>
