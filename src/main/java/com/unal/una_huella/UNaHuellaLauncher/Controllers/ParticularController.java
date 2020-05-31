@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class ParticularController {
 
     private ParticularService particularService;
-    
+
     LinkedStack<Particular[]> prevPag = new LinkedStack<>();
     LinkedStack<Particular[]> nextPag = new LinkedStack<>();
-    
+
     long time_start = 0;
     long time_end = 0;
 
@@ -26,7 +26,7 @@ public class ParticularController {
     }
 
     @RequestMapping("/particular")
-    public String particular(){
+    public String particular() {
         return "particular";
     }
 
@@ -36,7 +36,7 @@ public class ParticularController {
         model.addAttribute("edit", false);
         return "registroParticular";
     }
-    
+
     @RequestMapping(value = "idsearch", method = RequestMethod.POST)
     public String searchParticular(Particular idSearch) {
         return "redirect:/particular/" + idSearch.getId_particular();
@@ -64,16 +64,16 @@ public class ParticularController {
         }
         time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList "+ ( time_end - time_start ) +" milliseconds");
+        System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList " + (time_end - time_start) + " milliseconds");
         return list;
     }
 
     public void paginas(DoubleLinkedList<Particular> list) {
         int regsPerPage = 20;
-        while (!nextPag.isEmpty()){
+        while (!nextPag.isEmpty()) {
             nextPag.pop();
         }
-        while (!prevPag.isEmpty()){
+        while (!prevPag.isEmpty()) {
             prevPag.pop();
         }
         time_start = 0;
@@ -82,9 +82,9 @@ public class ParticularController {
             Particular[] grupo = new Particular[regsPerPage];
             for (int i = 0; i < regsPerPage; i++) {
                 Particular reg = list.popFront();
-                if(reg == null){
+                if (reg == null) {
                     break;
-                } else{
+                } else {
                     grupo[i] = reg;
                 }
             }
@@ -92,16 +92,16 @@ public class ParticularController {
         }
         time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag "+ ( time_end - time_start ) +" milliseconds");
+        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
         time_start = 0;
         time_start = System.currentTimeMillis();
-        while (!prevPag.isEmpty()){
+        while (!prevPag.isEmpty()) {
             nextPag.push(prevPag.pop());
         }
         time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag "+ ( time_end - time_start ) +" milliseconds");
-        
+        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + (time_end - time_start) + " milliseconds");
+
     }
 
     @RequestMapping(value = "/particulares", method = RequestMethod.GET)
@@ -155,9 +155,9 @@ public class ParticularController {
         model.addAttribute("edit", true);
         return "registroParticular";
     }
-    
+
     @RequestMapping("/particular/buscar")
-    public String searchParticular(Model model){
+    public String searchParticular(Model model) {
         model.addAttribute("idSearch", new Particular());
         return "particularsearch";
     }
@@ -168,10 +168,52 @@ public class ParticularController {
         return "redirect:/particulares";
     }
 
+    /*  de aquí para abajo son controladores que se deben mover a su respectiva clase después   */
+
+    int tipo = 0;
+
+    @RequestMapping("/vet/profile/{id}")
+    public String vetProfile(@PathVariable String id, Model model) {
+        model.addAttribute("particular", getRegisters().findById(id));
+        return "vetshow";
+    }
+
+
+    @RequestMapping("/vet/new")
+    public String newVet(Model model) {
+        model.addAttribute("particular", new Particular());
+        model.addAttribute("edit", false);
+        model.addAttribute("tipo", tipo = 0);
+        return "formulario";
+    }
+
+    @RequestMapping("/vet/edit/{id}")
+    public String editVet(@PathVariable String id, Model model) {
+        model.addAttribute("particular", getRegisters().findById(id));
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = 2);
+        return "formulario";
+    }
+
     @RequestMapping("/gestor/profile/{id}")
-    public String gestorProfile(@PathVariable String id, Model model){
+    public String gestorProfile(@PathVariable String id, Model model) {
         model.addAttribute("particular", getRegisters().findById(id));
         return "gestorshow";
     }
 
+    @RequestMapping("/gestor/new")
+    public String newGestor(Model model) {
+        model.addAttribute("particular", new Particular());
+        model.addAttribute("edit", false);
+        model.addAttribute("tipo", tipo = 3);
+        return "formulario";
+    }
+
+    @RequestMapping("/gestor/edit/{id}")
+    public String editGestor(@PathVariable String id, Model model) {
+        model.addAttribute("particular", getRegisters().findById(id));
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = 3);
+        return "formulario";
+    }
 }

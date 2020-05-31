@@ -5,7 +5,7 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
 <div class="container">
     <div class="row">
         <div class="col s12 no-padding">
@@ -83,21 +83,32 @@
                                 <div class="col s12 m4">
                                     <div class="row side-padding">
                                         <i class="material-icons left">extension</i>
-                                        <label class="top-margin-little" for="funciones">Funciones:</label>
+                                        <label class="top-margin-little" for="n-tarjeta">N° de Tarjeta Profesional:</label>
                                     </div>
                                     <div class="row side-padding">
-                                        <span id="funciones" class="col s10"
-                                              th:text="${'comer, dormir y ...'}"></span>
+                                        <span id="n-tarjeta" class="col s10"
+                                              th:text="${'123456789'}"></span>
                                     </div>
                                 </div>
 
                                 <div class="col s12 m4">
                                     <div class="row side-padding">
                                         <i class="material-icons left">extension</i>
-                                        <label class="top-margin-little" for="lvl-acces">Nivel de acceso:</label>
+                                        <label class="top-margin-little" for="especializacion">Especialización:</label>
                                     </div>
                                     <div class="row side-padding">
-                                        <span id="lvl-acces" class="col s10"
+                                        <span id="especializacion" class="col s10"
+                                              th:text="${'fetos de canguro sasonados a la marinera'}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="material-icons left">extension</i>
+                                        <label class="top-margin-little" for="exp">Años de experiencia:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="exp" class="col s10"
                                               th:text="${0}"></span>
                                     </div>
                                 </div>
@@ -106,7 +117,7 @@
                             <div class="row center">
                                 <div class="col s12 m6 offset-m3 top-margin">
                                     <a class="background-blue waves-effect waves-light btn-small"
-                                       th:href="${'/gestor/edit/' + particular.id_particular}">
+                                       th:href="${'/vet/edit/' + particular.id_particular}">
                                         <i class="material-icons left">create</i>Editar datos</a>
                                 </div>
                             </div>
