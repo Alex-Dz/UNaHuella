@@ -38,6 +38,20 @@ public class ParticularController {
         return "formulario";
     }
 
+    @RequestMapping("/particular/profile/{id}")
+    public String showParticular(@PathVariable String id, Model model) {
+        model.addAttribute("particular", getRegisters().findById(id));
+        return "particularshow";
+    }
+
+    @RequestMapping("/particular/edit/{id}")
+    public String editParticular(@PathVariable String id, Model model) {
+        model.addAttribute("particular", getRegisters().findById(id));
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = 1);
+        return "formulario";
+    }
+
     @RequestMapping(value = "idsearch", method = RequestMethod.POST)
     public String searchParticular(Particular idSearch) {
         return "redirect:/particular/" + idSearch.getId_particular();
@@ -47,12 +61,6 @@ public class ParticularController {
     public String saveParticular(Particular particular) {
         particularService.saveParticular(particular);
         return "redirect:/particular/" + particular.getId_particular();
-    }
-
-    @RequestMapping("particular/{id}")
-    public String showParticular(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "particularshow";
     }
 
     public DoubleLinkedList<Particular> getRegisters() {
@@ -150,13 +158,7 @@ public class ParticularController {
         return "particulares";
     }
 
-    @RequestMapping("/particular/edit/{id}")
-    public String editParticular(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 1);
-        return "formulario";
-    }
+
 
     @RequestMapping("/particular/buscar")
     public String searchParticular(Model model) {
