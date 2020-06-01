@@ -15,24 +15,4 @@ public class IndexController {
     String login() {
         return "login";
     }
-
-    @RequestMapping("/gestor")
-    String gestor() {
-        return "gestor";
-    }
-
-    @RequestMapping("/inscribirMascota")
-    String inscribirMascota() {
-        return "inscribirMascota";
-    }
-
-    @RequestMapping("/asignarCita")
-    String asignarCita() {
-        return "asignarCita";
-    }
-
-    @RequestMapping("/misMascotas")
-    String misMascotas() {
-        return "misMascotas";
-    }
 }

@@ -11,9 +11,10 @@ $(document).ready(function(){
 });
 
 $(document).ready(function () {
-    $(".dropdown-trigger").dropdown({
+    $(".dropdawn").dropdown({
         inDuration: 300,
         inDuration: 500,
+        constrainWidth: false,
         coverTrigger: false,
         hover: true
     });

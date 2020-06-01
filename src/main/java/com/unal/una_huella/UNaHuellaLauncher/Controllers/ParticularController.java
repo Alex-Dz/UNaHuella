@@ -159,6 +159,21 @@ public class ParticularController {
         return "redirect:/particulares";
     }
 
+    @RequestMapping("/particular/inscribirMascota")
+    String inscribirMascota() {
+        return "inscribirMascota";
+    }
+
+    @RequestMapping("/particular/citas/new")
+    String asignarCita() {
+        return "asignarCita";
+    }
+
+    @RequestMapping("/particular/mascotas")
+    String misMascotas() {
+        return "misMascotas";
+    }
+
     /*  de aquí para abajo son controladores que se deben mover a su respectiva clase después   */
 
     int tipo = 0;
