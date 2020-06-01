@@ -14,7 +14,7 @@ $(document).ready(function () {
     $(".dropdown-trigger").dropdown({
         inDuration: 300,
         inDuration: 500,
-        belowOrigin: true,
+        coverTrigger: false,
         hover: true
     });
 })

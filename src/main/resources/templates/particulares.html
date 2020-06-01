@@ -1,56 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head lang="es">
+<head lang="es">
 
-        <title>UNa Huella API - Particulares</title>
+    <title>UNa Huella - Lista Particulares</title>
 
-        <!--/*/ <th:block th:include="headers/headerinc :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 
-    </head>
-    <body>
-        <div class="container">
-
-            <!--/*/ <th:block th:include="headers/navbarheader :: header"></th:block> /*/-->
-
-            <div th:if="${pagina != null}">
-                <h2>Particulares Registrados</h2>
-                <table class="table table-striped">
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<div class="container top-padding">
+    <div th:if="${pagina != null}">
+        <div class="card">
+            <div class="card-content">
+                <h2 class="card-title flow-text bottom-padding">Particulares Registrados</h2>
+                <table class="responsive-table">
+                    <thead>
                     <tr>
-                        <th>Numero de Documento</th>
-                        <th>Primer Nombre</th>
-                        <th>Segundo Nombre</th>
-                        <th>Primer Apellido</th>
-                        <th>Primer Apellido</th>
-                        <th>View</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Documento</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Consultar</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
+                    </thead>
+
+                    <tbody>
                     <tr th:each="particular : ${pagina}">
-                        <td th:if="${particular != null}" th:text="${particular.id_particular}"><a href="/particular/${particular.id_particular}">Numero de Documento</a></td>
-                        <td th:if="${particular != null}" th:text="${particular.getA_primer_nombre_particular()}">Primer Nombre</td>
-                        <td th:if="${particular != null}" th:text="${particular.getE_segundo_nombre_particular()}">Segundo Nombre</td>
-                        <td th:if="${particular != null}" th:text="${particular.getB_primer_apellido_particular()}">Primer Apellido</td>
-                        <td th:if="${particular != null}" th:text="${particular.getF_segundo_apellido_particular()}">Segundo Apellido</td>
-                        <td th:if="${particular != null}"><a th:href="${ '/particular/' + particular.id_particular}">View</a></td>
-                        <td th:if="${particular != null}"><a th:href="${'/particular/edit/' + particular.id_particular}">Edit</a></td>
-                        <td th:if="${particular != null}"><a th:href="${'/particular/delete/' + particular.id_particular}">Delete</a></td>
+                        <td th:if="${particular != null}" th:text="${particular.id_particular}"></td>
+                        <td th:if="${particular != null}"
+                            th:text="${particular.getA_primer_nombre_particular() + ' ' + particular.getE_segundo_nombre_particular()}"></td>
+                        <td th:if="${particular != null}"
+                            th:text="${particular.getB_primer_apellido_particular()+' '+particular.getF_segundo_apellido_particular()}"></td>
+                        <td th:if="${particular != null}" class="center">
+                            <a th:href="${'/particular/profile/' + particular.id_particular}">
+                                <i class="material-icons">visibility</i>
+                            </a>
+                        </td>
+                        <td th:if="${particular != null}" class="center">
+                            <a th:href="${'/particular/edit/' + particular.id_particular}">
+                                <i class="material-icons">create</i>
+                            </a>
+                        </td>
+                        <td th:if="${particular != null}" class="center">
+                            <a th:href="${'/particular/delete/' + particular.id_particular}">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        </td>
                     </tr>
+                    </tbody>
+
                 </table>
-                <div>
-                    <div th:if="${prev == null}">
-                        <a th:href="${ '/particulares/next'}">Siguiente</a>
-                    </div>
-                    <div th:if="${next == 1}">
-                        <a th:href="${ '/particulares/preview'}">Anterior</a>
-                    </div>
-                    <div th:if="${next > 1 && prev != null}">
-                        <a th:href="${ '/particulares/preview'}">Anterior</a>
-                        <a th:href="${ '/particulares/next'}">Siguiente</a>
-                    </div>
+                <div class="top-padding">
+                    <ul class="pagination">
+                        <div th:if="${prev == null}">
+                            <li class="disabled">
+                                <a th:href="${ '/particulares/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                            </li>
+                            <li>
+                                <a th:href="${ '/particulares/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                            </li>
+                        </div>
+                        <div th:if="${next == 1}">
+                            <li>
+                                <a th:href="${ '/particulares/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                            </li>
+                            <li class="disabled">
+                                <a th:href="${ '/particulares/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                            </li>
+                        </div>
+                        <div th:if="${next > 1 && prev != null}">
+                            <li>
+                                <a th:href="${ '/particulares/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                            </li>
+                            <li>
+                                <a th:href="${ '/particulares/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                            </li>
+                        </div>
+                    </ul>
                 </div>
             </div>
-
         </div>
+    </div>
+</div>
 
-    </body>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
 </html>

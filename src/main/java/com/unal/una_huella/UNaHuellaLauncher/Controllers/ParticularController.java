@@ -52,11 +52,6 @@ public class ParticularController {
         return "formulario";
     }
 
-    @RequestMapping(value = "idsearch", method = RequestMethod.POST)
-    public String searchParticular(Particular idSearch) {
-        return "redirect:/particular/" + idSearch.getId_particular();
-    }
-
     @RequestMapping(value = "/save-particular", method = RequestMethod.POST)
     public String saveParticular(Particular particular) {
         particularService.saveParticular(particular);
@@ -143,7 +138,7 @@ public class ParticularController {
         return "particulares";
     }
 
-    @RequestMapping(value = "/particulares/preview", method = RequestMethod.GET)
+    @RequestMapping(value = "/particulares/previous", method = RequestMethod.GET)
     public String prevPage(Model model) {
         nextPag.push(prevPag.pop());
         if (nextPag.top() != null) {
@@ -156,13 +151,6 @@ public class ParticularController {
             model.addAttribute("next", 0);
         }
         return "particulares";
-    }
-
-
-    @RequestMapping("/particular/buscar")
-    public String searchParticular(Model model) {
-        model.addAttribute("idSearch", new Particular());
-        return "particularsearch";
     }
 
     @RequestMapping("/particular/delete/{id}")
@@ -230,5 +218,16 @@ public class ParticularController {
     public String saveGestor(Particular particular) {
         particularService.saveParticular(particular);
         return "redirect:/gestor/profile/" + particular.getId_particular();
+    }
+
+    @RequestMapping("/gestor/searchUser")
+    public String searchParticular(Model model) {
+        model.addAttribute("idSearch", new Particular());
+        return "particularsearch";
+    }
+
+    @RequestMapping(value = "idsearch", method = RequestMethod.POST)
+    public String searchParticular(Particular idSearch) {
+        return "redirect:/particular/profile/" + idSearch.getId_particular();
     }
 }
