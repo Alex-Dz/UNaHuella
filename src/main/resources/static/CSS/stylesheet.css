@@ -94,19 +94,19 @@
     /*height: 4em;*/
 }
 
-.top-padding{
+.top-padding {
     padding-top: 1em;
 }
 
-.bottom-padding{
+.bottom-padding {
     padding-bottom: 1em;
 }
 
-.left-padding{
+.left-padding {
     padding-left: 1em;
 }
 
-.right-padding{
+.right-padding {
     padding-right: 1em;
 }
 
@@ -155,6 +155,14 @@
 
 .title-navbar {
     font-size: 70%;
+}
+
+.drop-position-fixed {
+    position: fixed;
+}
+
+.dropdown-content li:hover, .dropdown-content li.active {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .background-grey-1 {
