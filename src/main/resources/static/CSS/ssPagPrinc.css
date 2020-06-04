@@ -1,0 +1,81 @@
+#contenido{
+	width: 960px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+body {
+	background-color:#D9D3D2;
+	font-family:"Helvetica", Arial;
+}
+
+.logo img{
+	margin-top:20px;
+	width:270px;
+	height:105px;
+}
+
+.contenedor{
+	display: flex;
+	color: #ffffff;
+	justify-content:space-between;
+	margin-top: 30px;
+	
+}
+
+.usuario{
+	width:180px;
+	height:250px;
+	background-color:#775CFF;
+	justify-content:space-between;
+	margin: auto;
+	text-align: center;
+	border-radius: 40px;
+	border: #614ad2 3px solid;
+	padding:40px;
+	box-shadow:0px 0px 20px rgba(0,0,0,0.5);
+	margin-bottom: 20px;
+	margin-top:20px;
+}
+
+#boton{
+	margin-top: 20px;
+	width:100px;
+	height:30px;
+	border-radius: 6px;
+	border-color: #000000;
+	background-color: #FFFFFF;
+	cursor: pointer;
+}
+
+#boton:active{
+	background-color: #bff1ea;
+	font-weight: bold;
+}
+
+#textoBoton{
+	margin-bottom: 2px;
+	font-family: "Segoe UI", Arial, sans-serif;
+	color: #000000;
+}
+
+.imgPart img {
+	margin-top:1em;
+	margin-left: 0.2em;
+	width:3em;
+	height:3em;
+}
+
+.imgVet img {
+	margin-top:20px;
+	margin-left: 3px;
+	width:140px;
+	height:172px;
+}
+
+.imgGest img {
+	margin-top:20px;
+	margin-left: 3px;
+	width:155px;
+	height:172px;
+}

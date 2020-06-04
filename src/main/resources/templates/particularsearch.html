@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestor - Buscar Registros</title>
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<div class="container top-padding">
+    <div class="card padding">
+        <div class="card-content">
+            <h3 class="card-title flow-text bottom-padding">Buscar Usuario</h3>
+            <form class="col s12 m8 offset-m2" th:object="${idSearch}" th:action="@{/idsearch}" method="post">
+                <div class="row">
+                    <div class="input-field">
+                        <i class="material-icons prefix">help</i>
+                        <input id="input-id-search" type="text" th:field="*{id_particular}"/>
+                        <label for="input-id-search">Numero de Documento:</label>
+                    </div>
+                </div>
+                <div class="row center">
+                    <button type="submit" class="btn background-blue waves-effect waves-light">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

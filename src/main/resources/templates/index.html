@@ -1,11 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head lang="en">
-        <title>Spring Framework Guru</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    </head>
-    <body>
-        <h1>Testeandin el launcher</h1>
-        <h2>Holiwis</h2>
-    </body>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pagina Principal - UNaHuella</title>
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+</head>
+
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
+<div class="container center">
+    <div class="row">
+        <div class="col s8 offset-s2 m4 offset-m4">
+            <header>
+                <hgroup>
+                    <div class="logo">
+                        <object class="adaptative-img" data="images/UNpawvector.svg" type="image/svg+xml"></object>
+                    </div>
+                </hgroup>
+            </header>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row no-margin">
+        <div class="col s12 m8 offset-m2 no-margin">
+            <div class="row no-margin">
+                <div class="col s12  m8 offset-m2 l4">
+                    <div class="card-panel background-violet center-align sid">
+                        <div>
+                            <object class="adaptative-img" data="images/userpawvector.svg" type="image/svg+xml"></object>
+                        </div>
+                        <div>
+                            <a class="btn background-blue waves-effect light vertical-margin btn-small" href="#"
+                                th:href="@{/particular}">Particular</a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col s12  m8 offset-m2 l4">
+                    <div class="card-panel background-violet center-align">
+                        <div>
+                            <object class="adaptative-img" data="images/vetvector.svg" type="image/svg+xml"></object>
+                        </div>
+
+                        <div>
+                            <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
+                               href="#" th:href="@{/vet}">Veterinario</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col s12  m8 offset-m2 l4">
+                    <div class="card-panel background-violet center-align">
+                        <div>
+                            <object class="adaptative-img" data="images/gestorvector.svg" type="image/svg+xml"></object>
+                        </div>
+                        <div>
+                            <a class="background-blue waves-effect waves-light btn vertical-margin"
+                               href="#" th:href="@{/gestor}">Gestor</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
 </html>
