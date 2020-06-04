@@ -1,0 +1,190 @@
+.no-float {
+    float: none;
+}
+
+.top-margin {
+    margin-top: 2em;
+}
+
+.top-margin-little {
+    margin-top: 0.3em;
+}
+
+.bottom-margin {
+    margin-bottom: 1em;
+}
+
+.left-margin {
+    margin-left: 1em;
+}
+
+.right-margin {
+    margin-right: 1em;
+}
+
+.side-margin {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.input-field .prefix {
+    color: #3d3939;
+}
+
+
+.vertical-margin {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.vertical-padding {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+
+.side-padding {
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+}
+
+.side-padding-big {
+    padding-left: 2.1em;
+    padding-right: 2.1em;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 16px;
+    color: #000000;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+}
+
+.btn:focus, .btn-large:focus, .btn-small:focus {
+    outline: none;
+    background-color: #4d7ba8;
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: #4d7ba8;
+}
+
+.btn-flat:hover {
+    background: #8e77ff;
+    color: #d9d3d2;
+    /*padding-top: 0.5em;*/
+    border-radius: 0.5em;
+}
+
+.btn-flat:focus {
+    outline: none;
+    background-color: #8e77ff;
+    /*padding-top: 0.5em;*/
+    color: #d9d3d2;
+    border-radius: 0.5em;
+    /*height: 4em;*/
+}
+
+.btn-flat {
+    background-color: transparent;
+    text-align: center;
+    color: #d9d3d2;
+    /*padding-top: 0.5em;*/
+    border-radius: 0.5em;
+    /*height: 4em;*/
+}
+
+.top-padding {
+    padding-top: 1em;
+}
+
+.bottom-padding {
+    padding-bottom: 1em;
+}
+
+.left-padding {
+    padding-left: 1em;
+}
+
+.right-padding {
+    padding-right: 1em;
+}
+
+.padding {
+    padding: 2em 1.5em;
+}
+
+.no-margin {
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+}
+
+.no-padding {
+    padding-top: 0em;
+    padding-bottom: 0em;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.adaptative-img {
+    width: 100%;
+}
+
+/* Color Theme Swatches in Hex */
+.colors {
+    --color1: #d9d3d2;
+    --color2: #f7f7f5;
+    --color3: #70B8FF;
+    --color4: #775CFF;
+    --color5: #8201B8;
+}
+
+.title-navbar {
+    font-size: 70%;
+}
+
+.drop-position-fixed {
+    position: fixed;
+}
+
+.dropdown-content li:hover, .dropdown-content li.active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.background-grey-1 {
+    background-color: #D9D3D2;
+}
+
+.background-grey-2 {
+    background-color: #f7f7f5;
+}
+
+.background-blue {
+    background-color: #70B8FF;
+}
+
+.background-violet {
+    background-color: #775CFF;
+}
+
+.background-purple {
+    background-color: #8201B8;
+}
+
+.background-dark-grey {
+    background-color: rgba(48, 48, 50, 0.83);
+}

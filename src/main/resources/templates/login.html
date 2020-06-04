@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
+<div class="container">
+    <header class="padding">
+        <div class="col s1 vertical-margin">
+            <a class="btn background-violet" href="#" th:href="@{/}">Atrás</a>
+        </div>
+    </header>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col s12 m8 offset-m2">
+            <div class="card-panel no-margin background-grey-2">
+                <form class="padding">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-field">
+                                <label class="flow-text" for="documento">Número de Documento</label>
+                                <input id="documento" class="validate" type="email" placeholder="Documento">
+                            </div>
+                            <div class="input-field">
+                                <label class="flow-text" for="contraseña">Contraseña</label>
+                                <input id="contraseña" class="validate" type="password" placeholder="Contraseña">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn background-violet" type="submit" name="action">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

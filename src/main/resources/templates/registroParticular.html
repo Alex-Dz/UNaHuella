@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+
+    <title>Registro de Particulares</title>
+    <meta charset="UTF-8">
+
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
+</head>
+<body>
+<!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel no-margin background-grey-2">
+                <form class="padding" th:object="${particular}" th:action="@{/particular}" method="post">
+                    <div class="row">
+                        <div class="input-field col s12 center-align">
+                            <select>
+                                <option value="" disabled selected>Tipo de Usuario</option>
+                                <option value="1">Particular</option>
+                                <option value="2">Veterinario</option>
+                                <option value="3">Gestor</option>
+                            </select>
+                        </div>
+
+                        <div class="col s12 no-padding">
+                            <div th:if="${edit == true}" class="col s12 no-padding">
+                                <div class="col s10">
+                                    <!-- ESTO NO SÉ SI FUNCIONE ASÍ PERO LO CAMBIÉ DE BOOTSTRAP A MATERLIAZE-->
+                                    <input disabled value="" type="text" th:field="*{id_particular}"/>
+                                </div>
+                            </div>
+                            <div th:if="${edit == false}"
+                                 class="input-field col s12 m3">
+                                <i class="material-icons prefix">contact_mail</i>
+                                <input id="numeroDocumento" placeholder="Numero de documento"
+                                       type="text" class="validate" th:field="*{id_particular}"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerNombre"
+                                       placeholder="Primer Nombre" th:field="*{a_primer_nombre_particular}"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoNombre"
+                                       placeholder="Segundo Nombre" th:field="*{e_segundo_nombre_particular}"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerApellido"
+                                       placeholder="Primer Apellido" th:field="*{b_primer_apellido_particular}"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoApellido"
+                                       placeholder="Segundo Apellido" th:field="*{f_segundo_apellido_particular}"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_pin_circle</i>
+                                <input type="text" class="validate" id="direccion"
+                                       placeholder="Direccion" th:field="*{c_direccion_particular}"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">phone</i>
+                                <input type="text" class="validate" id="telefono"
+                                       placeholder="Telefono" th:field="*{d_telefono_particular}"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">email</i>
+                                <input type="text" class="validate" id="email"
+                                       placeholder="E-mail" th:field="*{g_correo_particular}"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">extension</i>
+                                <input type="text" class="validate" id="estrato"
+                                       placeholder="Estrato" th:field="*{i_estrato}"/>
+                            </div>
+
+                        </div>
+
+                        <div class="col s12 no-padding">
+                            <div th:if="${edit == false}" class="input-field col s12 m3">
+                                <i class="material-icons prefix">contact_mail</i>
+                                <input id="numeroDocumentoG" placeholder="Numero de documento"
+                                       type="text" class="validate"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerNombreG"
+                                       placeholder="Primer Nombre"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoNombreG"
+                                       placeholder="Segundo Nombre"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerApellidoG"
+                                       placeholder="Primer Apellido"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoApellidoG"
+                                       placeholder="Segundo Apellido"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_pin_circle</i>
+                                <input type="text" class="validate" id="direccionG"
+                                       placeholder="Direccion"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">phone</i>
+                                <input type="text" class="validate" id="telefonoG"
+                                       placeholder="Telefono"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">email</i>
+                                <input type="text" class="validate" id="emailG"
+                                       placeholder="E-mail"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">developer_board</i>
+                                <input type="text" class="validate" id="funciones"
+                                       placeholder="Funciones"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">equalizer</i>
+                                <input type="text" class="validate" id="nivelAcceso"
+                                       placeholder="Nivel de Acceso"/>
+                            </div>
+                        </div>
+
+                        <div class="col s12 no-padding">
+                            <div th:if="${edit == false}" class="input-field col s12 m3">
+                                <i class="material-icons prefix">contact_mail</i>
+                                <input id="numeroDocumentoV" placeholder="Numero de documento"
+                                       type="text" class="validate"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerNombreV"
+                                       placeholder="Primer Nombre"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoNombreV"
+                                       placeholder="Segundo Nombre"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person</i>
+                                <input type="text" class="validate" id="primerApellidoV"
+                                       placeholder="Primer Apellido"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_outline</i>
+                                <input type="text" class="validate" id="segundoApellidoV"
+                                       placeholder="Segundo Apellido"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">person_pin_circle</i>
+                                <input type="text" class="validate" id="direccionV"
+                                       placeholder="Direccion"/>
+
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">phone</i>
+                                <input type="text" class="validate" id="telefonoV"
+                                       placeholder="Telefono"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">email</i>
+                                <input type="text" class="validate" id="emailV"
+                                       placeholder="E-mail"/>
+                            </div>
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">contacts</i>
+                                <input type="text" class="validate" id="tarjetaPro"
+                                       placeholder="Numero de Tarjeta Profesional"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">recent_actors</i>
+                                <input type="text" class="validate" id="especializacion"
+                                       placeholder="Especializacion"/>
+                            </div>
+
+                            <div class="input-field col s12 m3">
+                                <i class="material-icons prefix">schedule</i>
+                                <input type="text" class="validate" id="experiencia"
+                                       placeholder="Años de experiencia"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn waves-effect waves-light background-blue"
+                            type="submit" name="action">Regístrate
+                        <i class="material-icons left ">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

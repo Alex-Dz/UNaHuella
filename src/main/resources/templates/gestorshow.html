@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>UNa Huella - Particular</title>
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<div class="container">
+    <div class="row">
+        <div class="col s12 no-padding">
+            <div th:if="${particular != null}">
+                <form class="card-panel side-padding-big no-margin background-grey-2">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="row side-padding">
+                                        <i class="material-icons left">contact_mail</i>
+                                        <label class="top-margin-little" for="documento">Numero de
+                                            Documento:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="documento" class="col s11"
+                                              th:text="${particular.id_particular}"></span>
+                                    </div>
+                                    <!--<input disabled value="" id="documento" type="text" class="validate"
+                                           th:value="${particular.id_particular}">-->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="row side-padding">
+                                        <i class="left material-icons">person</i>
+                                        <label class="top-margin-little" for="nombre">Nombre:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="nombre" class="col s11" th:text="${particular.getA_primer_nombre_particular()
+                                        + ' ' + particular.getE_segundo_nombre_particular()
+                                        + ' ' + particular.getB_primer_apellido_particular()
+                                        + ' ' + particular.getF_segundo_apellido_particular()}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="left material-icons">person_pin_circle</i>
+                                        <label class="top-margin-little" for="direccion">Dirección:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="direccion" class="col s10"
+                                              th:text="${particular.getC_direccion_particular()}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="left material-icons">phone</i>
+                                        <label class="top-margin-little" for="telefono">Teléfono:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="telefono" class="col s10"
+                                              th:text="${particular.getD_telefono_particular()}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="material-icons left">email</i>
+                                        <label class="top-margin-little" for="correo">e-mail:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="correo" class="col s10"
+                                              th:text="${particular.getG_correo_particular()}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="material-icons left">developer_board</i>
+                                        <label class="top-margin-little" for="funciones">Funciones:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="funciones" class="col s10"
+                                              th:text="${'comer, dormir y ...'}"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div class="row side-padding">
+                                        <i class="material-icons left">equalizer</i>
+                                        <label class="top-margin-little" for="lvl-acces">Nivel de acceso:</label>
+                                    </div>
+                                    <div class="row side-padding">
+                                        <span id="lvl-acces" class="col s10"
+                                              th:text="${0}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row center">
+                                <div class="col s12 m6 offset-m3 top-margin">
+                                    <a class="background-blue waves-effect waves-light btn-small"
+                                       th:href="${'/gestor/edit/' + particular.id_particular}">
+                                        <i class="material-icons left">create</i>Editar datos</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div th:if="${particular == null}">
+                <div class="row">
+                    <div class="col s12 no-padding">
+                        <div class="card-panel no-margin background-grey-2">
+                            <div class="row">
+                                <div class="col s4 offset-s4 m2 offset-m5">
+                                    <img class="responsive-img" th:src="@{/images/catX.png}">
+                                </div>
+                            </div>
+                            <h3 class="flow-text center-align"> Lo sentimos. No existen registros con ese
+                                documento.</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>
