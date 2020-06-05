@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 </head>
 <body>
@@ -16,7 +16,7 @@
                                 <i class="material-icons">menu</i>
                             </a>
                             <ul class="right hide-on-med-and-down">
-                                <li><span class="side-padding">Nombre Usuario</span></li>
+                                <li><span class="flow-text side-padding">[[${#httpServletRequest.remoteUser}]]</span></li>
                                 <li><i class="material-icons">chevron_right</i></li>
                                 <li><a th:href="@{/}" href="#">Cerrar Sesión</a></li>
                             </ul>
