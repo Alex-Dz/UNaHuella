@@ -27,6 +27,9 @@ public class Mascota {
     private String g_portador_parasito;
     @Column (name = "CARNET_VACUNACION", nullable = false, length = 12)
     private String h_carnet_vacunacion;
+    /*@ManyToOne
+    @JoinColumn(name="ID_DUEÑO")
+    private Usuario i_id_dueño;*/
     @ManyToOne
     @JoinColumn(name="ID_DUEÑO")
     private Particular i_id_particular;
@@ -110,5 +113,11 @@ public class Mascota {
     public void setI_id_particular(Particular i_id_particular) {
         this.i_id_particular = i_id_particular;
     }
+    /*public Usuario getI_id_usuario() {
+        return i_id_dueño;
+    }
 
+    public void setI_id_dueño(Usuario i_id_dueño) {
+        this.i_id_dueño = i_id_dueño;
+    }*/
 }

@@ -21,6 +21,9 @@ public class Cirugia {
                     referencedColumnName = "ID_LUGAR",
                     insertable = false)})
     private Sala a_id_sala;
+    /* @ManyToOne
+    @JoinColumn(name = "ID_VETERINARIO")
+    private Usuario b_id_veterinario;*/
     @ManyToOne
     @JoinColumn(name = "ID_VETERINARIO")
     private Veterinario b_id_veterinario;
@@ -52,6 +55,14 @@ public class Cirugia {
     public void setB_id_veterinario(Veterinario b_id_veterinario) {
         this.b_id_veterinario = b_id_veterinario;
     }
+
+    /*public Veterinario getB_id_veterinario() {
+        return b_id_veterinario;
+    }
+
+    public void setB_id_veterinario(Veterinario b_id_veterinario) {
+        this.b_id_veterinario = b_id_veterinario;
+    }*/
 
     public String getC_procedimiento() {
         return c_procedimiento;

@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "JORNADA")
+@Table (name = "JORNADA"/*, indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")}*/)
 public class Jornada {
 
     @Id
