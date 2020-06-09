@@ -4,18 +4,16 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "JORNADA"/*, indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")}*/)
+@Table (name = "JORNADA", indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")})
 public class Jornada {
 
     @Id
     @Column(name = "ID_JORNADA", length = 5)
     private String id_jornada;
-    // CAMBIAR A MANYTOONE CON USUARIO
-    //@ManyToOne
-    //@JoinColumn(name = "ID_GESTOR")
-    //private Usuario a_id_gestor;
-    @Column(name = "ID_GESTOR", nullable = false, length = 25)
-    private String a_id_gestor;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_GESTOR")
+    private Usuario a_id_gestor;
 
     @Column(name = "FECHA_JORNADA", nullable = false)
     private Date b_fecha_jornada;
@@ -34,11 +32,11 @@ public class Jornada {
         this.id_jornada = id_jornada;
     }
 
-    public String getA_id_gestor() {
+    public Usuario getA_id_gestor() {
         return a_id_gestor;
     }
 
-    public void setA_id_gestor(String a_id_gestor) {
+    public void setA_id_gestor(Usuario a_id_gestor) {
         this.a_id_gestor = a_id_gestor;
     }
 
