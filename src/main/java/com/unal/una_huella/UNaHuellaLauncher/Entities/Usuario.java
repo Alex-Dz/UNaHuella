@@ -11,20 +11,40 @@ import java.util.Set;
 public class Usuario implements Serializable {
 
     @Id
+    @Size(min = 2, max = 30, message = "Documento inválido")
     private String id_usuario;
-    @Column(name = "PRIMER_NOMBRE", nullable = false, length = 30)
+
+    @Column(name = "PRIMER_NOMBRE")
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Primer nombre obligatorio, máximo 30 caracteres")
     private String a_primer_nombre;
-    @Column(name = "PRIMER_APELLIDO", nullable = false, length = 30)
+
+    @Column(name = "PRIMER_APELLIDO")
+    @NotBlank
+    @Size(min = 2, max = 30, message = "Primer apellido obligatorio, máximo 30 caracteres")
     private String b_primer_apellido;
-    @Column(name = "DIRECCION", nullable = false, length = 50)
+
+    @Column(name = "DIRECCION")
+    @NotBlank
+    @Size(min = 2, max = 50, message = "Dirección obligatoria, máximo 50 caracteres")
     private String c_direccion;
-    @Column(name = "TELEFONO", nullable = false, length = 15)
+
+    @Column(name = "TELEFONO")
+    @NotBlank
+    @Size(min = 7, max = 11, message = "Número no valido, mínimo 7 caracteres, máximo 11 caracteres")
     private String d_telefono;
-    @Column(name = "SEGUNDO_NOMBRE", nullable = true, length = 30)
+
+    @Column(name = "SEGUNDO_NOMBRE", nullable = true)
+    @Size(max = 30, message = "Máximo 30 caracteres")
     private String e_segundo_nombre;
-    @Column(name = "SEGUNDO_APELLIDO", nullable = true, length = 30)
+
+    @Column(name = "SEGUNDO_APELLIDO", nullable = true)
+    @Size(max = 30, message = "Máximo 30 caracteres")
     private String f_segundo_apellido;
-    @Column(name = "CORREO", nullable = false, length = 35)
+
+    @Column(name = "CORREO")
+    @NotBlank
+    @Size(min = 6, max = 40, message = "E-mail obligatorio, máximo 30 caracteres")
     private String g_correo;
 
     // ATRIBUTOS PROPIOS DE PARTICULAR
@@ -46,16 +66,6 @@ public class Usuario implements Serializable {
     private String m_especializacion;
     @Column(name = "EXPERIENCIA_VET", nullable = true, length = 10)
     private int n_anos_experiencia;
-
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
-    private String id;
-
-    @Column(unique = true)
-    @NotBlank
-    @Size(min = 2, max = 30, message = "Mínimo 5 caracteres - Máximo 30 caracteres")
-    private String username;*/
 
     @Column
     @NotBlank

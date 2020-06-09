@@ -366,7 +366,7 @@ public class ParticularController {
     @GetMapping("/particular/edit/{id}")
     public String editParticular(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("particular", userService.getUserById(id));
+            model.addAttribute("user", userService.getUserById(id));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -382,38 +382,45 @@ public class ParticularController {
     }
 
     @PostMapping("/particular/updateUser")
-    public String updateParticular(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = 1);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
         } else {
             try {
                 userService.updateUser(user);
                 model.addAttribute("userCreated", true);
-                model.addAttribute("edit", false);
+
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("user", user);
                 model.addAttribute("userCreated", false);
                 model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = 1);
                 model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
             }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "particularshow";
         }
-        model.addAttribute("roles", roleRepo.findAll());
-
-        return "particularshow";
     }
 
     @RequestMapping("/vet/profile/{id}")
     public String vetProfile(@PathVariable String id, Model model) throws Exception {
-        model.addAttribute("vet", userService.getUserById(id));
+        model.addAttribute("user", userService.getUserById(id));
         return "vetshow";
     }
 
     @GetMapping("/vet/edit/{id}")
     public String editVet(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("vet", userService.getUserById(id));
+            model.addAttribute("user", userService.getUserById(id));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -428,16 +435,46 @@ public class ParticularController {
         return "formulario";
     }
 
+    @PostMapping("/vet/updateUser")
+    public String updateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = 2);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                userService.updateUser(user);
+                model.addAttribute("userCreated", true);
+
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("userCreated", false);
+                model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = 2);
+                model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "vetshow";
+        }
+    }
+
     @RequestMapping("/gestor/profile/{id}")
     public String gestorProfile(@PathVariable String id, Model model) throws Exception {
-        model.addAttribute("gestor", userService.getUserById(id));
+        model.addAttribute("user", userService.getUserById(id));
         return "gestorshow";
     }
 
     @GetMapping("/gestor/edit/{id}")
     public String editGestor(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("gestor", userService.getUserById(id));
+            model.addAttribute("user", userService.getUserById(id));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -450,6 +487,36 @@ public class ParticularController {
         model.addAttribute("userCreated", false);
         model.addAttribute("roles", roleRepo.findAll());
         return "formulario";
+    }
+
+    @PostMapping("/gestor/updateUser")
+    public String updateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = 3);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                userService.updateUser(user);
+                model.addAttribute("userCreated", true);
+
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("userCreated", false);
+                model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = 3);
+                model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "gestorshow";
+        }
     }
 
     @GetMapping("/gestor/delete/{id}")

@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void mapUser(Usuario from, Usuario to){      //  copia todos los atributos del usuario menos contraseñas para actualizar en la BBDD
-        to.setId_usuario(from.getId_usuario());
         to.setA_primer_nombre(from.getA_primer_nombre());
         to.setB_primer_apellido(from.getB_primer_apellido());
         to.setC_direccion(from.getC_direccion());
