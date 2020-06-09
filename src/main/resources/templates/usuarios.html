@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+
+    <title>UNa Huella - Lista Usuarios</title>
+
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<div class="container top-padding">
+
+    <div class="card">
+        <div class="card-content">
+            <h2 class="card-title flow-text bottom-padding">Usuarios Registrados</h2>
+            <table class="responsive-table">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Username</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="user : ${usuarios}">
+                    <td th:if="${user != null}" th:text="${user.id}"></td>
+                    <td th:if="${user != null}"
+                        th:text="${user.username}"></td>
+
+                    <td th:if="${user != null}" class="center">
+                        <a th:href="${'/user/edit/' + user.id}">
+                            <i class="material-icons">create</i>
+                        </a>
+                    </td>
+                    <td th:if="${user != null}" class="center">
+                        <a class="modal-trigger" th:href="${'/user/delete/' + user.id}">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="${deleteSuccess}">
+                <div class="materialert success">
+                    <div class="material-icons">check</div>
+                    <span th:text="${deleteSuccessMessage}">Success Message</span>
+                </div>
+            </div>
+            <div th:if="${deleteError} and ${deleteSuccess == false}">
+                <div class="materialert error">
+                    <div class="material-icons">error_outline</div>
+                    <span th:text="${deleteErrorMessage}">Error Message</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

@@ -7,34 +7,36 @@
     <div class="row">
         <div class="col s12">
             <div class="row">
-                <nav class="nav-extended background-violet">
-                    <div class="nav-wrapper side-padding">
-                        <a th:href="@{/}" href="#" class="brand-logo left no-margin"><i class="material-icons">pets</i></a>
-                        <a th:href="@{/vet}" href="#" class="brand-logo center">Veterinario</a>
-                        <a href="#" class="sidenav-trigger side-padding" data-target="mobile-navbar">
-                            <i class="material-icons">menu</i>
-                        </a>
-                        <ul class="right hide-on-med-and-down">
-                            <li><span class="side-padding">Nombre Usuario</span></li>
-                            <li><i class="material-icons">chevron_right</i></li>
-                            <li><a th:href="@{/}" href="#">Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                    <div class="nav-content center-align">
-                        <ul class="tabs tabs-transparent">
-                            <li class="tab"><a th:href="@{/vet/profile/1018489863}" href="#">Mis datos</a></li>
-                            <li class="tab disabled"><a href="#"><!--th:href="@{/vet/cirugias}"-->Cirugías (próximamente)</a></li>
-                            <li class="tab disabled"><a href="#"><!--th:href="@{/vet/jornadas}"-->Próximas Jornada (próximamente)</a></li>
-                        </ul>
-                    </div>
-                </nav>
+                <div class="navbar-fixed">
+                    <nav class="nav-extended background-violet">
+                        <div class="nav-wrapper side-padding">
+                            <a th:href="@{/}" href="#" class="brand-logo left no-margin"><i class="material-icons">pets</i></a>
+                            <a th:href="@{/vet}" href="#" class="brand-logo center">Veterinario</a>
+                            <a href="#" class="sidenav-trigger side-padding" data-target="mobile-navbar">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul class="right hide-on-med-and-down">
+                                <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
+                                <li><i class="material-icons">chevron_right</i></li>
+                                <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                        <div class="nav-content center-align">
+                            <ul class="tabs tabs-transparent">
+                                <li class="tab"><a th:href="${'/vet/profile/' + #httpServletRequest.remoteUser}" href="#">Mis datos</a></li>
+                                <li class="tab disabled"><a href="#"><!--th:href="@{/vet/cirugias}"-->Cirugías (próximamente)</a></li>
+                                <li class="tab disabled"><a href="#"><!--th:href="@{/vet/jornadas}"-->Próximas Jornada (próximamente)</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
                 <div class="container no-padding no-margin sidenav background-grey-1" id="mobile-navbar">
                     <div class="row side-padding">
                         <div class="col s12">
                             <ul>
-                                <li><span class="side-padding">Nombre Usuario</span></li>
+                                <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
                                 <li class="divider grey darken-3"></li>
-                                <li><a th:href="@{/}" href="#">Cerrar Sesión</a></li>
+                                <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
                             </ul>
                         </div>
                     </div>
