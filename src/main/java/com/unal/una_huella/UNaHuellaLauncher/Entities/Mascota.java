@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table (name = "MASCOTA")
+@Table (name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
 public class Mascota {
 
     @Id

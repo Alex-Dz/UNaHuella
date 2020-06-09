@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(DosisId.class)
-@Table (name = "DOSIS")
+@Table (name = "DOSIS", indexes = {@Index(name = "RELACION_DOSIS_MASCOTA", columnList = "ID_MASCOTA"),
+        @Index(name = "RELACION_DOSIS_MEDICAMENTO", columnList="ID_MEDICAMENTO")})
 public class Dosis {
 
     @Id

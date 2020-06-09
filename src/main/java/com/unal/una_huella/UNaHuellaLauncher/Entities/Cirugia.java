@@ -3,20 +3,30 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "CIRUGIA")
+@Table(name = "CIRUGIA", indexes = {@Index(name = "RELACION_CIRUGIAS_VETERINARIO", columnList = "ID_VETERINARIO"),
+        @Index(name = "RELACION_CIRUGIA_SALA", columnList="SALA_ID, LUGAR_ID")})
 public class Cirugia {
 
     @Id
     @Column(name = "ID_CIRUGIA", length = 10)
     private String id_cirugia;
     @ManyToOne
+    @JoinColumns({
+            @JoinColumn(
+                    name = "SALA_ID",
+                    referencedColumnName = "ID_SALA",
+                    insertable = false),
+            @JoinColumn(
+                    name = "LUGAR_ID",
+                    referencedColumnName = "ID_LUGAR",
+                    insertable = false)})
     private Sala a_id_sala;
     @ManyToOne
-    @JoinColumn(name="ID_VETERINARIO")
+    @JoinColumn(name = "ID_VETERINARIO")
     private Veterinario b_id_veterinario;
-    @Column (name = "PROCEDIMIENTO", nullable = false, length = 100)
+    @Column(name = "PROCEDIMIENTO", nullable = false, length = 100)
     private String c_procedimiento;
-    @Column (name = "COMPLICACIONES", nullable = false, length = 100)
+    @Column(name = "COMPLICACIONES", nullable = false, length = 100)
     private String d_complicaciones;
 
     public String getId_cirugia() {

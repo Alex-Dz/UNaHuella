@@ -4,18 +4,18 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(SalaId.class)
-@Table (name = "SALA")
+@Table(name = "SALA", indexes = {@Index(name = "RELACION_SALA_LUGAR", columnList = "ID_LUGAR")})
 public class Sala {
 
     @Id
-    @Column (name = "ID_SALA", length = 5)
+    @Column(name = "ID_SALA", length = 5)
     private String a_id_sala;
     @Id
     @ManyToOne
-    @JoinColumn (name = "ID_LUGAR")
+    @JoinColumn(name = "ID_LUGAR")
     private Lugar b_id_lugar;
 
-    @Column (name = "CAPACIDAD_SALA")
+    @Column(name = "CAPACIDAD_SALA")
     private int capacidad_sala;
 
     public String getId_sala() {

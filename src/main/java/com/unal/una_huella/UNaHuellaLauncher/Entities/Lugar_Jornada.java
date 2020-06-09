@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(Lugar_JornadaId.class)
-@Table (name = "LUGAR_JORNADA")
+@Table (name = "LUGAR_JORNADA", indexes = {@Index(name = "RELACION_LJ_JORNADA", columnList = "ID_JORNADA"),
+        @Index(name = "RELACION_LJ_LUGAR", columnList="ID_LUGAR")})
 public class Lugar_Jornada {
 
     @Id
@@ -13,7 +14,7 @@ public class Lugar_Jornada {
     private Jornada a_id_jornada;
     @Id
     @ManyToOne
-    @JoinColumn(name = "LUGAR")
+    @JoinColumn(name = "ID_LUGAR")
     private Lugar b_id_lugar;
 
     @Column (name = "NOMBRE_JORNADA", nullable = false, length = 40)
