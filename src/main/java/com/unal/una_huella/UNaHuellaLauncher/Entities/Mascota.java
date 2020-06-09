@@ -1,22 +1,35 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table (name = "MASCOTA")
 public class Mascota {
 
     @Id
+    @Column (name = "ID_MASCOTA", length = 10)
     private String id_mascota;
-    
+    @Column (name = "ESPECIE",nullable = false,  length = 1)
     private String a_especie;
+    @Column (name = "NOMBRE_MASCOTA", nullable = false, length = 20)
     private String b_nombre_mascota;
+    @Column (name = "GENERO", nullable = false, length = 6)
     private char c_genero;
+    @Column (name = "RAZA", nullable = false, length = 15)
     private String d_raza;
+    @Column (name = "EDAD_MASCOTA", length = 10, nullable = false)
     private String e_edad_mascota;
+    @Column (name = "HISTORIAL_CIRUGIAS", nullable = false, length = 500)
     private String f_historial_cirugias;
+    @Column (name = "PORTADOR_PARASITO", length = 15, nullable = false)
     private String g_portador_parasito;
+    @Column (name = "CARNET_VACUNACION", nullable = false, length = 12)
     private String h_carnet_vacunacion;
-    private String i_id_particular;
+    @ManyToOne
+    @JoinColumn(name="ID_DUEÑO")
+    private Particular i_id_particular;
 
     public String getId_mascota() {
         return id_mascota;
@@ -90,11 +103,11 @@ public class Mascota {
         this.h_carnet_vacunacion = h_carnet_vacunacion;
     }
 
-    public String getI_id_particular() {
+    public Particular getI_id_particular() {
         return i_id_particular;
     }
 
-    public void setI_id_particular(String i_id_particular) {
+    public void setI_id_particular(Particular i_id_particular) {
         this.i_id_particular = i_id_particular;
     }
 

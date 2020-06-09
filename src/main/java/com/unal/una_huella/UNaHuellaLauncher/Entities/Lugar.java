@@ -6,12 +6,17 @@ import javax.persistence.*;
 public class Lugar {
 
     @Id
+    @Column(name = "ID_LUGAR", length = 12)
     private String id_lugar;
 
+    @Column(name = "UBICACION_LUGAR", nullable = false, length = 50)
     private String a_ubicacion_lugar;
+    @Column(name = "NOMBRE_LUGAR", nullable = false, length = 25)
     private String b_nombre_lugar;
+    @Column(name = "CAPACIDAD_PACIENTES", nullable = false)
     private int c_capacidad_pacientes;
-    private int d_personal;
+
+    //private int d_personal;
 
     public String getId_lugar() {
         return id_lugar;
@@ -45,12 +50,12 @@ public class Lugar {
         this.c_capacidad_pacientes = capacidad_pacientes;
     }
 
-    public int getPersonal() {
+    /*public int getPersonal() {
         return d_personal;
     }
 
     public void setPersonal(int personal) {
         this.d_personal = personal;
     }
-
+*/
 }

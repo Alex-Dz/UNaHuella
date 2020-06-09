@@ -5,30 +5,36 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(CitaId.class)
+@Table (name = "CITA")
 public class Cita {
 
     @Id
-    private String a_id_mascota;
+    @ManyToOne
+    @JoinColumn(name = "ID_MASCOTA")
+    private Mascota a_id_mascota;
     @Id
-    private String b_id_jornada;
-
+    @ManyToOne
+    @JoinColumn(name = "ID_JORNADA")
+    private Jornada b_id_jornada;
+    @Column(name = "FECHA_CITA", nullable = false)
     private Date a_fecha_cita;
+    @Column(name = "ESPECIFICACION", nullable = false)
     private String b_especificacion_cita;
 
-    public String getId_mascota() {
+    public Mascota getA_id_mascota() {
         return a_id_mascota;
     }
 
-    public void setId_mascota(String id_mascota) {
-        this.a_id_mascota = id_mascota;
+    public void setA_id_mascota(Mascota a_id_mascota) {
+        this.a_id_mascota = a_id_mascota;
     }
 
-    public String getId_jornada() {
+    public Jornada getB_id_jornada() {
         return b_id_jornada;
     }
 
-    public void setId_jornada(String id_jornada) {
-        this.b_id_jornada = id_jornada;
+    public void setB_id_jornada(Jornada b_id_jornada) {
+        this.b_id_jornada = b_id_jornada;
     }
 
     public Date getFecha_cita() {

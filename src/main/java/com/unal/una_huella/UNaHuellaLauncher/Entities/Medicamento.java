@@ -3,14 +3,19 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import javax.persistence.*;
 
 @Entity
+@Table (name = "MEDICAMENTO")
 public class Medicamento {
 
     @Id
+    @Column (name = "MEDICAMENTO", length = 20)
     private String id_medicamento;
-
+    @Column (name = "NOMBRE_MEDICAMENTO", length = 30, nullable = false)
     private String a_nombre_medicamento;
+    @Column (name = "TIPO_MEDICAMENTO", length = 30, nullable = false)
     private String b_tipo_medicamento;
+    @Column (name = "PRESENTACION", length = 30, nullable = false)
     private String c_presentacion_med;
+    @Column (name = "COMPONENTE_ACTIVO", length = 30, nullable = false)
     private String d_componente_act;
 
     public String getId_medicamento() {

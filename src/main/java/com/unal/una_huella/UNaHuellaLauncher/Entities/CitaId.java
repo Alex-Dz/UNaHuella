@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class CitaId implements Serializable {
 
-    private String a_id_mascota;
-    private String b_id_jornada;
+    private Mascota a_id_mascota;
+    private Jornada b_id_jornada;
 
     @Override
     public int hashCode() {
