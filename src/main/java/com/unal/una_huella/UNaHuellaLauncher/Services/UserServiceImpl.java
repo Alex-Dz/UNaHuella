@@ -17,7 +17,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepo userRepo;
+    UserRepo userRepo;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Usuario getUserById(Long id) throws Exception {
+    public Usuario getUserById(String id) throws Exception {
         return userRepo.findById(id)
                 .orElseThrow(() -> new Exception("El usuario no existe"));
     }
@@ -52,27 +52,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Usuario updateUser(Usuario user) throws Exception {
-        Usuario storedUser = getUserById(user.getId());
+        Usuario storedUser = getUserById(user.getId_usuario());
         mapUser(user, storedUser);
         return userRepo.save(storedUser);
     }
 
-    public void mapUser(Usuario from, Usuario to){
-        to.setUsername(from.getUsername());
+    public void mapUser(Usuario from, Usuario to){      //  copia todos los atributos del usuario menos contraseñas para actualizar en la BBDD
+        to.setId_usuario(from.getId_usuario());
+        to.setA_primer_nombre(from.getA_primer_nombre());
+        to.setB_primer_apellido(from.getB_primer_apellido());
+        to.setC_direccion(from.getC_direccion());
+        to.setD_telefono(from.getD_telefono());
+        to.setE_segundo_nombre(from.getE_segundo_nombre());
+        to.setF_segundo_apellido(from.getF_segundo_apellido());
+        to.setG_correo(from.getG_correo());
+        to.setH_cantidad_mascotas(from.getH_cantidad_mascotas());
+        to.setI_estrato(from.getI_estrato());
+        to.setJ_funciones(from.getJ_funciones());
+        to.setK_nivel_acceso(from.getK_nivel_acceso());
+        to.setL_num_tarjetaprof(from.getL_num_tarjetaprof());
+        to.setM_especializacion(from.getM_especializacion());
+        to.setN_anos_experiencia(from.getN_anos_experiencia());
         to.setRoles(from.getRoles());
     }
 
     @Override
-    public void deleteUser(Long id) throws Exception {
+    public void deleteUser(String id) throws Exception {
         Usuario user = getUserById(id);
         userRepo.delete(user);
 
     }
 
     private boolean checkUsernameAvailable(Usuario user) throws Exception {
-        Optional<Usuario> userFound = userRepo.findByUsername(user.getUsername());
+        Optional<Usuario> userFound = userRepo.findById(user.getId_usuario());
         if (userFound.isPresent()) {
-            throw new Exception("Username no disponible");
+            throw new Exception("Ya existe un registro con este documento");
         }
         return true;
     }

@@ -32,7 +32,7 @@
                                        placeholder="Nombre" th:field="${user.username}"/>
                                 <label for="username">Username</label>
                                 <span class="helper-text" th:if="${#fields.hasErrors('username')}"
-                                      th:errors="*{username}">UserName Error</span>
+                                      th:errors="*{id_particular}">UserName Error</span>
                             </div>
                             <div class="input-field col s12 m3" th:if="${!edit}">
                                 <i class="material-icons prefix">person_outline</i>

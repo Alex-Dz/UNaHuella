@@ -26,9 +26,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    UserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario appUser = userRepo.findByUsername(username)
+        Usuario appUser = userRepo.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Login username no válido"));
 
         Set<GrantedAuthority> grantList = new HashSet<GrantedAuthority>();

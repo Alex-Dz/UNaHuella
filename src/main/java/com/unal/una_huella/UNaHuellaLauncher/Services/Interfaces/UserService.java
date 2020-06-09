@@ -10,13 +10,13 @@ public interface UserService {
 
     List<Usuario> listAllUser();
 
-    Usuario getUserById(Long id) throws Exception;
+    Usuario getUserById(String id) throws Exception;
 
     Usuario saveUser(Usuario usuario);
 
     Usuario createUser(Usuario user) throws Exception;
 
-    void deleteUser(Long id) throws Exception;
+    void deleteUser(String id) throws Exception;
 
     Usuario updateUser(Usuario user) throws Exception;
 }
