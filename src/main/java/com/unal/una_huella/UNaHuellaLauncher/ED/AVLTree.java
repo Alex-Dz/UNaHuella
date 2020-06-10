@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.ED;
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 
 public class AVLTree<T> {
@@ -11,6 +12,9 @@ public class AVLTree<T> {
     public static final int ESTRATO = 5;
     public static final int NIVEL_ACCESO = 6;
     public static final int EXP = 7;
+    public static final int ID_MASCOTA = 1;
+    public static final int NOMBRE_MASCOTA = 2;
+    public static final int EDAD_MASCOTA = 3;
     private int order;
 
     public AVLTree(int parametroOrdenamiento) {
@@ -286,6 +290,107 @@ public class AVLTree<T> {
                         break;
                     }
                 }
+            } else if (key instanceof Mascota) {
+                switch (order){
+                    case 1: {   //  id_mascota
+                        long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
+                        long id_nodo = Long.parseLong(((Mascota)currentNode.getKey()).getI_id_usuario().getId_usuario());
+                        if (id_mascota < id_nodo) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (id_mascota == id_nodo) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+
+                    case 2: {   //  nombre_mascota
+                        String nombre_mascota = (((Mascota) key).getB_nombre_mascota());
+                        String nombre_nodo = ((Mascota)currentNode.getKey()).getB_nombre_mascota();
+                        if (nombre_mascota.compareTo(nombre_nodo) < 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (nombre_mascota.compareTo(nombre_nodo) == 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+
+                    case 3: {   //edad_mascota
+                        int edad_mascota = (((Mascota) key).getE_edad_mascota());
+                        int edad_nodo = ((Mascota)currentNode.getKey()).getE_edad_mascota();
+                        if (edad_mascota < edad_nodo) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (edad_mascota == edad_nodo) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                }
             } else {
 
             }
@@ -478,7 +583,12 @@ public class AVLTree<T> {
         if (nodo == null) {
             return null;
         } else {
-            return (T) (findByKey(key, nodo).getKey());
+            NodoTree temp = findByKey(key, nodo);
+            if (temp == null){
+                return null;
+            } else {
+                return (T) temp.getKey();
+            }
         }
 
     }

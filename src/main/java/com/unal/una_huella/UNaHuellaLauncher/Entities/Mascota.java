@@ -19,8 +19,8 @@ public class Mascota {
     private char c_genero;
     @Column (name = "RAZA", nullable = false, length = 15)
     private String d_raza;
-    @Column (name = "EDAD_MASCOTA", length = 10, nullable = false)
-    private String e_edad_mascota;
+    @Column (name = "EDAD_MASCOTA", nullable = false)
+    private int e_edad_mascota;
     @Column (name = "HISTORIAL_CIRUGIAS", nullable = false, length = 500)
     private String f_historial_cirugias;
     @Column (name = "PORTADOR_PARASITO", length = 15, nullable = false)
@@ -71,11 +71,11 @@ public class Mascota {
         this.d_raza = d_raza;
     }
 
-    public String getE_edad_mascota() {
+    public int getE_edad_mascota() {
         return e_edad_mascota;
     }
 
-    public void setE_edad_mascota(String e_edad_mascota) {
+    public void setE_edad_mascota(int e_edad_mascota) {
         this.e_edad_mascota = e_edad_mascota;
     }
 
@@ -110,4 +110,12 @@ public class Mascota {
     public void setI_id_dueño(Usuario i_id_dueño) {
         this.i_id_dueño = i_id_dueño;
     }
+
+    /*public Usuario getI_id_usuario() {
+        return i_id_dueño;
+    }
+
+    public void setI_id_dueño(Usuario i_id_dueño) {
+        this.i_id_dueño = i_id_dueño;
+    }*/
 }

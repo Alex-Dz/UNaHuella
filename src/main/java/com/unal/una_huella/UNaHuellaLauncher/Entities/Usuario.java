@@ -1,6 +1,8 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
 
+import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,6 +10,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@Table (name = "USUARIO"/*, indexes = {@Index(name = "RELACION_USUARIO_MASCOTA", columnList = "MISMASCOTAS")}*/)
 public class Usuario implements Serializable {
 
     @Id
@@ -52,6 +55,9 @@ public class Usuario implements Serializable {
     private int h_cantidad_mascotas;
     @Column(name = "ESTRATO", nullable = true, length = 1)
     private String i_estrato;
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "i_id_dueño")
+    @Column (name = "MIS_MASCOTAS")
+    private Set<Mascota> mismascotas;
 
     // ATRIBUTOS PROPIOS DE GESTOR
     @Column(name = "FUNCIONES_GESTOR", nullable = true, length = 50)
@@ -224,5 +230,13 @@ public class Usuario implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Mascota> getMismascotas() {
+        return mismascotas;
+    }
+
+    public void setMismascotas(Set<Mascota> mismascotas) {
+        this.mismascotas = mismascotas;
     }
 }

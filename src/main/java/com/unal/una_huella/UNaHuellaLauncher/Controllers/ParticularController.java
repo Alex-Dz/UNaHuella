@@ -3,6 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
@@ -24,6 +25,7 @@ public class ParticularController {
 
     LinkedStack<Particular[]> prevPag = new LinkedStack<>();
     LinkedStack<Particular[]> nextPag = new LinkedStack<>();
+    Usuario usuario;
 
     long time_start = 0;
     long time_end = 0;
@@ -267,13 +269,13 @@ public class ParticularController {
 
     @RequestMapping("/gestor/searchUser")
     public String searchParticular(Model model) {
-        model.addAttribute("idSearch", new Particular());
+        model.addAttribute("idSearch", new Usuario());
         return "particularsearch";
     }
 
     @RequestMapping(value = "idsearch", method = RequestMethod.POST)
-    public String searchParticular(Particular idSearch) {
-        return "redirect:/particular/profile/" + idSearch.getId_particular();
+    public String searchParticular(Usuario idSearch) {
+        return "redirect:/particular/profile/" + idSearch.getId_usuario();
     }
 
     /*  de aquí para abajo van controladores de usuario unificado   */
@@ -390,9 +392,9 @@ public class ParticularController {
         Usuario user = new Usuario();
         user.setId_usuario(id);
         user = avl.find(user, avl.getRoot());
-        if (user == null) {
+        /*if (user == null) {
             throw new Exception("El usuario no existe");
-        }
+        }*/
         model.addAttribute("user", user);
         return "particularshow";
     }
@@ -453,14 +455,26 @@ public class ParticularController {
 
     @RequestMapping("/vet/profile/{id}")
     public String vetProfile(@PathVariable String id, Model model) throws Exception {
-        model.addAttribute("user", userService.getUserById(id));
+        Usuario vet = new Usuario();
+        vet.setId_usuario(id);
+        vet = avl.find(vet, avl.getRoot());
+        /*if (vet == null){
+            throw new Exception("el usuario no existe");
+        }*/
+        model.addAttribute("user", vet);
         return "vetshow";
     }
 
     @GetMapping("/vet/edit/{id}")
     public String editVet(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("user", userService.getUserById(id));
+            Usuario vet = new Usuario();
+            vet.setId_usuario(id);
+            vet = avl.find(vet, avl.getRoot());
+            if (vet == null){
+                throw new Exception("el usuario no existe");
+            }
+            model.addAttribute("user", vet);
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -488,6 +502,7 @@ public class ParticularController {
             try {
                 userService.updateUser(user);
                 model.addAttribute("userCreated", true);
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
 
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
@@ -507,14 +522,26 @@ public class ParticularController {
 
     @RequestMapping("/gestor/profile/{id}")
     public String gestorProfile(@PathVariable String id, Model model) throws Exception {
-        model.addAttribute("user", userService.getUserById(id));
+        Usuario gestor = new Usuario();
+        gestor.setId_usuario(id);
+        gestor = avl.find(gestor, avl.getRoot());
+        /*if (gestor == null){
+            throw new Exception("El usuario no existe");
+        }*/
+        model.addAttribute("user", gestor);
         return "gestorshow";
     }
 
     @GetMapping("/gestor/edit/{id}")
     public String editGestor(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("user", userService.getUserById(id));
+            Usuario gestor = new Usuario();
+            gestor.setId_usuario(id);
+            gestor = avl.find(gestor, avl.getRoot());
+            if (gestor == null){
+                throw new Exception("El usuario no existe");
+            }
+            model.addAttribute("user", gestor);
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -542,6 +569,7 @@ public class ParticularController {
             try {
                 userService.updateUser(user);
                 model.addAttribute("userCreated", true);
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
 
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());

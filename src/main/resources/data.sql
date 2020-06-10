@@ -18,6 +18,9 @@ INSERT INTO user_roles VALUES (25, 3);
 INSERT INTO user_roles VALUES (49, 2);
 INSERT INTO user_roles VALUES (11, 1);
 
+insert into mascota values (1, 'P', 'Thor', 'Macho', 'Yorkshire', '2 años', 'Ninguno', 'Ninguno', '123456203658', '676282');
+insert into mascota values (2, 'P', 'Tiara', 'Hembra', 'Yorkshire', '7 años', 'Ninguno', 'Ninguno', '123456203659', '676282');
+
 
 INSERT INTO usuario VALUES (1, 'RIfCqB', 'kgnZZO', 'oYTzpmtF', '48594151', 'RgzaAadE', 'RvNyrzs', 'AwgFNTgcZ', 2, '1', '0', '0', '0', '0', 0, 'OAHri6ZrrUtDT4UrtU1RKTkBHf6qQqav8o2whII6WvOwfYDavS');
 INSERT INTO usuario VALUES (2, 'xhQvwv', 'XEdCzm', 'WAvxFiBd', '26200519', 'cmWawxPS', 'BgPbvBH', 'jaKvqWGsz', 10, '5', '0', '0', '0', '0', 0, '6PC9PB4N4H9V5w5Dh170I6ry0R17koVUDCMHr4udbz1gSmxD5h');
