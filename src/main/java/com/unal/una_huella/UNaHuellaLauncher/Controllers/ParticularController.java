@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
+import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
@@ -34,6 +35,7 @@ public class ParticularController {
 
     @RequestMapping("/particular")
     public String particular() {
+        getUsers();
         return "particular";
     }
 
@@ -64,6 +66,27 @@ public class ParticularController {
         particularService.saveParticular(particular);
         return "redirect:/particular/profile/" + particular.getId_particular();
     }*/
+
+    AVLTree<Usuario> avl = new AVLTree<Usuario>(AVLTree.ID);
+
+    public void getUsers() {
+        for (Usuario user : userService.listAllUser()) {
+            try {
+                avl.insertAVL(user);
+            } catch (Exception e) {
+                System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario()+ " al arbol por parametro de ordenamiento erroneo");
+            }
+        }
+
+        time_start = 0;
+        time_start = System.currentTimeMillis();
+
+        time_end = 0;
+        time_end = System.currentTimeMillis();
+        System.out.println("\n\n\t\tTiempo empleado en buscar registro: " + (time_end - time_start) + " milliseconds");
+
+    }
+
 
     public DoubleLinkedList<Particular> getRegisters() {
         time_start = 0;
@@ -279,12 +302,17 @@ public class ParticularController {
             try {
                 userService.createUser(user);
                 model.addAttribute("userCreated", true);
+                model.addAttribute("edit", false);
+                model.addAttribute("roles", roleRepo.findAll());
+                avl.insertAVL(user);
+                return "formulario";
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("user", user);
                 model.addAttribute("userCreated", false);
                 model.addAttribute("edit", false);
                 model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
             }
         }
         model.addAttribute("edit", false);
@@ -292,7 +320,7 @@ public class ParticularController {
         return "formulario";
     }
 
-    @PostMapping("/updateUser")
+    /*@PostMapping("/updateUser")
     public String updateUser(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
@@ -313,7 +341,7 @@ public class ParticularController {
         model.addAttribute("roles", roleRepo.findAll());
 
         return "formulario";
-    }
+    }*/
 
     @GetMapping("/editUser/cancel")
     public String cancelEditUser() {
@@ -326,7 +354,7 @@ public class ParticularController {
         return "usuarios";
     }
 
-    @GetMapping("/user/edit/{id}")
+    /*@GetMapping("/user/edit/{id}")
     public String editUser(@PathVariable String id, Model model) {
         try {
             model.addAttribute("user", userService.getUserById(id));
@@ -340,7 +368,7 @@ public class ParticularController {
         model.addAttribute("userCreated", false);
         model.addAttribute("roles", roleRepo.findAll());
         return "createUserForm";
-    }
+    }*/
 
     @GetMapping("/user/delete/{id}")
     public String deleteUs(@PathVariable String id, Model model) {
@@ -358,15 +386,27 @@ public class ParticularController {
     }
 
     @RequestMapping("/particular/profile/{id}")
-    public String showParticular(@PathVariable String id, Model model) throws Exception {
-        model.addAttribute("user", userService.getUserById(id));
+    public String partiProfile(@PathVariable String id, Model model) throws Exception {
+        Usuario user = new Usuario();
+        user.setId_usuario(id);
+        user = avl.find(user, avl.getRoot());
+        if (user == null) {
+            throw new Exception("El usuario no existe");
+        }
+        model.addAttribute("user", user);
         return "particularshow";
     }
 
     @GetMapping("/particular/edit/{id}")
     public String editParticular(@PathVariable String id, Model model) {
         try {
-            model.addAttribute("user", userService.getUserById(id));
+            Usuario user = new Usuario();
+            user.setId_usuario(id);
+            user = avl.find(user, avl.getRoot());
+            if (user == null) {
+                throw new Exception("El usuario no existe");
+            }
+            model.addAttribute("user", user);
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -394,7 +434,7 @@ public class ParticularController {
             try {
                 userService.updateUser(user);
                 model.addAttribute("userCreated", true);
-
+                userService.mapUser(user, avl.find(user,avl.getRoot()));
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("user", user);

@@ -1,14 +1,26 @@
 package com.unal.una_huella.UNaHuellaLauncher.ED;
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
+
 public class AVLTree<T> {
     private NodoTree<T> root;
+    public static final int ID = 1;
+    public static final int PRIMER_NOMBRE = 2;
+    public static final int PRIMER_APELLIDO = 3;
+    public static final int N_MASCOTAS = 4;
+    public static final int ESTRATO = 5;
+    public static final int NIVEL_ACCESO = 6;
+    public static final int EXP = 7;
+    private int order;
 
-    public AVLTree() {
+    public AVLTree(int parametroOrdenamiento) {
         this.root = null;
+        this.order = parametroOrdenamiento;
     }
 
-    public AVLTree(NodoTree<T> root) {
+    public AVLTree(int parametroOrdenamiento, NodoTree<T> root) {
         this.root = root;
+        this.order = parametroOrdenamiento;
     }
 
     /**
@@ -59,6 +71,223 @@ public class AVLTree<T> {
                         return;
                     }
                 }
+            } else if (key instanceof Usuario) {
+                switch (order) {
+                    case 1: {        //  id
+                        long id = Long.parseLong(((Usuario) key).getId_usuario());
+                        if (id < Long.parseLong(((Usuario) currentNode.getKey()).getId_usuario())) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 2: {        //  primer nombre
+                        String primerNombre = ((Usuario) key).getA_primer_nombre();
+
+                        if (primerNombre.compareTo(((Usuario) currentNode.getKey()).getA_primer_nombre()) < 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (primerNombre.compareTo(((Usuario) currentNode.getKey()).getA_primer_nombre()) == 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 3: {        //  primer apellido
+                        String primerApellido = ((Usuario) key).getB_primer_apellido();
+
+                        if (primerApellido.compareTo(((Usuario) currentNode.getKey()).getB_primer_apellido()) < 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (primerApellido.compareTo(((Usuario) currentNode.getKey()).getB_primer_apellido()) == 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 4: {        //  #mascotas
+                        int id = ((Usuario) key).getH_cantidad_mascotas();
+                        if (id < ((Usuario) currentNode.getKey()).getH_cantidad_mascotas()) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (id == ((Usuario) currentNode.getKey()).getH_cantidad_mascotas()) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 5: {        //  estrato
+                        String estrato = ((Usuario) key).getI_estrato();
+
+                        if (estrato.compareTo(((Usuario) currentNode.getKey()).getI_estrato()) < 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (estrato.compareTo(((Usuario) currentNode.getKey()).getI_estrato()) == 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 6: {        //  accessLvl
+                        String access = ((Usuario) key).getK_nivel_acceso();
+
+                        if (access.compareTo(((Usuario) currentNode.getKey()).getK_nivel_acceso()) < 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (access.compareTo(((Usuario) currentNode.getKey()).getK_nivel_acceso()) == 0) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    case 7: {        //  exp
+                        int exp = ((Usuario) key).getN_anos_experiencia();
+                        if (exp < ((Usuario) currentNode.getKey()).getN_anos_experiencia()) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode == null) {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else if (exp == ((Usuario) currentNode.getKey()).getN_anos_experiencia()) {
+                            currentNode = currentNode.getLeft();
+                            if (currentNode != null) {
+                                currentNode.setParent(newNode);
+                                newNode.setLeft(currentNode);
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                            } else {
+                                parentNode.setLeft(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        } else {
+                            currentNode = currentNode.getRight();
+                            if (currentNode == null) {
+                                parentNode.setRight(newNode);
+                                newNode.setParent(parentNode);
+                                return;
+                            }
+                        }
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            } else {
+
             }
         }
     }
@@ -68,7 +297,7 @@ public class AVLTree<T> {
      *
      * @param key elemento que se va a insertar
      */
-    public void insertAVL(T key) {
+    public void insertAVL(T key) throws Exception {
         insert(key);
         NodoTree newNode = findByKey(key, root);
         rebalance(newNode);
@@ -80,22 +309,154 @@ public class AVLTree<T> {
      * @param key parámetro que contiene el valor a buscar
      * @return el nodo si el elemento existe o null en caso contrario
      */
-    public NodoTree<T> findByKey(T key, NodoTree parent) {
-        if (parent != null) {
+    public NodoTree<T> findByKey(T key, NodoTree nodo) throws Exception {
+        if (nodo != null) {
             if (key instanceof String) {
-                if ((((String) key).compareTo(((String) parent.getKey()))) == 0) {
-                    return parent;
-                } else if ((((String) key).compareTo(((String) parent.getKey()))) < 0) {
-                    if (parent.getLeft() != null) {
-                        return findByKey(key, parent.getLeft());
+                if ((((String) key).compareTo(((String) nodo.getKey()))) == 0) {
+                    return nodo;
+                } else if ((((String) key).compareTo(((String) nodo.getKey()))) < 0) {
+                    if (nodo.getLeft() != null) {
+                        return findByKey(key, nodo.getLeft());
                     } else {
-                        return parent.getLeft();
+                        return nodo.getLeft();
                     }
                 } else {
-                    if (parent.getRight() != null) {
-                        return findByKey(key, parent.getRight());
+                    if (nodo.getRight() != null) {
+                        return findByKey(key, nodo.getRight());
                     } else {
-                        return parent.getRight();
+                        return nodo.getRight();
+                    }
+                }
+            } else if (key instanceof Usuario) {
+                switch (order) {
+                    case 1: {        //  id
+                        long id = Long.parseLong(((Usuario) key).getId_usuario());
+                        if (id == Long.parseLong(((Usuario) nodo.getKey()).getId_usuario())) {
+                            return nodo;
+                        } else if (id < Long.parseLong(((Usuario) nodo.getKey()).getId_usuario())) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 2: {        //  primer nombre
+                        String nombre = ((Usuario) key).getA_primer_nombre();
+                        if (nombre.compareTo(((Usuario) nodo.getKey()).getA_primer_nombre()) == 0) {
+                            return nodo;
+                        } else if (nombre.compareTo(((Usuario) nodo.getKey()).getA_primer_nombre()) < 0) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 3: {        //  primer apellido
+                        String apellido = ((Usuario) key).getB_primer_apellido();
+                        if (apellido.compareTo(((Usuario) nodo.getKey()).getB_primer_apellido()) == 0) {
+                            return nodo;
+                        } else if (apellido.compareTo(((Usuario) nodo.getKey()).getB_primer_apellido()) < 0) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 4: {        //  #mascotas
+                        int mascotas = ((Usuario) key).getH_cantidad_mascotas();
+                        if (mascotas == ((Usuario) nodo.getKey()).getH_cantidad_mascotas()) {
+                            return nodo;
+                        } else if (mascotas < ((Usuario) nodo.getKey()).getH_cantidad_mascotas()) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 5: {        //  estrato
+                        String estrato = ((Usuario) key).getI_estrato();
+                        if (estrato.compareTo(((Usuario) nodo.getKey()).getI_estrato()) == 0) {
+                            return nodo;
+                        } else if (estrato.compareTo(((Usuario) nodo.getKey()).getI_estrato()) < 0) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 6: {        //  access
+                        String access = ((Usuario) key).getK_nivel_acceso();
+                        if (access.compareTo(((Usuario) nodo.getKey()).getK_nivel_acceso()) == 0) {
+                            return nodo;
+                        } else if (access.compareTo(((Usuario) nodo.getKey()).getK_nivel_acceso()) < 0) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    case 7: {        //  exp
+                        int exp = ((Usuario) key).getN_anos_experiencia();
+                        if (exp == ((Usuario) nodo.getKey()).getN_anos_experiencia()) {
+                            return nodo;
+                        } else if (exp < ((Usuario) nodo.getKey()).getN_anos_experiencia()) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    default: {
+                        throw new Exception("parametro de orden invalido");
                     }
                 }
             } else {
@@ -104,7 +465,6 @@ public class AVLTree<T> {
         } else {
             return null;
         }
-
     }
 
     /**
@@ -114,7 +474,7 @@ public class AVLTree<T> {
      * @param nodo nodo que toma como raiz para empezar a buscar
      * @return valor key del noto si se encuentra, null en caso contrario
      */
-    public T find(T key, NodoTree nodo) {
+    public T find(T key, NodoTree nodo) throws Exception {
         if (nodo == null) {
             return null;
         } else {
@@ -177,10 +537,11 @@ public class AVLTree<T> {
 
     /**
      * elimina un elemento del arbol y retorna su valor
+     *
      * @param key el valor del elemento que se va a buscar
      * @return el valor del elemento que se eliminó
      */
-    public T deleteAVL(T key) {
+    public T deleteAVL(T key) throws Exception {
         NodoTree deletedNode;
         NodoTree nodo = findByKey(key, root);
         if (nodo != null) {
@@ -437,9 +798,11 @@ public class AVLTree<T> {
      */
     public void displayInOrder(NodoTree root) {
         if (root != null) {
-            displayInOrder(root.getLeft());
-            System.out.println(" " + root.getKey());
-            displayInOrder(root.getRight());
+            if(root.getKey() instanceof Usuario){
+                displayInOrder(root.getLeft());
+                System.out.println("\t" + ((Usuario) root.getKey()).getId_usuario() + "\t" + ((Usuario) root.getKey()).getA_primer_nombre() + "\t"+ ((Usuario) root.getKey()).getB_primer_apellido());
+                displayInOrder(root.getRight());
+            }
         }
     }
 

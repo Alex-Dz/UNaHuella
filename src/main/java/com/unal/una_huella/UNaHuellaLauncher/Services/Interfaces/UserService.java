@@ -19,4 +19,6 @@ public interface UserService {
     void deleteUser(String id) throws Exception;
 
     Usuario updateUser(Usuario user) throws Exception;
+
+    void mapUser(Usuario from, Usuario to);
 }
