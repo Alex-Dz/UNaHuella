@@ -98,8 +98,12 @@
     padding-top: 1em;
 }
 
-.bottom-padding {
-    padding-bottom: 1em;
+.top-padding-intermediate{
+    padding-top: 2em;
+}
+
+.bottom-padding-intermediate {
+    padding-bottom: 3em;
 }
 
 .left-padding {
