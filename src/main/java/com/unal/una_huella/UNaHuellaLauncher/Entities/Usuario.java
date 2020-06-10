@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table (name = "USUARIO"/*, indexes = {@Index(name = "RELACION_USUARIO_MASCOTA", columnList = "MISMASCOTAS")}*/)
+@Table (name = "USUARIO")
 public class Usuario implements Serializable {
 
     @Id

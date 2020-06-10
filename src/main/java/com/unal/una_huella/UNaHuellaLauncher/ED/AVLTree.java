@@ -12,7 +12,7 @@ public class AVLTree<T> {
     public static final int ESTRATO = 5;
     public static final int NIVEL_ACCESO = 6;
     public static final int EXP = 7;
-    public static final int ID_MASCOTA = 1;
+    public static final int ID_DUEÑO = 1;
     public static final int NOMBRE_MASCOTA = 2;
     public static final int EDAD_MASCOTA = 3;
     private int order;
@@ -561,6 +561,71 @@ public class AVLTree<T> {
                         }
                     }
                     default: {
+                        throw new Exception("parametro de orden invalido");
+                    }
+                }
+            } else if (key instanceof Mascota){
+                switch (order){
+                    case 1:{    //id_dueño
+                        long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
+                        long id_nodo = Long.parseLong(((Mascota)nodo.getKey()).getI_id_usuario().getId_usuario());
+                        if (id_mascota == id_nodo) {
+                            return nodo;
+                        } else if (id_mascota < id_nodo) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+
+                    case 2:{    //  nombre mascota
+                        String nombre_mascota = (((Mascota) key).getB_nombre_mascota());
+                        String nombre_nodo = ((Mascota)nodo.getKey()).getB_nombre_mascota();
+                        if (nombre_mascota.compareTo(nombre_nodo) == 0) {
+                            return nodo;
+                        } else if (nombre_mascota.compareTo(nombre_nodo)<0) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+
+                    case 3:{    //  edad mascota
+                        int edad_mascota = (((Mascota) key).getE_edad_mascota());
+                        int edad_nodo = ((Mascota)nodo.getKey()).getE_edad_mascota();
+                        if (edad_mascota == edad_nodo) {
+                            return nodo;
+                        } else if (edad_mascota < edad_nodo) {
+                            if (nodo.getLeft() != null) {
+                                return findByKey(key, nodo.getLeft());
+                            } else {
+                                return nodo.getLeft();
+                            }
+                        } else {
+                            if (nodo.getRight() != null) {
+                                return findByKey(key, nodo.getRight());
+                            } else {
+                                return nodo.getRight();
+                            }
+                        }
+                    }
+                    default:{
                         throw new Exception("parametro de orden invalido");
                     }
                 }
