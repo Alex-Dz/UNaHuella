@@ -63,50 +63,15 @@ public class AVLTree<T> {
         }
     }
 
-
     /**
-     * Imprime en consola los valores de cada elemento en el arbol en forma inOrder
+     * inserta un elemento al arbol y balancea
      *
-     * @param root nodo que toma como raiz para empezar a recorrer
+     * @param key elemento que se va a insertar
      */
-    public void displayInOrder(NodoTree root) {
-        if (root != null) {
-            displayInOrder(root.getLeft());
-            System.out.println(" " + root.getKey());
-            displayInOrder(root.getRight());
-        }
-    }
-
-    /**
-     * cuenta numero de elementos de un arbol empezando desde el nodo dado, contando dicho nodo
-     *
-     * @param root nodo que toma como raiz para empezar a recorrer
-     * @return numero de elementos del arbol, incluyendo el nodo root
-     */
-    public int countInOrder(NodoTree root) {
-        int count = 0;
-        if (root != null) {
-            count += countInOrder(root.getLeft());
-            count++;
-            count += countInOrder(root.getRight());
-        }
-        return count;
-    }
-
-    public void displayPostOrder(NodoTree root) {
-        if (root != null) {
-            displayPostOrder(root.getLeft());
-            displayPostOrder(root.getRight());
-            System.out.println(" " + root.getKey());
-        }
-    }
-
-    public void displayPreOrder(NodoTree root) {
-        if (root != null) {
-            System.out.println(" " + root.getKey());
-            displayPreOrder(root.getLeft());
-            displayPreOrder(root.getRight());
-        }
+    public void insertAVL(T key) {
+        insert(key);
+        NodoTree newNode = findByKey(key, root);
+        rebalance(newNode);
     }
 
     /**
@@ -156,236 +121,6 @@ public class AVLTree<T> {
             return (T) (findByKey(key, nodo).getKey());
         }
 
-    }
-
-    /**
-     * inserta un elemento al arbol y balancea
-     *
-     * @param key elemento que se va a insertar
-     */
-    public void insertAVL(T key) {
-        insert(key);
-        NodoTree newNode = findByKey(key, root);
-        rebalance(newNode);
-    }
-
-    /**
-     * analiza los hijos de la raiz y rebalancea de ser necesario
-     *
-     * @param nodo nodo que toma como raiz del sub-arbol
-     */
-    public void rebalance(NodoTree nodo) {
-        NodoTree parent = nodo.getParent();
-        int l = 0;
-        int r = 0;
-
-        if (nodo.getLeft() == null) {
-            l = 0;
-        } else {
-            l = nodo.getLeft().getHeight();
-        }
-
-        if (nodo.getRight() == null) {
-            r = 0;
-        } else {
-            r = nodo.getRight().getHeight();
-        }
-        if (l > r + 1) {
-            rebalanceRight(nodo);
-        }
-        if (r > l + 1) {
-            rebalanceLeft(nodo);
-        }
-        adjustHeight(nodo);
-
-        if (nodo.getParent() != null) {
-            rebalance(nodo.getParent());
-        }
-    }
-
-    /**
-     * rebalancea hacia la derecha
-     * hace doble rotación de ser necesario
-     *
-     * @param nodo nodo afectado que está desbalanceado a la izquierda
-     */
-    public void rebalanceRight(NodoTree nodo) {
-        NodoTree tempNodo = nodo.getLeft();
-        int l = 0;
-        int r = 0;
-
-        if (tempNodo.getLeft() == null) {
-            l = 0;
-        } else {
-            l = tempNodo.getLeft().getHeight();
-        }
-
-        if (tempNodo.getRight() == null) {
-            r = 0;
-        } else {
-            r = tempNodo.getRight().getHeight();
-        }
-
-        if (r > l) {
-            rotateLeft(tempNodo);
-            adjustHeight(tempNodo);
-        }
-        rotateRight(nodo);
-        adjustHeight(nodo);
-    }
-
-    /**
-     * rebalancea hacia la izquierda
-     * hace doble rotación de ser necesario
-     *
-     * @param nodo nodo afectado que está desbalanceado a la derecha
-     */
-    public void rebalanceLeft(NodoTree nodo) {
-        NodoTree tempNodo = nodo.getRight();
-        int l = 0;
-        int r = 0;
-
-        if (tempNodo.getLeft() == null) {
-            l = 0;
-        } else {
-            l = tempNodo.getLeft().getHeight();
-        }
-
-        if (tempNodo.getRight() == null) {
-            r = 0;
-        } else {
-            r = tempNodo.getRight().getHeight();
-        }
-        if (l > r) {
-            rotateRight(tempNodo);
-            adjustHeight(tempNodo);
-        }
-        rotateLeft(nodo);
-        adjustHeight(nodo);
-    }
-
-    /**
-     * hace una rotación hacia la derecha del nodo
-     *
-     * @param nodo nodo afectado por la rotación
-     */
-    public void rotateRight(NodoTree nodo) {
-        NodoTree temp = nodo.getLeft();
-        NodoTree parent = nodo.getParent();
-        nodo.setParent(temp);
-        nodo.setLeft(temp.getRight());
-        if (nodo.getLeft() != null) {
-            nodo.getLeft().setParent(nodo);
-        }
-        temp.setRight(nodo);
-        temp.setParent(parent);
-        if (parent != null) {
-            if (parent.getLeft() == nodo) {
-                parent.setLeft(temp);
-            } else {
-                parent.setRight(temp);
-            }
-        } else {
-            setRoot(temp);
-        }
-    }
-
-    /**
-     * hace una rotación hacia la izquierda del nodo
-     *
-     * @param nodo nodo afectado por la rotación
-     */
-    public void rotateLeft(NodoTree nodo) {
-        NodoTree temp = nodo.getRight();
-        NodoTree parent = nodo.getParent();
-        nodo.setParent(temp);
-        nodo.setRight(temp.getLeft());
-        if (nodo.getRight() != null) {
-            nodo.getRight().setParent(nodo);
-        }
-        temp.setLeft(nodo);
-        temp.setParent(parent);
-        if (parent != null) {
-            if (parent.getLeft() == nodo) {
-                parent.setLeft(temp);
-            } else {
-                parent.setRight(temp);
-            }
-        } else {
-            setRoot(temp);
-        }
-    }
-
-    /**
-     * ajusta el parametro height de cada nodo de acuerdo a la altura de sus hijos
-     *
-     * @param nodo elemento al que se le ajusta su altura
-     */
-    public void adjustHeight(NodoTree nodo) {
-        int l = 0;
-        int r = 0;
-        int max;
-
-        if (nodo.getLeft() == null) {
-            l = 0;
-        } else {
-            l = nodo.getLeft().getHeight();
-        }
-
-        if (nodo.getRight() == null) {
-            r = 0;
-        } else {
-            r = nodo.getRight().getHeight();
-        }
-
-        if (l > r) {
-            max = l;
-        } else {
-            max = r;
-        }
-        nodo.setHeight(1 + max);
-    }
-
-    /**
-     * busca el antecesor izquierdo o el sucesor derecho del nodo
-     *
-     * @param nodo elemento al que se le busca antecesor o sucesor
-     * @return el nodo que cumple ser siguiente o anterior al nodo
-     */
-    private NodoTree next(NodoTree nodo) {
-        if (nodo.getRight() != null) {
-            return leftDescendant(nodo.getRight());
-        } else if (nodo.getLeft() != null) {
-            return rightAncestor(nodo.getLeft());
-        } else {
-            return null;
-        }
-    }
-
-    private NodoTree leftDescendant(NodoTree nodo) {
-        if (nodo.getLeft() == null) {
-            return nodo;
-        } else {
-            return leftDescendant(nodo.getLeft());
-        }
-    }
-
-    private NodoTree rightAncestor(NodoTree nodo) {      //  implementar demás instancias
-        if (nodo.getRight() == null) {
-            return nodo;
-        } else {
-            return rightAncestor(nodo.getRight());
-        }
-
-        /*if (nodo.getKey() instanceof String) {
-            if (((String) nodo.getKey()).compareTo(((String) nodo.getParent().getKey())) < 0) {
-                return nodo.getParent();
-            } else {
-                return rightAncestor(nodo.getParent());
-            }
-        } else {
-            return null;
-        }*/
     }
 
     private NodoTree delete(NodoTree nodo) {
@@ -474,6 +209,270 @@ public class AVLTree<T> {
             return (T) deletedNode.getKey();
         }
         return null;
+    }
+
+    /**
+     * analiza los hijos de la raiz y rebalancea de ser necesario
+     *
+     * @param nodo nodo que toma como raiz del sub-arbol
+     */
+    private void rebalance(NodoTree nodo) {
+        NodoTree parent = nodo.getParent();
+        int l = 0;
+        int r = 0;
+
+        if (nodo.getLeft() == null) {
+            l = 0;
+        } else {
+            l = nodo.getLeft().getHeight();
+        }
+
+        if (nodo.getRight() == null) {
+            r = 0;
+        } else {
+            r = nodo.getRight().getHeight();
+        }
+        if (l > r + 1) {
+            rebalanceRight(nodo);
+        }
+        if (r > l + 1) {
+            rebalanceLeft(nodo);
+        }
+        adjustHeight(nodo);
+
+        if (nodo.getParent() != null) {
+            rebalance(nodo.getParent());
+        }
+    }
+
+    /**
+     * rebalancea hacia la derecha
+     * hace doble rotación de ser necesario
+     *
+     * @param nodo nodo afectado que está desbalanceado a la izquierda
+     */
+    private void rebalanceRight(NodoTree nodo) {
+        NodoTree tempNodo = nodo.getLeft();
+        int l = 0;
+        int r = 0;
+
+        if (tempNodo.getLeft() == null) {
+            l = 0;
+        } else {
+            l = tempNodo.getLeft().getHeight();
+        }
+
+        if (tempNodo.getRight() == null) {
+            r = 0;
+        } else {
+            r = tempNodo.getRight().getHeight();
+        }
+
+        if (r > l) {
+            rotateLeft(tempNodo);
+            adjustHeight(tempNodo);
+        }
+        rotateRight(nodo);
+        adjustHeight(nodo);
+    }
+
+    /**
+     * rebalancea hacia la izquierda
+     * hace doble rotación de ser necesario
+     *
+     * @param nodo nodo afectado que está desbalanceado a la derecha
+     */
+    private void rebalanceLeft(NodoTree nodo) {
+        NodoTree tempNodo = nodo.getRight();
+        int l = 0;
+        int r = 0;
+
+        if (tempNodo.getLeft() == null) {
+            l = 0;
+        } else {
+            l = tempNodo.getLeft().getHeight();
+        }
+
+        if (tempNodo.getRight() == null) {
+            r = 0;
+        } else {
+            r = tempNodo.getRight().getHeight();
+        }
+        if (l > r) {
+            rotateRight(tempNodo);
+            adjustHeight(tempNodo);
+        }
+        rotateLeft(nodo);
+        adjustHeight(nodo);
+    }
+
+    /**
+     * hace una rotación hacia la derecha del nodo
+     *
+     * @param nodo nodo afectado por la rotación
+     */
+    private void rotateRight(NodoTree nodo) {
+        NodoTree temp = nodo.getLeft();
+        NodoTree parent = nodo.getParent();
+        nodo.setParent(temp);
+        nodo.setLeft(temp.getRight());
+        if (nodo.getLeft() != null) {
+            nodo.getLeft().setParent(nodo);
+        }
+        temp.setRight(nodo);
+        temp.setParent(parent);
+        if (parent != null) {
+            if (parent.getLeft() == nodo) {
+                parent.setLeft(temp);
+            } else {
+                parent.setRight(temp);
+            }
+        } else {
+            setRoot(temp);
+        }
+    }
+
+    /**
+     * hace una rotación hacia la izquierda del nodo
+     *
+     * @param nodo nodo afectado por la rotación
+     */
+    private void rotateLeft(NodoTree nodo) {
+        NodoTree temp = nodo.getRight();
+        NodoTree parent = nodo.getParent();
+        nodo.setParent(temp);
+        nodo.setRight(temp.getLeft());
+        if (nodo.getRight() != null) {
+            nodo.getRight().setParent(nodo);
+        }
+        temp.setLeft(nodo);
+        temp.setParent(parent);
+        if (parent != null) {
+            if (parent.getLeft() == nodo) {
+                parent.setLeft(temp);
+            } else {
+                parent.setRight(temp);
+            }
+        } else {
+            setRoot(temp);
+        }
+    }
+
+    /**
+     * ajusta el parametro height de cada nodo de acuerdo a la altura de sus hijos
+     *
+     * @param nodo elemento al que se le ajusta su altura
+     */
+    private void adjustHeight(NodoTree nodo) {
+        int l = 0;
+        int r = 0;
+        int max;
+
+        if (nodo.getLeft() == null) {
+            l = 0;
+        } else {
+            l = nodo.getLeft().getHeight();
+        }
+
+        if (nodo.getRight() == null) {
+            r = 0;
+        } else {
+            r = nodo.getRight().getHeight();
+        }
+
+        if (l > r) {
+            max = l;
+        } else {
+            max = r;
+        }
+        nodo.setHeight(1 + max);
+    }
+
+    /**
+     * busca el antecesor izquierdo o el sucesor derecho del nodo
+     *
+     * @param nodo elemento al que se le busca antecesor o sucesor
+     * @return el nodo que cumple ser siguiente o anterior al nodo
+     */
+    private NodoTree next(NodoTree nodo) {
+        if (nodo.getRight() != null) {
+            return leftDescendant(nodo.getRight());
+        } else if (nodo.getLeft() != null) {
+            return rightAncestor(nodo.getLeft());
+        } else {
+            return null;
+        }
+    }
+
+    private NodoTree leftDescendant(NodoTree nodo) {
+        if (nodo.getLeft() == null) {
+            return nodo;
+        } else {
+            return leftDescendant(nodo.getLeft());
+        }
+    }
+
+    private NodoTree rightAncestor(NodoTree nodo) {      //  implementar demás instancias
+        if (nodo.getRight() == null) {
+            return nodo;
+        } else {
+            return rightAncestor(nodo.getRight());
+        }
+
+        /*if (nodo.getKey() instanceof String) {
+            if (((String) nodo.getKey()).compareTo(((String) nodo.getParent().getKey())) < 0) {
+                return nodo.getParent();
+            } else {
+                return rightAncestor(nodo.getParent());
+            }
+        } else {
+            return null;
+        }*/
+    }
+
+    /**
+     * Imprime en consola los valores de cada elemento en el arbol en forma inOrder
+     *
+     * @param root nodo que toma como raiz para empezar a recorrer
+     */
+    public void displayInOrder(NodoTree root) {
+        if (root != null) {
+            displayInOrder(root.getLeft());
+            System.out.println(" " + root.getKey());
+            displayInOrder(root.getRight());
+        }
+    }
+
+    /**
+     * cuenta numero de elementos de un arbol empezando desde el nodo dado, contando dicho nodo
+     *
+     * @param root nodo que toma como raiz para empezar a recorrer
+     * @return numero de elementos del arbol, incluyendo el nodo root
+     */
+    public int countInOrder(NodoTree root) {
+        int count = 0;
+        if (root != null) {
+            count += countInOrder(root.getLeft());
+            count++;
+            count += countInOrder(root.getRight());
+        }
+        return count;
+    }
+
+    public void displayPostOrder(NodoTree root) {
+        if (root != null) {
+            displayPostOrder(root.getLeft());
+            displayPostOrder(root.getRight());
+            System.out.println(" " + root.getKey());
+        }
+    }
+
+    public void displayPreOrder(NodoTree root) {
+        if (root != null) {
+            System.out.println(" " + root.getKey());
+            displayPreOrder(root.getLeft());
+            displayPreOrder(root.getRight());
+        }
     }
 
     public NodoTree<T> getRoot() {
