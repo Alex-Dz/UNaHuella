@@ -1,5 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,8 @@ public class Lugar {
 
     @Id
     @Column(name = "ID_LUGAR", length = 12)
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private String id_lugar;
 
     @Column(name = "UBICACION_LUGAR", nullable = false, length = 50)

@@ -1,5 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -12,6 +14,8 @@ public class Cita {
     @Id
     @ManyToOne
     @JoinColumn(name = "ID_MASCOTA")
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private Mascota a_id_mascota;
     @Id
     @ManyToOne
