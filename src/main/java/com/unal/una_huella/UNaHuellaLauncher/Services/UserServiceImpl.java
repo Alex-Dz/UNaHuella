@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services;
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.UserRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -34,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Usuario saveUser(Usuario usuario) {
-        return userRepo.save(usuario);
+    public List<Role> getRoles(Usuario user) throws Exception {
+        return getUserById(user.getId_usuario()).getRoles();
     }
 
     @Override

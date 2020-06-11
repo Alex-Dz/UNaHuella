@@ -2,6 +2,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 public class ParticularController {
@@ -156,14 +158,25 @@ public class ParticularController {
         long count = 0;
         //long cantidadUsuarios = avl.countInOrder(avl.getRoot());
         java.util.List<Usuario> listaUsuarios = avl.getList();
+        java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Usuario temp = listaUsuarios.get(i);
+            try {
+                if (userService.getRoles(temp).get(0).getId() == 1) {
+                    listaParticulares.add(temp);
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
         time_start = 0;
         time_start = System.currentTimeMillis();
-        while (count < listaUsuarios.size()) {
+        while (count < listaParticulares.size()) {
             Usuario[] pagina = new Usuario[regsPerPage];
             for (int i = 0; i < regsPerPage; i++) {
                 Usuario reg;
-                if (count < listaUsuarios.size()) {
-                    reg = listaUsuarios.get((int) count);
+                if (count < listaParticulares.size()) {
+                    reg = listaParticulares.get((int) count);
                 } else {
                     reg = null;
                 }
@@ -174,7 +187,7 @@ public class ParticularController {
                     pagina[i] = reg;
                 }
             }
-            if (pagina[0] != null){
+            if (pagina[0] != null) {
                 prevPag.push(pagina);
             }
         }
@@ -200,7 +213,7 @@ public class ParticularController {
     orderPair params = new orderPair(sortDefault, pagDefault);
 
     @RequestMapping(value = "/gestor/particular-list", method = RequestMethod.GET)
-    public String list(Model model) {
+    public String listParticular(Model model) {
         getPaginas(params.getView());
 
         if (nextPag.top() != null) {
@@ -220,7 +233,7 @@ public class ParticularController {
     }
 
     @GetMapping("/reordenar/{view}/{orderBy}")
-    public String sort(@PathVariable("view") String view, @PathVariable("orderBy") String orderBy, ModelMap model) {
+    public String sortUser(@PathVariable("view") String view, @PathVariable("orderBy") String orderBy, ModelMap model) {
         nextPag.emptyStack();
         prevPag.emptyStack();
         params.setView(Integer.parseInt(view));
