@@ -58,7 +58,7 @@ public class Usuario implements Serializable {
     private String i_estrato;
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "i_id_dueño")
     @Column (name = "MIS_MASCOTAS")
-    private Set<Mascota> mismascotas;
+    private List<Mascota> mismascotas;
 
     // ATRIBUTOS PROPIOS DE GESTOR
     @Column(name = "FUNCIONES_GESTOR", nullable = true, length = 50)
@@ -233,11 +233,11 @@ public class Usuario implements Serializable {
         this.roles = roles;
     }
 
-    public Set<Mascota> getMismascotas() {
+    public List<Mascota> getMismascotas() {
         return mismascotas;
     }
 
-    public void setMismascotas(Set<Mascota> mismascotas) {
+    public void setMismascotas(List<Mascota> mismascotas) {
         this.mismascotas = mismascotas;
     }
 

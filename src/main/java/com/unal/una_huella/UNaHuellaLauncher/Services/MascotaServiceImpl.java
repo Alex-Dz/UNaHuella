@@ -7,6 +7,8 @@ import com.unal.una_huella.UNaHuellaLauncher.Repositories.MascotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MascotaServiceImpl implements MascotaService {
 
@@ -18,7 +20,7 @@ public class MascotaServiceImpl implements MascotaService {
     }
 
     @Override
-    public Iterable<Mascota> listAllMascotas() {
+    public List<Mascota> listAllMascotas() {
         return mascotaRepository.findAll();
     }
 
