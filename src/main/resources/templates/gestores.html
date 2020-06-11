@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="es">
 
-    <title>UNa Huella - Lista Particulares</title>
+    <title>UNa Huella - Lista Gestores</title>
 
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 
@@ -13,7 +13,7 @@
     <div th:if="${pagina != null}">
         <div class="card">
             <div class="card-content">
-                <h2 class="card-title flow-text bottom-padding">Particulares Registrados</h2>
+                <h2 class="card-title flow-text bottom-padding">Gestores Registrados</h2>
                 <div class="row">
                     <div class="col s12 m6 l4 offset-l2">
                         <label for="regs-perPage">Numero de registros por página:</label>
@@ -58,8 +58,7 @@
                         <th>Documento</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
-                        <th>N° de Mascotas</th>
-                        <th>Estrato</th>
+                        <th>Nivel de Acceso</th>
                         <th>Consultar</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -74,21 +73,19 @@
                         <td th:if="${user != null}"
                             th:text="${user.getB_primer_apellido()+' '+user.getF_segundo_apellido()}"></td>
                         <td th:if="${user != null}" class="center"
-                            th:text="${user.h_cantidad_mascotas}"></td>
-                        <td th:if="${user != null}" class="center"
-                            th:text="${user.i_estrato}"></td>
+                            th:text="${user.k_nivel_acceso}"></td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/particular/profile/' + user.id_usuario}">
+                            <a th:href="${'/gestor/profile/' + user.id_usuario}">
                                 <i class="material-icons">visibility</i>
                             </a>
                         </td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/particular/edit/' + user.id_usuario}">
+                            <a th:href="${'/gestor/edit/' + user.id_usuario}">
                                 <i class="material-icons">create</i>
                             </a>
                         </td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/particular/delete/' + user.id_usuario}">
+                            <a th:href="${'/gestor/delete/' + user.id_usuario}">
                                 <i class="material-icons">delete</i>
                             </a>
                         </td>
@@ -103,7 +100,7 @@
                                 <a><i class="material-icons left">chevron_left</i>Anterior</a>
                             </li>
                             <li>
-                                <a th:href="${'/gestor/particular-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                                <a th:href="${'/gestor/gestor-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
                             </li>
                         </div>
                         <div th:if="${prev == null && next == 1}">
@@ -116,7 +113,7 @@
                         </div>
                         <div th:if="${prev != null && next == 1}">
                             <li>
-                                <a th:href="${'/gestor/particular-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                                <a th:href="${'/gestor/gestor-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
                             </li>
                             <li class="disabled">
                                 <a><i class="material-icons right">chevron_right</i>Siguiente</a>
@@ -124,10 +121,10 @@
                         </div>
                         <div th:if="${prev != null && next > 1}">
                             <li>
-                                <a th:href="${'/gestor/particular-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                                <a th:href="${'/gestor/gestor-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
                             </li>
                             <li>
-                                <a th:href="${'/gestor/particular-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                                <a th:href="${'/gestor/gestor-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
                             </li>
                         </div>
                     </ul>

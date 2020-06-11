@@ -2,11 +2,12 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
+import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
+import com.unal.una_huella.UNaHuellaLauncher.util.SortParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,24 @@ public class ParticularController {
 
     private ParticularService particularService;
 
+    private static final int PARTICULAR = 1;
+    private static final int VETERINARIO = 2;
+    private static final int GESTOR = 3;
+
+
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
-    Usuario usuario;
+
+
+    int[] regsPerPage = {10, 20, 30, 50, 100, 500};
+    int pagDefault = 10;
+    int[] sortValues = {1, 2, 3, 4, 5, 6, 7};
+    String[] sortNames = {"Documento", "Primer Nombre", "Primer Apellido", "N° de Mascotas", "Estrato", "Nivel de Acceso", "Experiencia"};
+    int sortDefault = 1;
+    OrderPair params;
+    SortParams[] sortPartiParams = new SortParams[5];
+    SortParams[] sortVetParams = new SortParams[4];
+    SortParams[] sortGestorParams = new SortParams[4];
 
     long time_start = 0;
     long time_end = 0;
@@ -42,6 +58,26 @@ public class ParticularController {
 
     @RequestMapping("/gestor")
     String gestor() {
+        SortParams temp;
+        for (int i = 0; i < sortPartiParams.length; i++) {
+            temp = new SortParams(sortNames[i], sortValues[i]);
+            sortPartiParams[i] = temp;
+        }
+
+        for (int i = 0; i < sortVetParams.length - 1; i++) {
+            temp = new SortParams(sortNames[i], sortValues[i]);
+            sortVetParams[i] = temp;
+        }
+        temp = new SortParams(sortNames[6], sortValues[6]);
+        sortVetParams[3] = temp;
+
+        for (int i = 0; i < sortGestorParams.length - 1; i++) {
+            temp = new SortParams(sortNames[i], sortValues[i]);
+            sortGestorParams[i] = temp;
+        }
+        temp = new SortParams(sortNames[5], sortValues[5]);
+        sortGestorParams[3] = temp;
+
         getUsers(sortDefault);
         return "gestor";
     }
@@ -119,21 +155,21 @@ public class ParticularController {
             }
         }
 
+        time_start = 0;
+        time_start = System.currentTimeMillis();
+
         for (Usuario user : userService.listAllUser()) {
             try {
                 avl.insertAVL(user);
+                //System.out.println("ingresado en el arbol: " + user.toString());
             } catch (Exception e) {
                 System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario() + " al arbol por parametro de ordenamiento erroneo");
             }
         }
 
-        time_start = 0;
-        time_start = System.currentTimeMillis();
-
         time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en buscar registro: " + (time_end - time_start) + " milliseconds");
-
+        System.out.println("\n\n\t\tTiempo empleado en crear/reconstruir arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
     }
 
 
@@ -151,49 +187,128 @@ public class ParticularController {
         return list;
     }*/
 
-    public void getPaginas(int regsPerPage) {
+    public void getPaginas(int regsPerPage, int tipo) {
         nextPag.emptyStack();
         prevPag.emptyStack();
 
         long count = 0;
-        //long cantidadUsuarios = avl.countInOrder(avl.getRoot());
         java.util.List<Usuario> listaUsuarios = avl.getList();
-        java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            Usuario temp = listaUsuarios.get(i);
-            try {
-                if (userService.getRoles(temp).get(0).getId() == 1) {
-                    listaParticulares.add(temp);
+        if (tipo == PARTICULAR) {
+            java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
+            for (int i = 0; i < listaUsuarios.size(); i++) {
+                Usuario temp = listaUsuarios.get(i);
+                try {
+                    if (userService.getRoles(temp).get(0).getId() == PARTICULAR) {
+                        listaParticulares.add(temp);
+                    }
+                } catch (Exception e) {
+                    continue;
                 }
-            } catch (Exception e) {
-                continue;
             }
+
+            time_start = 0;
+            time_start = System.currentTimeMillis();
+            while (count < listaParticulares.size()) {
+                Usuario[] pagina = new Usuario[regsPerPage];
+                for (int i = 0; i < regsPerPage; i++) {
+                    Usuario reg;
+                    if (count < listaParticulares.size()) {
+                        reg = listaParticulares.get((int) count);
+                    } else {
+                        reg = null;
+                    }
+                    ++count;
+                    if (reg == null) {
+                        break;
+                    } else {
+                        pagina[i] = reg;
+                    }
+                }
+                if (pagina[0] != null) {
+                    prevPag.push(pagina);
+                }
+            }
+            time_end = 0;
+            time_end = System.currentTimeMillis();
+            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
+        } else if (tipo == VETERINARIO) {
+            java.util.List<Usuario> listaVets = new ArrayList<Usuario>();
+            for (int i = 0; i < listaUsuarios.size(); i++) {
+                Usuario temp = listaUsuarios.get(i);
+                try {
+                    if (userService.getRoles(temp).get(0).getId() == VETERINARIO) {
+                        listaVets.add(temp);
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+            time_start = 0;
+            time_start = System.currentTimeMillis();
+            while (count < listaVets.size()) {
+                Usuario[] pagina = new Usuario[regsPerPage];
+                for (int i = 0; i < regsPerPage; i++) {
+                    Usuario reg;
+                    if (count < listaVets.size()) {
+                        reg = listaVets.get((int) count);
+                    } else {
+                        reg = null;
+                    }
+                    ++count;
+                    if (reg == null) {
+                        break;
+                    } else {
+                        pagina[i] = reg;
+                    }
+                }
+                if (pagina[0] != null) {
+                    prevPag.push(pagina);
+                }
+            }
+            time_end = 0;
+            time_end = System.currentTimeMillis();
+            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
+        } else {
+            java.util.List<Usuario> listaGestores = new ArrayList<Usuario>();
+            for (int i = 0; i < listaUsuarios.size(); i++) {
+                Usuario temp = listaUsuarios.get(i);
+                try {
+                    if (userService.getRoles(temp).get(0).getId() == GESTOR) {
+                        listaGestores.add(temp);
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+
+            time_start = 0;
+            time_start = System.currentTimeMillis();
+            while (count < listaGestores.size()) {
+                Usuario[] pagina = new Usuario[regsPerPage];
+                for (int i = 0; i < regsPerPage; i++) {
+                    Usuario reg;
+                    if (count < listaGestores.size()) {
+                        reg = listaGestores.get((int) count);
+                    } else {
+                        reg = null;
+                    }
+                    ++count;
+                    if (reg == null) {
+                        break;
+                    } else {
+                        pagina[i] = reg;
+                    }
+                }
+                if (pagina[0] != null) {
+                    prevPag.push(pagina);
+                }
+            }
+            time_end = 0;
+            time_end = System.currentTimeMillis();
+            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
         }
-        time_start = 0;
-        time_start = System.currentTimeMillis();
-        while (count < listaParticulares.size()) {
-            Usuario[] pagina = new Usuario[regsPerPage];
-            for (int i = 0; i < regsPerPage; i++) {
-                Usuario reg;
-                if (count < listaParticulares.size()) {
-                    reg = listaParticulares.get((int) count);
-                } else {
-                    reg = null;
-                }
-                ++count;
-                if (reg == null) {
-                    break;
-                } else {
-                    pagina[i] = reg;
-                }
-            }
-            if (pagina[0] != null) {
-                prevPag.push(pagina);
-            }
-        }
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
+
         time_start = 0;
         time_start = System.currentTimeMillis();
         while (!prevPag.isEmpty()) {
@@ -202,35 +317,9 @@ public class ParticularController {
         time_end = 0;
         time_end = System.currentTimeMillis();
         System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + (time_end - time_start) + " milliseconds");
-
     }
 
-    int[] regsPerPage = {10, 20, 30, 50, 100, 500};
-    int pagDefault = 10;
-    int[] sortBy = {1, 2, 3, 4, 5, 6, 7};
-    String[] sortByParams = {"Documento", "Primer Nombre", "Primer Apellido", "N° de Mascotas", "Estrato", "Nivel de Acceso", "Experiencia"};
-    int sortDefault = 1;
-    orderPair params = new orderPair(sortDefault, pagDefault);
-
-    @RequestMapping(value = "/gestor/particular-list", method = RequestMethod.GET)
-    public String listParticular(Model model) {
-        getPaginas(params.getView());
-
-        if (nextPag.top() != null) {
-            model.addAttribute("regsPerPageArray", regsPerPage);
-            model.addAttribute("pagDefault", pagDefault);
-            model.addAttribute("sortByArray", sortBy);
-            model.addAttribute("params", params);
-            model.addAttribute("pagina", nextPag.top());
-            model.addAttribute("prev", prevPag.top());
-            model.addAttribute("next", nextPag.size());
-        } else {
-            model.addAttribute("pagina", null);
-            model.addAttribute("prev", null);
-            model.addAttribute("next", 0);
-        }
-        return "particulares";
-    }
+    /*      métodos paginadores y reordenamiento de tabla para las listas de gestor     */
 
     @GetMapping("/reordenar/{view}/{orderBy}")
     public String sortUser(@PathVariable("view") String view, @PathVariable("orderBy") String orderBy, ModelMap model) {
@@ -239,69 +328,186 @@ public class ParticularController {
         params.setView(Integer.parseInt(view));
         params.setOrderBy(Integer.parseInt(orderBy));
         getUsers(params.getOrderBy());
-        getPaginas(params.getView());
-        if (nextPag.top() != null) {
-            model.addAttribute("regsPerPageArray", regsPerPage);
-            model.addAttribute("pagDefault", pagDefault);
-            model.addAttribute("sortByArray", sortBy);
-            model.addAttribute("params", params);
-            model.addAttribute("pagina", nextPag.top());
-            model.addAttribute("prev", prevPag.top());
-            model.addAttribute("next", nextPag.size());
+        getPaginas(params.getView(), params.getUserType());
+
+        if (params.getUserType() == PARTICULAR) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortPartiParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "particulares";
+        } else if (params.getUserType() == VETERINARIO) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortVetParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "veterinarios";
         } else {
-            model.addAttribute("pagina", null);
-            model.addAttribute("prev", null);
-            model.addAttribute("next", 0);
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortGestorParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "gestores";
         }
-        return "particulares";
     }
 
-    @RequestMapping(value = "/gestor/particular-list/next", method = RequestMethod.GET)
+    @GetMapping("/gestor/particular-list/next")
     public String nextPage(Model model) {
         if (nextPag.top() != null) {
             prevPag.push(nextPag.pop());
         } else {
-            getPaginas(params.getView());
+            getPaginas(params.getView(), params.getUserType());
         }
 
-        if (nextPag.top() != null) {
-            model.addAttribute("regsPerPageArray", regsPerPage);
-            model.addAttribute("pagDefault", pagDefault);
-            model.addAttribute("sortByArray", sortBy);
-            model.addAttribute("params", params);
-            model.addAttribute("pagina", nextPag.top());
-            model.addAttribute("prev", prevPag.top());
-            model.addAttribute("next", nextPag.size());
+        if (params.getUserType() == PARTICULAR) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortPartiParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "particulares";
+        } else if (params.getUserType() == VETERINARIO) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortVetParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "veterinarios";
         } else {
-            model.addAttribute("pagina", null);
-            model.addAttribute("prev", null);
-            model.addAttribute("next", 0);
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortGestorParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "gestores";
         }
-        return "particulares";
     }
 
-    @RequestMapping(value = "/gestor/particular-list/previous", method = RequestMethod.GET)
+    @GetMapping("/gestor/particular-list/previous")
     public String prevPage(Model model) {
         if (prevPag.top() != null) {
             nextPag.push(prevPag.pop());
         } else {
-            getPaginas(params.getView());
+            getPaginas(params.getView(), params.getUserType());
         }
 
-        if (nextPag.top() != null) {
-            model.addAttribute("regsPerPageArray", regsPerPage);
-            model.addAttribute("pagDefault", pagDefault);
-            model.addAttribute("sortByArray", sortBy);
-            model.addAttribute("params", params);
-            model.addAttribute("pagina", nextPag.top());
-            model.addAttribute("prev", prevPag.top());
-            model.addAttribute("next", nextPag.size());
+        if (params.getUserType() == PARTICULAR) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortPartiParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "particulares";
+        } else if (params.getUserType() == VETERINARIO) {
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortVetParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "veterinarios";
         } else {
-            model.addAttribute("pagina", null);
-            model.addAttribute("prev", null);
-            model.addAttribute("next", 0);
+            if (nextPag.top() != null) {
+                model.addAttribute("regsPerPageArray", regsPerPage);
+                model.addAttribute("sortParams", sortGestorParams);
+                model.addAttribute("pagDefault", pagDefault);
+                model.addAttribute("params", params);
+                model.addAttribute("pagina", nextPag.top());
+                model.addAttribute("prev", prevPag.top());
+                model.addAttribute("next", nextPag.size());
+            } else {
+                model.addAttribute("pagina", null);
+                model.addAttribute("prev", null);
+                model.addAttribute("next", 0);
+            }
+            return "gestores";
         }
-        return "particulares";
+    }
+
+    @GetMapping("/gestor/vet-list/next")
+    public String nextPageVet(Model model) {
+        return nextPage(model);
+    }
+
+    @GetMapping("/gestor/vet-list/previous")
+    public String prevPageVet(Model model) {
+        return prevPage(model);
+    }
+
+    @GetMapping("/gestor/gestor-list/next")
+    public String nextPageGestor(Model model) {
+        return nextPage(model);
+    }
+
+    @GetMapping("/gestor/gestor-list/previous")
+    public String prevPageGestor(Model model) {
+        return prevPage(model);
     }
 
     /*@RequestMapping("/particular/delete/{id}")
@@ -789,30 +995,70 @@ public class ParticularController {
         return "redirect:/usuarios";
     }
 
-    public static class orderPair {
-        int orderBy;
-        int view;
+    @RequestMapping(value = "/gestor/particular-list", method = RequestMethod.GET)
+    public String listParticular(Model model) {
+        params = new OrderPair(sortDefault, pagDefault);
+        params.setUserType(PARTICULAR);
+        getPaginas(params.getView(), PARTICULAR);
 
-        public orderPair(int orderby, int view) {
-            this.orderBy = orderby;
-            this.view = view;
+        if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("sortParams", sortPartiParams);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("params", params);
+            model.addAttribute("pagina", nextPag.top());
+            model.addAttribute("prev", prevPag.top());
+            model.addAttribute("next", nextPag.size());
+        } else {
+            model.addAttribute("pagina", null);
+            model.addAttribute("prev", null);
+            model.addAttribute("next", 0);
         }
+        return "particulares";
+    }
 
-        public int getOrderBy() {
-            return orderBy;
-        }
+    @RequestMapping(value = "/gestor/vet-list", method = RequestMethod.GET)
+    public String listVets(Model model) {
+        params = new OrderPair(sortDefault, pagDefault);
+        params.setUserType(VETERINARIO);
+        getPaginas(params.getView(), VETERINARIO);
 
-        public void setOrderBy(int orderBy) {
-            this.orderBy = orderBy;
+        if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("sortParams", sortVetParams);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("params", params);
+            model.addAttribute("pagina", nextPag.top());
+            model.addAttribute("prev", prevPag.top());
+            model.addAttribute("next", nextPag.size());
+        } else {
+            model.addAttribute("pagina", null);
+            model.addAttribute("prev", null);
+            model.addAttribute("next", 0);
         }
+        return "veterinarios";
+    }
 
-        public int getView() {
-            return view;
-        }
+    @RequestMapping(value = "/gestor/gestor-list", method = RequestMethod.GET)
+    public String listGestores(Model model) {
+        params = new OrderPair(sortDefault, pagDefault);
+        params.setUserType(GESTOR);
+        getPaginas(params.getView(), GESTOR);
 
-        public void setView(int view) {
-            this.view = view;
+        if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("sortParams", sortGestorParams);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("params", params);
+            model.addAttribute("pagina", nextPag.top());
+            model.addAttribute("prev", prevPag.top());
+            model.addAttribute("next", nextPag.size());
+        } else {
+            model.addAttribute("pagina", null);
+            model.addAttribute("prev", null);
+            model.addAttribute("next", 0);
         }
+        return "gestores";
     }
 
 }

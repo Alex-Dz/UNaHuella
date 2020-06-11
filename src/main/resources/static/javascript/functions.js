@@ -19,5 +19,10 @@ $(document).ready(function () {
         hover: true
     });
 
-    $('.dropdown').dropdown();
+    $('.dropdown').dropdown({
+        inDuration: 300,
+        inDuration: 500,
+        constrainWidth: false,
+        coverTrigger: false
+    });
 })

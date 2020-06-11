@@ -29,7 +29,7 @@ public class AVLTree<T> {
         this.order = parametroOrdenamiento;
     }
 
-    public void emptyTree(){
+    public void emptyTree() {
         root = null;
     }
 
@@ -119,6 +119,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -151,6 +152,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -168,20 +170,22 @@ public class AVLTree<T> {
                     }
                     case 4: {        //  #mascotas
                         int id = ((Usuario) key).getH_cantidad_mascotas();
-                        if (id < ((Usuario) currentNode.getKey()).getH_cantidad_mascotas()) {
+                        int nodo = ((Usuario) currentNode.getKey()).getH_cantidad_mascotas();
+                        if (id < nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
                                 return;
                             }
-                        } else if (id == ((Usuario) currentNode.getKey()).getH_cantidad_mascotas()) {
+                        } else if (id == nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode != null) {
                                 currentNode.setParent(newNode);
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -214,6 +218,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -246,6 +251,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -277,6 +283,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -297,10 +304,10 @@ public class AVLTree<T> {
                     }
                 }
             } else if (key instanceof Mascota) {
-                switch (order){
+                switch (order) {
                     case 1: {   //  id_mascota
                         long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
-                        long id_nodo = Long.parseLong(((Mascota)currentNode.getKey()).getI_id_usuario().getId_usuario());
+                        long id_nodo = Long.parseLong(((Mascota) currentNode.getKey()).getI_id_usuario().getId_usuario());
                         if (id_mascota < id_nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
@@ -333,7 +340,7 @@ public class AVLTree<T> {
 
                     case 2: {   //  nombre_mascota
                         String nombre_mascota = (((Mascota) key).getB_nombre_mascota());
-                        String nombre_nodo = ((Mascota)currentNode.getKey()).getB_nombre_mascota();
+                        String nombre_nodo = ((Mascota) currentNode.getKey()).getB_nombre_mascota();
                         if (nombre_mascota.compareTo(nombre_nodo) < 0) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
@@ -366,7 +373,7 @@ public class AVLTree<T> {
 
                     case 3: {   //edad_mascota
                         int edad_mascota = (((Mascota) key).getE_edad_mascota());
-                        int edad_nodo = ((Mascota)currentNode.getKey()).getE_edad_mascota();
+                        int edad_nodo = ((Mascota) currentNode.getKey()).getE_edad_mascota();
                         if (edad_mascota < edad_nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
@@ -570,11 +577,11 @@ public class AVLTree<T> {
                         throw new Exception("parametro de orden invalido");
                     }
                 }
-            } else if (key instanceof Mascota){
-                switch (order){
-                    case 1:{    //id_dueño
+            } else if (key instanceof Mascota) {
+                switch (order) {
+                    case 1: {    //id_dueño
                         long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
-                        long id_nodo = Long.parseLong(((Mascota)nodo.getKey()).getI_id_usuario().getId_usuario());
+                        long id_nodo = Long.parseLong(((Mascota) nodo.getKey()).getI_id_usuario().getId_usuario());
                         if (id_mascota == id_nodo) {
                             return nodo;
                         } else if (id_mascota < id_nodo) {
@@ -592,12 +599,12 @@ public class AVLTree<T> {
                         }
                     }
 
-                    case 2:{    //  nombre mascota
+                    case 2: {    //  nombre mascota
                         String nombre_mascota = (((Mascota) key).getB_nombre_mascota());
-                        String nombre_nodo = ((Mascota)nodo.getKey()).getB_nombre_mascota();
+                        String nombre_nodo = ((Mascota) nodo.getKey()).getB_nombre_mascota();
                         if (nombre_mascota.compareTo(nombre_nodo) == 0) {
                             return nodo;
-                        } else if (nombre_mascota.compareTo(nombre_nodo)<0) {
+                        } else if (nombre_mascota.compareTo(nombre_nodo) < 0) {
                             if (nodo.getLeft() != null) {
                                 return findByKey(key, nodo.getLeft());
                             } else {
@@ -612,9 +619,9 @@ public class AVLTree<T> {
                         }
                     }
 
-                    case 3:{    //  edad mascota
+                    case 3: {    //  edad mascota
                         int edad_mascota = (((Mascota) key).getE_edad_mascota());
-                        int edad_nodo = ((Mascota)nodo.getKey()).getE_edad_mascota();
+                        int edad_nodo = ((Mascota) nodo.getKey()).getE_edad_mascota();
                         if (edad_mascota == edad_nodo) {
                             return nodo;
                         } else if (edad_mascota < edad_nodo) {
@@ -631,7 +638,7 @@ public class AVLTree<T> {
                             }
                         }
                     }
-                    default:{
+                    default: {
                         throw new Exception("parametro de orden invalido");
                     }
                 }
@@ -655,7 +662,7 @@ public class AVLTree<T> {
             return null;
         } else {
             NodoTree temp = findByKey(key, nodo);
-            if (temp == null){
+            if (temp == null) {
                 return null;
             } else {
                 return (T) temp.getKey();
@@ -979,9 +986,9 @@ public class AVLTree<T> {
      */
     public void displayInOrder(NodoTree root) {
         if (root != null) {
-            if(root.getKey() instanceof Usuario){
+            if (root.getKey() instanceof Usuario) {
                 displayInOrder(root.getLeft());
-                System.out.println("\t" + ((Usuario) root.getKey()).getId_usuario() + "\t" + ((Usuario) root.getKey()).getA_primer_nombre() + "\t"+ ((Usuario) root.getKey()).getB_primer_apellido());
+                System.out.println("\t" + ((Usuario) root.getKey()).getId_usuario() + "\t" + ((Usuario) root.getKey()).getA_primer_nombre() + "\t" + ((Usuario) root.getKey()).getB_primer_apellido());
                 displayInOrder(root.getRight());
             }
         }
@@ -989,7 +996,7 @@ public class AVLTree<T> {
 
     private java.util.List<T> fillList(NodoTree root, java.util.List<T> list) {
         if (root != null) {
-            if(root.getKey() instanceof Usuario){
+            if (root.getKey() instanceof Usuario) {
                 fillList(root.getLeft(), list);
                 list.add((T) root.getKey());
                 fillList(root.getRight(), list);
@@ -1000,11 +1007,12 @@ public class AVLTree<T> {
     }
 
 
-    public java.util.List<T> getList(){
+    public java.util.List<T> getList() {
         java.util.List<T> list = new ArrayList<T>();
         list = fillList(root, list);
         return list;
     }
+
     /**
      * cuenta numero de elementos de un arbol empezando desde el nodo dado, contando dicho nodo
      *
@@ -1020,7 +1028,6 @@ public class AVLTree<T> {
         }
         return count;
     }
-
 
 
     public void displayPostOrder(NodoTree root) {

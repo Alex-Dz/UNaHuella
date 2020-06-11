@@ -240,4 +240,29 @@ public class Usuario implements Serializable {
     public void setMismascotas(Set<Mascota> mismascotas) {
         this.mismascotas = mismascotas;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id_usuario='" + id_usuario + '\'' +
+                ", a_primer_nombre='" + a_primer_nombre + '\'' +
+                ", b_primer_apellido='" + b_primer_apellido + '\'' +
+                ", c_direccion='" + c_direccion + '\'' +
+                ", d_telefono='" + d_telefono + '\'' +
+                ", e_segundo_nombre='" + e_segundo_nombre + '\'' +
+                ", f_segundo_apellido='" + f_segundo_apellido + '\'' +
+                ", g_correo='" + g_correo + '\'' +
+                ", h_cantidad_mascotas=" + h_cantidad_mascotas +
+                ", i_estrato='" + i_estrato + '\'' +
+                ", mismascotas=" + mismascotas +
+                ", j_funciones='" + j_funciones + '\'' +
+                ", k_nivel_acceso='" + k_nivel_acceso + '\'' +
+                ", l_num_tarjetaprof='" + l_num_tarjetaprof + '\'' +
+                ", m_especializacion='" + m_especializacion + '\'' +
+                ", n_anos_experiencia=" + n_anos_experiencia +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }
