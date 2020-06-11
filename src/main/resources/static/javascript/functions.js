@@ -18,4 +18,6 @@ $(document).ready(function () {
         coverTrigger: false,
         hover: true
     });
+
+    $('.dropdown').dropdown();
 })

@@ -3,6 +3,8 @@ package com.unal.una_huella.UNaHuellaLauncher.ED;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 
+import java.util.ArrayList;
+
 public class AVLTree<T> {
     private NodoTree<T> root;
     public static final int ID = 1;
@@ -25,6 +27,10 @@ public class AVLTree<T> {
     public AVLTree(int parametroOrdenamiento, NodoTree<T> root) {
         this.root = root;
         this.order = parametroOrdenamiento;
+    }
+
+    public void emptyTree(){
+        root = null;
     }
 
     /**
@@ -981,6 +987,24 @@ public class AVLTree<T> {
         }
     }
 
+    private java.util.List<T> fillList(NodoTree root, java.util.List<T> list) {
+        if (root != null) {
+            if(root.getKey() instanceof Usuario){
+                fillList(root.getLeft(), list);
+                list.add((T) root.getKey());
+                fillList(root.getRight(), list);
+            }
+            return list;
+        }
+        return null;
+    }
+
+
+    public java.util.List<T> getList(){
+        java.util.List<T> list = new ArrayList<T>();
+        list = fillList(root, list);
+        return list;
+    }
     /**
      * cuenta numero de elementos de un arbol empezando desde el nodo dado, contando dicho nodo
      *
@@ -996,6 +1020,8 @@ public class AVLTree<T> {
         }
         return count;
     }
+
+
 
     public void displayPostOrder(NodoTree root) {
         if (root != null) {

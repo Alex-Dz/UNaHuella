@@ -13,12 +13,17 @@
 </head>
 <body>
 <div th:if="${edit == true && tipo == 1}">
-    <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
+    <div th:if="${gestorConsult}">
+        <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+    </div>
+    <div th:unless="${gestorConsult}">
+        <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
+    </div>
     <div class="container">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${user}" th:action="@{/particular/updateUser}" method="post">
+                    <form class="padding" th:object="${user}" th:action="${gestorConsult}? @{/gestor/updateParticular} : @{/particular/updateUser}" method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
@@ -27,6 +32,7 @@
                                         <input type="hidden" th:field="${user.id_usuario}"/>
                                     </div>
                                 </div>
+                                
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerNombre"

@@ -6,15 +6,15 @@
 </head>
 <body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
-<div class="container top-padding">
+<div class="container top-padding-intermediate">
     <div class="card padding">
         <div class="card-content">
             <h3 class="card-title flow-text bottom-padding">Buscar Usuario</h3>
-            <form class="col s12 m8 offset-m2" th:object="${idSearch}" th:action="@{/idsearch}" method="post">
+            <form class="col s12 m8 offset-m2" th:object="${searchUser}" th:action="@{/gestor/idsearch}" method="post">
                 <div class="row">
                     <div class="input-field">
                         <i class="material-icons prefix">help</i>
-                        <input id="input-id-search" type="text" th:field="*{id_particular}"/>
+                        <input id="input-id-search" type="text" th:field="*{id_usuario}"/>
                         <label for="input-id-search">Numero de Documento:</label>
                     </div>
                 </div>

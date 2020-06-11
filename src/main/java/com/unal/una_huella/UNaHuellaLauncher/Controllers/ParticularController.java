@@ -1,10 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
-import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
@@ -23,8 +20,8 @@ public class ParticularController {
 
     private ParticularService particularService;
 
-    LinkedStack<Particular[]> prevPag = new LinkedStack<>();
-    LinkedStack<Particular[]> nextPag = new LinkedStack<>();
+    LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
+    LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
     Usuario usuario;
 
     long time_start = 0;
@@ -37,8 +34,20 @@ public class ParticularController {
 
     @RequestMapping("/particular")
     public String particular() {
-        getUsers();
+        getUsers(sortDefault);
         return "particular";
+    }
+
+    @RequestMapping("/gestor")
+    String gestor() {
+        getUsers(sortDefault);
+        return "gestor";
+    }
+
+    @RequestMapping("/vet")
+    public String vet() {
+        getUsers(sortDefault);
+        return "veterinario";
     }
 
     /*@RequestMapping("particular/new")
@@ -69,14 +78,50 @@ public class ParticularController {
         return "redirect:/particular/profile/" + particular.getId_particular();
     }*/
 
-    AVLTree<Usuario> avl = new AVLTree<Usuario>(AVLTree.ID);
+    AVLTree<Usuario> avl = null;
 
-    public void getUsers() {
+    public void getUsers(int sortBy) {
+        if (avl == null) {
+            avl = new AVLTree<Usuario>(AVLTree.ID);
+        } else {
+            avl.emptyTree();
+            switch (sortBy) {
+                case 1: {
+                    avl = new AVLTree<Usuario>(AVLTree.ID);
+                    break;
+                }
+                case 2: {
+                    avl = new AVLTree<Usuario>(AVLTree.PRIMER_NOMBRE);
+                    break;
+                }
+                case 3: {
+                    avl = new AVLTree<Usuario>(AVLTree.PRIMER_APELLIDO);
+                    break;
+                }
+                case 4: {
+                    avl = new AVLTree<Usuario>(AVLTree.N_MASCOTAS);
+                    break;
+                }
+                case 5: {
+                    avl = new AVLTree<Usuario>(AVLTree.ESTRATO);
+                    break;
+                }
+                case 6: {
+                    avl = new AVLTree<Usuario>(AVLTree.NIVEL_ACCESO);
+                    break;
+                }
+                case 7: {
+                    avl = new AVLTree<Usuario>(AVLTree.EXP);
+                    break;
+                }
+            }
+        }
+
         for (Usuario user : userService.listAllUser()) {
             try {
                 avl.insertAVL(user);
             } catch (Exception e) {
-                System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario()+ " al arbol por parametro de ordenamiento erroneo");
+                System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario() + " al arbol por parametro de ordenamiento erroneo");
             }
         }
 
@@ -90,7 +135,7 @@ public class ParticularController {
     }
 
 
-    public DoubleLinkedList<Particular> getRegisters() {
+    /*public DoubleLinkedList<Particular> getRegisters() {
         time_start = 0;
         time_start = System.currentTimeMillis();
         DoubleLinkedList<Particular> list = new DoubleLinkedList<Particular>();
@@ -102,29 +147,36 @@ public class ParticularController {
         time_end = System.currentTimeMillis();
         System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList " + (time_end - time_start) + " milliseconds");
         return list;
-    }
+    }*/
 
-    public void paginas(DoubleLinkedList<Particular> list) {
-        int regsPerPage = 20;
-        while (!nextPag.isEmpty()) {
-            nextPag.pop();
-        }
-        while (!prevPag.isEmpty()) {
-            prevPag.pop();
-        }
+    public void getPaginas(int regsPerPage) {
+        nextPag.emptyStack();
+        prevPag.emptyStack();
+
+        long count = 0;
+        //long cantidadUsuarios = avl.countInOrder(avl.getRoot());
+        java.util.List<Usuario> listaUsuarios = avl.getList();
         time_start = 0;
         time_start = System.currentTimeMillis();
-        while (!list.isEmpty()) {
-            Particular[] grupo = new Particular[regsPerPage];
+        while (count < listaUsuarios.size()) {
+            Usuario[] pagina = new Usuario[regsPerPage];
             for (int i = 0; i < regsPerPage; i++) {
-                Particular reg = list.popFront();
+                Usuario reg;
+                if (count < listaUsuarios.size()) {
+                    reg = listaUsuarios.get((int) count);
+                } else {
+                    reg = null;
+                }
+                ++count;
                 if (reg == null) {
                     break;
                 } else {
-                    grupo[i] = reg;
+                    pagina[i] = reg;
                 }
             }
-            prevPag.push(grupo);
+            if (pagina[0] != null){
+                prevPag.push(pagina);
+            }
         }
         time_end = 0;
         time_end = System.currentTimeMillis();
@@ -140,10 +192,22 @@ public class ParticularController {
 
     }
 
+    int[] regsPerPage = {10, 20, 30, 50, 100, 500};
+    int pagDefault = 10;
+    int[] sortBy = {1, 2, 3, 4, 5, 6, 7};
+    String[] sortByParams = {"Documento", "Primer Nombre", "Primer Apellido", "N° de Mascotas", "Estrato", "Nivel de Acceso", "Experiencia"};
+    int sortDefault = 1;
+    orderPair params = new orderPair(sortDefault, pagDefault);
+
     @RequestMapping(value = "/gestor/particular-list", method = RequestMethod.GET)
     public String list(Model model) {
-        paginas(getRegisters());
+        getPaginas(params.getView());
+
         if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("sortByArray", sortBy);
+            model.addAttribute("params", params);
             model.addAttribute("pagina", nextPag.top());
             model.addAttribute("prev", prevPag.top());
             model.addAttribute("next", nextPag.size());
@@ -155,10 +219,43 @@ public class ParticularController {
         return "particulares";
     }
 
-    @RequestMapping(value = "/particulares/next", method = RequestMethod.GET)
+    @GetMapping("/reordenar/{view}/{orderBy}")
+    public String sort(@PathVariable("view") String view, @PathVariable("orderBy") String orderBy, ModelMap model) {
+        nextPag.emptyStack();
+        prevPag.emptyStack();
+        params.setView(Integer.parseInt(view));
+        params.setOrderBy(Integer.parseInt(orderBy));
+        getUsers(params.getOrderBy());
+        getPaginas(params.getView());
+        if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("sortByArray", sortBy);
+            model.addAttribute("params", params);
+            model.addAttribute("pagina", nextPag.top());
+            model.addAttribute("prev", prevPag.top());
+            model.addAttribute("next", nextPag.size());
+        } else {
+            model.addAttribute("pagina", null);
+            model.addAttribute("prev", null);
+            model.addAttribute("next", 0);
+        }
+        return "particulares";
+    }
+
+    @RequestMapping(value = "/gestor/particular-list/next", method = RequestMethod.GET)
     public String nextPage(Model model) {
-        prevPag.push(nextPag.pop());
         if (nextPag.top() != null) {
+            prevPag.push(nextPag.pop());
+        } else {
+            getPaginas(params.getView());
+        }
+
+        if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("sortByArray", sortBy);
+            model.addAttribute("params", params);
             model.addAttribute("pagina", nextPag.top());
             model.addAttribute("prev", prevPag.top());
             model.addAttribute("next", nextPag.size());
@@ -170,10 +267,19 @@ public class ParticularController {
         return "particulares";
     }
 
-    @RequestMapping(value = "/particulares/previous", method = RequestMethod.GET)
+    @RequestMapping(value = "/gestor/particular-list/previous", method = RequestMethod.GET)
     public String prevPage(Model model) {
-        nextPag.push(prevPag.pop());
+        if (prevPag.top() != null) {
+            nextPag.push(prevPag.pop());
+        } else {
+            getPaginas(params.getView());
+        }
+
         if (nextPag.top() != null) {
+            model.addAttribute("regsPerPageArray", regsPerPage);
+            model.addAttribute("pagDefault", pagDefault);
+            model.addAttribute("sortByArray", sortBy);
+            model.addAttribute("params", params);
             model.addAttribute("pagina", nextPag.top());
             model.addAttribute("prev", prevPag.top());
             model.addAttribute("next", nextPag.size());
@@ -266,17 +372,6 @@ public class ParticularController {
         particularService.saveParticular(particular);
         return "redirect:/gestor/profile/" + particular.getId_particular();
     }*/
-
-    @RequestMapping("/gestor/searchUser")
-    public String searchParticular(Model model) {
-        model.addAttribute("idSearch", new Usuario());
-        return "particularsearch";
-    }
-
-    @RequestMapping(value = "idsearch", method = RequestMethod.POST)
-    public String searchParticular(Usuario idSearch) {
-        return "redirect:/particular/profile/" + idSearch.getId_usuario();
-    }
 
     /*  de aquí para abajo van controladores de usuario unificado   */
 
@@ -436,7 +531,7 @@ public class ParticularController {
             try {
                 userService.updateUser(user);
                 model.addAttribute("userCreated", true);
-                userService.mapUser(user, avl.find(user,avl.getRoot()));
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("user", user);
@@ -471,7 +566,7 @@ public class ParticularController {
             Usuario vet = new Usuario();
             vet.setId_usuario(id);
             vet = avl.find(vet, avl.getRoot());
-            if (vet == null){
+            if (vet == null) {
                 throw new Exception("el usuario no existe");
             }
             model.addAttribute("user", vet);
@@ -538,7 +633,7 @@ public class ParticularController {
             Usuario gestor = new Usuario();
             gestor.setId_usuario(id);
             gestor = avl.find(gestor, avl.getRoot());
-            if (gestor == null){
+            if (gestor == null) {
                 throw new Exception("El usuario no existe");
             }
             model.addAttribute("user", gestor);
@@ -587,6 +682,85 @@ public class ParticularController {
         }
     }
 
+    @RequestMapping("/gestor/searchUser")
+    public String searchParticular(Model model) {
+        model.addAttribute("searchUser", new Usuario());
+        return "usersearch";
+    }
+
+    @RequestMapping(value = "/gestor/idsearch", method = RequestMethod.POST)
+    public String searchParticular(Usuario idSearch, Model model) {
+        Usuario user = new Usuario();
+        user.setId_usuario(idSearch.getId_usuario());
+        try {
+            user = avl.find(user, avl.getRoot());
+        } catch (Exception e) {
+            user = null;
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("gestorConsult", true);
+        return "particularshow";
+    }
+
+    @GetMapping("/gestor/editParticular/{id}")
+    public String gestorEditParticular(@PathVariable String id, Model model) {
+        try {
+            Usuario user = new Usuario();
+            user.setId_usuario(id);
+            user = avl.find(user, avl.getRoot());
+            if (user == null) {
+                throw new Exception("El usuario no existe");
+            }
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("formErrorMessage", e.getMessage());
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = 1);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+        }
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = 1);
+        model.addAttribute("gestorConsult", true);
+        model.addAttribute("userCreated", false);
+        model.addAttribute("roles", roleRepo.findAll());
+        return "formulario";
+    }
+
+    @PostMapping("/gestor/updateParticular")
+    public String gestorUpdateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = 1);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                userService.updateUser(user);
+                model.addAttribute("userCreated", true);
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("userCreated", false);
+                model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = 1);
+                model.addAttribute("gestorConsult", true);
+                model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "particularshow";
+        }
+    }
+
     @GetMapping("/gestor/delete/{id}")
     public String deleteUser(@PathVariable String id, Model model) {
         try {
@@ -600,6 +774,32 @@ public class ParticularController {
             model.addAttribute("deleteErrorMessage", e.getMessage());
         }
         return "redirect:/usuarios";
+    }
+
+    public static class orderPair {
+        int orderBy;
+        int view;
+
+        public orderPair(int orderby, int view) {
+            this.orderBy = orderby;
+            this.view = view;
+        }
+
+        public int getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(int orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public int getView() {
+            return view;
+        }
+
+        public void setView(int view) {
+            this.view = view;
+        }
     }
 
 }
