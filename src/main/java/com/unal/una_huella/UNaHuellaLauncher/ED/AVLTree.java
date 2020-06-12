@@ -306,8 +306,8 @@ public class AVLTree<T> {
             } else if (key instanceof Mascota) {
                 switch (order) {
                     case 1: {   //  id_mascota
-                        long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
-                        long id_nodo = Long.parseLong(((Mascota) currentNode.getKey()).getI_id_usuario().getId_usuario());
+                        long id_mascota = Long.parseLong(((Mascota) key).getId_mascota());
+                        long id_nodo = Long.parseLong(((Mascota) currentNode.getKey()).getId_mascota());
                         if (id_mascota < id_nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
@@ -582,9 +582,9 @@ public class AVLTree<T> {
                 }
             } else if (key instanceof Mascota) {
                 switch (order) {
-                    case 1: {    //id_dueño
-                        long id_mascota = Long.parseLong(((Mascota) key).getI_id_usuario().getId_usuario());
-                        long id_nodo = Long.parseLong(((Mascota) nodo.getKey()).getI_id_usuario().getId_usuario());
+                    case 1: {    //id_mascota
+                        long id_mascota = Long.parseLong(((Mascota) key).getId_mascota());
+                        long id_nodo = Long.parseLong(((Mascota) nodo.getKey()).getId_mascota());
                         if (id_mascota == id_nodo) {
                             return nodo;
                         } else if (id_mascota < id_nodo) {
@@ -1003,6 +1003,12 @@ public class AVLTree<T> {
                 fillList(root.getLeft(), list);
                 list.add((T) root.getKey());
                 fillList(root.getRight(), list);
+            } else if(root.getKey() instanceof Mascota){
+                fillList(root.getLeft(), list);
+                list.add((T) root.getKey());
+                fillList(root.getRight(), list);
+            } else{
+                return null;
             }
             return list;
         }

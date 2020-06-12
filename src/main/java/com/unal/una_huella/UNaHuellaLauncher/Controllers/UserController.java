@@ -37,6 +37,9 @@ public class UserController {
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
 
+    AVLTree<Usuario> avl = null;
+    private AVLTree<Mascota> pets;
+
 
     int[] regsPerPage = {10, 20, 30, 50, 100, 500};
     int pagDefault = 10;
@@ -54,10 +57,14 @@ public class UserController {
     @RequestMapping("/particular")
     public String particular() {
         getUsers(sortDefault);
-        petList = new DoubleLinkedList<Mascota>();
+        pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
         for (Mascota mascota: mascotaService.listAllMascotas()) {
             if (mascota != null){
-                petList.pushBack(mascota);
+                try {
+                    pets.insertAVL(mascota);
+                } catch (Exception e) {
+                    continue;
+                }
             }
         }
         return "particular";
@@ -123,11 +130,9 @@ public class UserController {
         return "redirect:/particular/profile/" + particular.getId_particular();
     }*/
 
-    AVLTree<Usuario> avl = null;
-    private DoubleLinkedList<Mascota> petList;
 
-    public DoubleLinkedList<Mascota> getMascotas (){
-        return petList;
+    public AVLTree<Mascota> getMascotas (){
+        return pets;
     }
 
     public void getUsers(int sortBy) {
@@ -536,11 +541,6 @@ public class UserController {
     @RequestMapping("/particular/citas/new")
     String asignarCita() {
         return "asignarCita";
-    }
-
-    @RequestMapping("/particular/mascotas")
-    String misMascotas() {
-        return "misMascotas";
     }
 
     /*  de aquí para abajo son controladores que se deben mover a su respectiva clase después   */
