@@ -2,6 +2,10 @@ package com.unal.una_huella.UNaHuellaLauncher.ED;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 
@@ -17,6 +21,9 @@ public class AVLTree<T> {
     public static final int ID_DUEÑO = 1;
     public static final int NOMBRE_MASCOTA = 2;
     public static final int EDAD_MASCOTA = 3;
+    public static final int PARTICULAR = 1;
+    public static final int VETERINARIO = 2;
+    public static final int GESTOR = 3;
     private int order;
 
     public AVLTree(int parametroOrdenamiento) {
@@ -1015,10 +1022,37 @@ public class AVLTree<T> {
         return null;
     }
 
+    private java.util.List<T> fillList(NodoTree root, java.util.List<T> list, int userType) {
+
+        if (root != null) {
+            if (root.getKey() instanceof Usuario) {
+                fillList(root.getLeft(), list, userType);
+                if (((Usuario) root.getKey()).getRole() == userType){
+                    list.add((T) root.getKey());
+                }
+                fillList(root.getRight(), list, userType);
+            } else if(root.getKey() instanceof Mascota){
+                fillList(root.getLeft(), list);
+                list.add((T) root.getKey());
+                fillList(root.getRight(), list);
+            } else{
+                return null;
+            }
+            return list;
+        }
+        return null;
+    }
+
 
     public java.util.List<T> getList() {
         java.util.List<T> list = new ArrayList<T>();
         list = fillList(root, list);
+        return list;
+    }
+
+    public java.util.List<T> getList(int userType) {
+        java.util.List<T> list = new ArrayList<T>();
+        list = fillList(root, list, userType);
         return list;
     }
 
@@ -1079,4 +1113,7 @@ public class AVLTree<T> {
         }
     }
 
+    public int getOrder() {
+        return order;
+    }
 }

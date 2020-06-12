@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table (name = "USUARIO")
+@Table(name = "USUARIO")
 public class Usuario implements Serializable {
 
     @Id
@@ -56,8 +56,8 @@ public class Usuario implements Serializable {
     private int h_cantidad_mascotas;
     @Column(name = "ESTRATO", nullable = true, length = 1)
     private String i_estrato;
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "i_id_dueño")
-    @Column (name = "MIS_MASCOTAS")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "i_id_dueño")
+    @Column(name = "MIS_MASCOTAS")
     private List<Mascota> mismascotas;
 
     // ATRIBUTOS PROPIOS DE GESTOR
@@ -78,6 +78,9 @@ public class Usuario implements Serializable {
     @NotBlank
     @Size(min = 4, max = 60, message = "Mínimo 5 caracteres - Máximo 60 caracteres")
     private String password;
+
+    @Column
+    private int role;
 
     @Transient
     private String confirmPassword;
@@ -217,6 +220,14 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
+    public long getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     public String getConfirmPassword() {
         return confirmPassword;
     }
@@ -230,6 +241,7 @@ public class Usuario implements Serializable {
     }
 
     public void setRoles(List<Role> roles) {
+        this.role = roles.get(0).getId();
         this.roles = roles;
     }
 

@@ -12,7 +12,7 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private Long id;
+    private int id;
 
     @Column
     private String name;
@@ -20,11 +20,11 @@ public class Role implements Serializable {
     @Column
     private String description;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id_role) {
+    public void setId(int id_role) {
         this.id = id_role;
     }
 

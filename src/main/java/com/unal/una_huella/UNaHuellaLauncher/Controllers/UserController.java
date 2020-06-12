@@ -1,7 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
-import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
@@ -24,10 +23,17 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
+    /*@Autowired
+    private ParticularService particularService;*/
     @Autowired
-    private ParticularService particularService;
+    UserService userService;
+    @Autowired
+    RoleRepo roleRepo;
     @Autowired
     private MascotaService mascotaService;
+    @Autowired
+    IndexController indexController;
+
 
     private static final int PARTICULAR = 1;
     private static final int VETERINARIO = 2;
@@ -37,33 +43,36 @@ public class UserController {
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
 
-    AVLTree<Usuario> avl = null;
-    private AVLTree<Mascota> pets;
-
-
     int[] regsPerPage = {10, 20, 30, 50, 100, 500};
     int pagDefault = 10;
     int[] sortValues = {1, 2, 3, 4, 5, 6, 7};
     String[] sortNames = {"Documento", "Primer Nombre", "Primer Apellido", "N° de Mascotas", "Estrato", "Nivel de Acceso", "Experiencia"};
     int sortDefault = 1;
     OrderPair params;
-    SortParams[] sortPartiParams = new SortParams[5];
-    SortParams[] sortVetParams = new SortParams[4];
-    SortParams[] sortGestorParams = new SortParams[4];
+    SortParams[] sortPartiParams = null;
+    SortParams[] sortVetParams = null;
+    SortParams[] sortGestorParams = null;
+
+    AVLTree<Usuario> avl = null;
+    private AVLTree<Mascota> pets = null;
 
     long time_start = 0;
     long time_end = 0;
 
     @RequestMapping("/particular")
     public String particular() {
-        getUsers(sortDefault);
-        pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-        for (Mascota mascota: mascotaService.listAllMascotas()) {
-            if (mascota != null){
-                try {
-                    pets.insertAVL(mascota);
-                } catch (Exception e) {
-                    continue;
+        if (avl == null) {
+            getUsers(sortDefault);
+        }
+        if (pets == null) {
+            pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
+            for (Mascota mascota : mascotaService.listAllMascotas()) {
+                if (mascota != null) {
+                    try {
+                        pets.insertAVL(mascota);
+                    } catch (Exception e) {
+                        continue;
+                    }
                 }
             }
         }
@@ -73,32 +82,41 @@ public class UserController {
     @RequestMapping("/gestor")
     String gestor() {
         SortParams temp;
-        for (int i = 0; i < sortPartiParams.length; i++) {
-            temp = new SortParams(sortNames[i], sortValues[i]);
-            sortPartiParams[i] = temp;
-        }
 
-        for (int i = 0; i < sortVetParams.length - 1; i++) {
-            temp = new SortParams(sortNames[i], sortValues[i]);
-            sortVetParams[i] = temp;
-        }
-        temp = new SortParams(sortNames[6], sortValues[6]);
-        sortVetParams[3] = temp;
+        if (sortPartiParams == null || sortVetParams == null || sortGestorParams == null) {
+            sortPartiParams = new SortParams[5];
+            sortVetParams = new SortParams[4];
+            sortGestorParams = new SortParams[4];
+            for (int i = 0; i < sortPartiParams.length; i++) {
+                temp = new SortParams(sortNames[i], sortValues[i]);
+                sortPartiParams[i] = temp;
+            }
 
-        for (int i = 0; i < sortGestorParams.length - 1; i++) {
-            temp = new SortParams(sortNames[i], sortValues[i]);
-            sortGestorParams[i] = temp;
-        }
-        temp = new SortParams(sortNames[5], sortValues[5]);
-        sortGestorParams[3] = temp;
+            for (int i = 0; i < sortVetParams.length - 1; i++) {
+                temp = new SortParams(sortNames[i], sortValues[i]);
+                sortVetParams[i] = temp;
+            }
+            temp = new SortParams(sortNames[6], sortValues[6]);
+            sortVetParams[3] = temp;
 
-        getUsers(sortDefault);
+            for (int i = 0; i < sortGestorParams.length - 1; i++) {
+                temp = new SortParams(sortNames[i], sortValues[i]);
+                sortGestorParams[i] = temp;
+            }
+            temp = new SortParams(sortNames[5], sortValues[5]);
+            sortGestorParams[3] = temp;
+        }
+        if (avl == null) {
+            getUsers(sortDefault);
+        }
         return "gestor";
     }
 
     @RequestMapping("/vet")
     public String vet() {
-        getUsers(sortDefault);
+        if (avl == null) {
+            getUsers(sortDefault);
+        }
         return "veterinario";
     }
 
@@ -131,62 +149,81 @@ public class UserController {
     }*/
 
 
-    public AVLTree<Mascota> getMascotas (){
+    public AVLTree<Mascota> getMascotas() {
         return pets;
     }
 
-    public void getUsers(int sortBy) {
+    public AVLTree<Usuario> getUsers(int sortBy) {
         if (avl == null) {
             avl = new AVLTree<Usuario>(AVLTree.ID);
+
+            time_start = 0;
+            time_start = System.currentTimeMillis();
+
+            for (Usuario user : userService.listAllUser()) {
+                try {
+                    avl.insertAVL(user);
+                    //System.out.println("ingresado en el arbol: " + user.toString());
+                } catch (Exception e) {
+                    System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario() + " al arbol por parametro de ordenamiento erroneo");
+                }
+            }
+
+            time_end = 0;
+            time_end = System.currentTimeMillis();
+            System.out.println("\n\n\t\tTiempo empleado en crear arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
         } else {
-            avl.emptyTree();
-            switch (sortBy) {
-                case 1: {
-                    avl = new AVLTree<Usuario>(AVLTree.ID);
-                    break;
+            if (avl.getOrder() != sortBy) {
+                avl.emptyTree();
+                switch (sortBy) {
+                    case 1: {
+                        avl = new AVLTree<Usuario>(AVLTree.ID);
+                        break;
+                    }
+                    case 2: {
+                        avl = new AVLTree<Usuario>(AVLTree.PRIMER_NOMBRE);
+                        break;
+                    }
+                    case 3: {
+                        avl = new AVLTree<Usuario>(AVLTree.PRIMER_APELLIDO);
+                        break;
+                    }
+                    case 4: {
+                        avl = new AVLTree<Usuario>(AVLTree.N_MASCOTAS);
+                        break;
+                    }
+                    case 5: {
+                        avl = new AVLTree<Usuario>(AVLTree.ESTRATO);
+                        break;
+                    }
+                    case 6: {
+                        avl = new AVLTree<Usuario>(AVLTree.NIVEL_ACCESO);
+                        break;
+                    }
+                    case 7: {
+                        avl = new AVLTree<Usuario>(AVLTree.EXP);
+                        break;
+                    }
                 }
-                case 2: {
-                    avl = new AVLTree<Usuario>(AVLTree.PRIMER_NOMBRE);
-                    break;
+
+                time_start = 0;
+                time_start = System.currentTimeMillis();
+
+                for (Usuario user : userService.listAllUser()) {
+                    try {
+                        avl.insertAVL(user);
+                        //System.out.println("ingresado en el arbol: " + user.toString());
+                    } catch (Exception e) {
+                        System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario() + " al arbol por parametro de ordenamiento erroneo");
+                    }
                 }
-                case 3: {
-                    avl = new AVLTree<Usuario>(AVLTree.PRIMER_APELLIDO);
-                    break;
-                }
-                case 4: {
-                    avl = new AVLTree<Usuario>(AVLTree.N_MASCOTAS);
-                    break;
-                }
-                case 5: {
-                    avl = new AVLTree<Usuario>(AVLTree.ESTRATO);
-                    break;
-                }
-                case 6: {
-                    avl = new AVLTree<Usuario>(AVLTree.NIVEL_ACCESO);
-                    break;
-                }
-                case 7: {
-                    avl = new AVLTree<Usuario>(AVLTree.EXP);
-                    break;
-                }
+
+                time_end = 0;
+                time_end = System.currentTimeMillis();
+                System.out.println("\n\n\t\tTiempo empleado en reconstruir arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
             }
         }
-
-        time_start = 0;
-        time_start = System.currentTimeMillis();
-
-        for (Usuario user : userService.listAllUser()) {
-            try {
-                avl.insertAVL(user);
-                //System.out.println("ingresado en el arbol: " + user.toString());
-            } catch (Exception e) {
-                System.err.println("no se pudo insertar el usuario con id " + user.getId_usuario() + " al arbol por parametro de ordenamiento erroneo");
-            }
-        }
-
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en crear/reconstruir arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
+        return avl;
     }
 
 
@@ -209,8 +246,41 @@ public class UserController {
         prevPag.emptyStack();
 
         long count = 0;
-        java.util.List<Usuario> listaUsuarios = avl.getList();
-        if (tipo == PARTICULAR) {
+        time_start = 0;
+        time_start = System.currentTimeMillis();
+        java.util.List<Usuario> listaUsuarios = avl.getList(tipo);
+        time_end = 0;
+        time_end = System.currentTimeMillis();
+        System.out.println("\n\n\t\tTiempo empleado en migrar usuarios del arbol a lista: " + (time_end - time_start) + " milliseconds");
+
+        time_start = 0;
+        time_start = System.currentTimeMillis();
+        while (count < listaUsuarios.size()) {
+            Usuario[] pagina = new Usuario[regsPerPage];
+            for (int i = 0; i < regsPerPage; i++) {
+                Usuario reg;
+                if (count < listaUsuarios.size()) {
+                    reg = listaUsuarios.get((int) count);
+                } else {
+                    reg = null;
+                }
+                ++count;
+                if (reg == null) {
+                    break;
+                } else {
+                    pagina[i] = reg;
+                }
+            }
+            if (pagina[0] != null) {
+                prevPag.push(pagina);
+            }
+        }
+        time_end = 0;
+        time_end = System.currentTimeMillis();
+        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
+
+
+        /*if (tipo == PARTICULAR) {
             java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
             for (int i = 0; i < listaUsuarios.size(); i++) {
                 Usuario temp = listaUsuarios.get(i);
@@ -324,7 +394,7 @@ public class UserController {
             time_end = 0;
             time_end = System.currentTimeMillis();
             System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        }
+        }*/
 
         time_start = 0;
         time_start = System.currentTimeMillis();
@@ -605,12 +675,6 @@ public class UserController {
     }*/
 
     /*  de aquí para abajo van controladores de usuario unificado   */
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    RoleRepo roleRepo;
 
     @RequestMapping("/newUser")
     public String formNewUser(Model model) {
@@ -917,13 +981,13 @@ public class UserController {
     }
 
     @RequestMapping("/gestor/searchUser")
-    public String searchParticular(Model model) {
+    public String searchUser(Model model) {
         model.addAttribute("searchUser", new Usuario());
         return "usersearch";
     }
 
     @RequestMapping(value = "/gestor/idsearch", method = RequestMethod.POST)
-    public String searchParticular(Usuario idSearch, Model model) {
+    public String searchUser(Usuario idSearch, Model model) {
         Usuario user = new Usuario();
         user.setId_usuario(idSearch.getId_usuario());
         try {
@@ -933,7 +997,21 @@ public class UserController {
         }
         model.addAttribute("user", user);
         model.addAttribute("gestorConsult", true);
-        return "particularshow";
+        if (userService.getRoles(user).get(0).getId() == PARTICULAR) {
+            return "particularshow";
+        } else if (userService.getRoles(user).get(0).getId() == VETERINARIO) {
+            return "vetshow";
+        } else {
+            return "gestorshow";
+        }
+
+    }
+
+    @GetMapping("/gestor/viewParticular/{id}")
+    public String gestorViewParticular(@PathVariable String id, Model model) {
+        Usuario user = new Usuario();
+        user.setId_usuario(id);
+        return searchUser(user, model);
     }
 
     @GetMapping("/gestor/editParticular/{id}")
@@ -949,13 +1027,13 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
-            model.addAttribute("tipo", tipo = 1);
+            model.addAttribute("tipo", tipo = PARTICULAR);
             model.addAttribute("gestorConsult", true);
             model.addAttribute("userCreated", false);
             model.addAttribute("roles", roleRepo.findAll());
         }
         model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 1);
+        model.addAttribute("tipo", tipo = PARTICULAR);
         model.addAttribute("gestorConsult", true);
         model.addAttribute("userCreated", false);
         model.addAttribute("roles", roleRepo.findAll());
@@ -967,7 +1045,7 @@ public class UserController {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
-            model.addAttribute("tipo", tipo = 1);
+            model.addAttribute("tipo", tipo = PARTICULAR);
             model.addAttribute("gestorConsult", true);
             model.addAttribute("userCreated", false);
             model.addAttribute("roles", roleRepo.findAll());
@@ -982,7 +1060,7 @@ public class UserController {
                 model.addAttribute("user", user);
                 model.addAttribute("userCreated", false);
                 model.addAttribute("edit", true);
-                model.addAttribute("tipo", tipo = 1);
+                model.addAttribute("tipo", tipo = PARTICULAR);
                 model.addAttribute("gestorConsult", true);
                 model.addAttribute("roles", roleRepo.findAll());
                 return "formulario";
@@ -995,10 +1073,146 @@ public class UserController {
         }
     }
 
+    @GetMapping("/gestor/viewVet/{id}")
+    public String gestorViewVet(@PathVariable String id, Model model) {
+        Usuario user = new Usuario();
+        user.setId_usuario(id);
+        return searchUser(user, model);
+    }
+
+    @GetMapping("/gestor/editVet/{id}")
+    public String gestorEditVet(@PathVariable String id, Model model) {
+        try {
+            Usuario user = new Usuario();
+            user.setId_usuario(id);
+            user = avl.find(user, avl.getRoot());
+            if (user == null) {
+                throw new Exception("El usuario no existe");
+            }
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("formErrorMessage", e.getMessage());
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = VETERINARIO);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+        }
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = VETERINARIO);
+        model.addAttribute("gestorConsult", true);
+        model.addAttribute("userCreated", false);
+        model.addAttribute("roles", roleRepo.findAll());
+        return "formulario";
+    }
+
+    @PostMapping("/gestor/updateVet")
+    public String gestorUpdateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = VETERINARIO);
+            ;
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                userService.updateUser(user);
+                model.addAttribute("userCreated", true);
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("userCreated", false);
+                model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = VETERINARIO);
+                model.addAttribute("gestorConsult", true);
+                model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "vetshow";
+        }
+    }
+
+    @GetMapping("/gestor/viewGestor/{id}")
+    public String gestorViewGestor(@PathVariable String id, Model model) {
+        Usuario user = new Usuario();
+        user.setId_usuario(id);
+        return searchUser(user, model);
+    }
+
+    @GetMapping("/gestor/editGestor/{id}")
+    public String gestorEditGestor(@PathVariable String id, Model model) {
+        try {
+            Usuario user = new Usuario();
+            user.setId_usuario(id);
+            user = avl.find(user, avl.getRoot());
+            if (user == null) {
+                throw new Exception("El usuario no existe");
+            }
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("formErrorMessage", e.getMessage());
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = GESTOR);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+        }
+        model.addAttribute("edit", true);
+        model.addAttribute("tipo", tipo = GESTOR);
+        model.addAttribute("gestorConsult", true);
+        model.addAttribute("userCreated", false);
+        model.addAttribute("roles", roleRepo.findAll());
+        return "formulario";
+    }
+
+    @PostMapping("/gestor/updateGestor")
+    public String gestorUpdateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", true);
+            model.addAttribute("tipo", tipo = GESTOR);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("userCreated", false);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                userService.updateUser(user);
+                model.addAttribute("userCreated", true);
+                userService.mapUser(user, avl.find(user, avl.getRoot()));
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("userCreated", false);
+                model.addAttribute("edit", true);
+                model.addAttribute("tipo", tipo = GESTOR);
+                model.addAttribute("gestorConsult", true);
+                model.addAttribute("roles", roleRepo.findAll());
+                return "formulario";
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("gestorConsult", true);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "gestorshow";
+        }
+    }
+
     @GetMapping("/gestor/delete/{id}")
     public String deleteUser(@PathVariable String id, Model model) {
         try {
+            Usuario user = new Usuario();
+            user.setId_usuario(id);
             userService.deleteUser(id);
+            avl.deleteAVL(user);
             model.addAttribute("deleteSuccess", true);
             model.addAttribute("deleteError", false);
             model.addAttribute("deleteSuccessMessage", "Usuario eliminado");
@@ -1007,7 +1221,14 @@ public class UserController {
             model.addAttribute("deleteError", true);
             model.addAttribute("deleteErrorMessage", e.getMessage());
         }
-        return "redirect:/usuarios";
+        if (params.getUserType() == PARTICULAR) {
+            return "redirect:/gestor/particular-list";
+        } else if (params.getUserType() == VETERINARIO) {
+            return "redirect:/gestor/vet-list";
+        } else {
+            return "redirect:/gestor/gestor-list";
+        }
+
     }
 
     @RequestMapping(value = "/gestor/particular-list", method = RequestMethod.GET)
