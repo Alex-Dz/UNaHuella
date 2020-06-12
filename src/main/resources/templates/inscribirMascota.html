@@ -10,76 +10,104 @@
 <div class="container">
     <div class="row">
         <div class="col s12 no-padding">
-            <form class="card-panel no-margin background-grey-2">
-                <div class="row">
-                    <div class="col s12">
-                        <div class="input-field col s12 m4">
-                            <label>Nombre de tu mascota</label>
-                            <input class="validate" type="text">
-                        </div>
+            <div class="card-panel no-margin background-grey-2">
+                <form th:object="${mascota}">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="col s12 m4">
+                                <div class="input-field">
+                                    <label>Nombre de tu mascota: </label>
+                                    <input class="validate" type="text" id="nombre_mascota"
+                                           th:field="${mascota.b_nombre_mascota}"/>
+                                </div>
+                            </div>
 
-                        <div class="input-field col s12 m4">
-                            <label>Edad</label>
-                            <input class="validate" type="text">
-                        </div>
+                            <div class="col s12 m4">
+                                <div class="input-field">
+                                    <label>Raza: </label>
+                                    <input class="validate" type="text" id="raza_mascota"
+                                           th:field="${mascota.d_raza}"/>
+                                </div>
+                            </div>
 
-                        <div class="input-field col s12 m4">
-                            <label>Carnet de vacunación</label>
-                            <input class="validate" type="text">
-                        </div>
 
-                        <div class="input-field col s12 m12">
-                                <textarea id="historial"
-                                          placeholder="Si no presenta ninguna cirugía, puede dejar éste campo vacío"
+                            <div class="input-field col s12 m4">
+                                <label>Edad</label>
+                                <input th:field="${mascota.e_edad_mascota}" id="edadMascota" type="number"
+                                       class="validate">
+                                <span class="helper-text" data-error="Error" data-success="right">La edad de tu
+                                            mascota debes ingresarla en meses</span>
+                            </div>
+
+                            <div class="input-field col s12 m4">
+                                <label>Carnet de vacunación</label>
+                                <input th:field="${mascota.h_carnet_vacunacion}" id="carnetMascota"
+                                       type="text" class="validate">
+                            </div>
+
+                            <div class="input-field col s12 m12">
+                                <textarea th:field="${mascota.f_historial_cirugias}" id="historialMacota"
                                           class="materialize-textarea"></textarea>
-                            <label for="historial">Historial de cirugías</label>
-                        </div>
+                                <label for="historialMacota">Historial de cirugías</label>
+                            </div>
 
-                        <div class="input-field col s12 m4">
-                            <select>
-                                <option value="" disabled selected>Género</option>
-                                <option value="1">F</option>
-                                <option value="2">M</option>
-                            </select>
-                        </div>
+                            <div class="col s12 m4">
+                                <div class="input-field">
+                                    <select th:value="${mascota.c_genero}">
+                                        <option value="" disabled selected>Género:</option>
+                                        <option value="H">H</option>
+                                        <option value="M">M</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div class="input-field col s12 m4">
-                            <select>
-                                <option value="" disabled selected>Especie</option>
-                                <option value="1">P</option>
-                                <option value="2">G</option>
-                            </select>
-                        </div>
+                            <div class="col s12 m4">
+                                <div class="input-field">
+                                    <select th:value="${mascota.a_especie}">
+                                        <option value="" disabled selected>Especie:</option>
+                                        <option value="P">P</option>
+                                        <option value="G">G</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div class="input-field col s12 m4">
-                            <select>
-                                <option value="" disabled selected>Portador de parásito</option>
-                                <option value="1">Ehrlichia canis</option>
-                                <option value="2">Toxoplasma gondii</option>
-                            </select>
-                        </div>
 
-                        <div class="row no-margin">
-                            <div class="col s12 m12 center-align top-margin bottom-margin">
-                                <button class="btn-large background-blue waves-effect waves-mediumpurple"
-                                        type="submit" name="action">Registrar Mascota
-                                    <i class="material-icons left">add_circle_outline</i>
+                            <div class="col s12 m4">
+                                <div class="input-field">
+                                    <select th:value="${mascota.g_portador_parasito}">
+                                        <option value="" disabled selected>Parásito:</option>
+                                        <option value="Ehrlichia canis">Ehrlichia canis</option>
+                                        <option value="Toxoplasma gondii">Toxoplasma gondii</option>
+                                        <option value="Ninguno">Ninguno</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row no-margin">
+                                <div class="col s12 m12 center-align top-margin bottom-margin">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit" name="action">Registrar Mascota
+                                        <i class="material-icons left">add_circle_outline</i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col s12 m12 center-align">
+                                <button class="btn-large background-blue waves-effect
+                                        waves-mediumpurple">Cancelar registro<i class="material-icons left">highlight_off</i>
                                 </button>
                             </div>
-                        </div>
 
-                        <div class="col s12 m12 center-align">
-                            <button class="btn-large background-blue waves-effect
-                                        waves-mediumpurple">Cancelar registro<i class="material-icons left">highlight_off</i>
-                            </button>
                         </div>
-                        
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
+
+
 <!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
 </body>
 </html>

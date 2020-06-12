@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services;
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.UserRepo;
@@ -42,6 +43,11 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Mascota> getMascotas (Usuario user) throws Exception{
+        return getUserById(user.getId_usuario()).getMismascotas();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
@@ -17,6 +18,8 @@ public interface UserService {
     List<Role> getRoles(Usuario user);
 
     Usuario createUser(Usuario user) throws Exception;
+
+    public List<Mascota> getMascotas (Usuario user) throws Exception;
 
     void deleteUser(String id) throws Exception;
 

@@ -1,95 +1,276 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>UNa Huella - Asignación de cita</title>
+    <title>UNa Huella - Mis mascotas</title>
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 
 <body>
 <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
-<div class="container no-margin top-padding-intermediate bottom-padding-intermediate">
-    <div class="row no-margin">
+<div class="container top-padding-intermediate bottom-padding-intermediate">
 
-        <div class="col s5 m4 no-padding">
-            <div class="card-panel no-margin background-dark-grey">
-                <div class="row no-margin">
-                    <div class="col s12 center-align">
-                        <a class="waves-effect waves-mediumpurple btn-flat ">
-                            <i class="material-icons right">keyboard_arrow_right</i>GuauGuau</a>
+    <div class="row">
+        <div class="col s12 m4 no-padding">
+            <div th:each="mascota : ${listaMascota}">
+                <div class="card-panel padding background-dark-grey">
+                    <div class="row no-margin">
+                        <div class="col s12 center-align">
+                            <a th:href="${'/particular/profileMascota/' + #httpServletRequest.remoteUser + '/'+ mascota.id_mascota}"
+                               th:text="${mascota.b_nombre_mascota}"
+                               class="waves-effect waves-mediumpurple btn-flat">
+                                <i class="material-icons right">keyboard_arrow_right</i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${edit == true && mascota != null}">
+            <div class="col s12 m8 offset-m2">
+                <div class="card-panel background-grey-2">
+                    <div class="row">
+                        <form th:object="${mascota}" method="post" class="padding"
+                              th:action="${'/particular/profileMascota/update/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <label for="nombre_mascota">Nombre de tu mascota: </label>
+                                        <input class="validate" type="text" id="nombre_mascota"
+                                               th:field="${mascota.b_nombre_mascota}"/>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <label for="raza_mascota">Raza: </label>
+                                        <input class="validate" type="text" id="raza_mascota"
+                                               th:field="${mascota.d_raza}"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m5">
+                                    <div class="input-field">
+                                        <label for="carnetMascota">Carnet de vacunación:</label>
+                                        <i class="material-icons prefix">chrome_reader_mode</i>
+                                        <input th:field="${mascota.h_carnet_vacunacion}" id="carnetMascota"
+                                               type="text" class="validate">
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m7">
+                                    <div class="input-field">
+                                        <label for="edadMascota">Edad:</label>
+                                        <i class="material-icons prefix">cake</i>
+                                        <input th:field="${mascota.e_edad_mascota}" id="edadMascota" type="number"
+                                               class="validate">
+                                        <span class="helper-text" data-error="Error" data-success="">La edad de tu
+                                            mascota debes ingresarla en meses</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12 m12">
+                                <textarea th:field="${mascota.f_historial_cirugias}" id="historialMacota"
+                                          class="materialize-textarea"></textarea>
+                                    <label for="historialMacota">Historial de cirugías</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div class="input-field">
+                                        <select th:field="${mascota.c_genero}">
+                                            <option value="" disabled selected>Género:</option>
+                                            <option value="H">Hembra</option>
+                                            <option value="M">Macho</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class=" col s12 m4">
+                                    <div class="input-field">
+                                        <select th:field="${mascota.a_especie}">
+                                            <option value="" disabled selected>Especie:</option>
+                                            <option value="P">Perro</option>
+                                            <option value="G">Gato</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class=" col s12 m4">
+                                    <div class="input-field">
+                                        <select th:field="${mascota.g_portador_parasito}">
+                                            <option value="Parásito" disabled selected>Parásito:</option>
+                                            <option value="Ehrlichia canis">Ehrlichia canis</option>
+                                            <option value="Toxoplasma gondii">Toxoplasma gondii</option>
+                                            <option value="Ninguno">Ninguno</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 top-margin center-align">
+                                    <button class="background-blue waves-effect waves-light btn-small" type="submit">
+                                        <i class="material-icons left">create</i>Actualizar datos
+                                    </button>
+                                </div>
+
+                                <!-- <div class="col s12 top-margin center-align">
+                                     <a class="background-blue waves-effect waves-light btn-small"
+                                        th:href="${'/particular/profileMascota/edit/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
+                                         <i class="material-icons left">create</i>Cancelar</a>
+                                 </div>-->
+
+                            </div>
+
+                            <div th:if="${formErrorMessage}">
+                                <div class="materialert error">
+                                    <div class="material-icons">error_outline</div>
+                                    <span th:text="${formErrorMessage}">Error Message</span>
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col s7 m8">
-            <div class="card-panel no-margin background-grey-2">
-                <div class="row center-align">
-                    <h3> GuauGuau </h3>
-                </div>
-                <div class="row">
-                    <form class="padding">
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <div class="input-field">
-                                    <label for="carnetMascota">Carnet de vacunación:</label>
-                                    <i class="material-icons prefix">pets</i>
-                                    <input disabled value="1514584185" id="carnetMascota" type="text" class="validate">
+        <div th:if="${edit == false && mascota != null}">
+            <div class="col s12 m8">
+                <div class="card-panel background-grey-2">
+                    <div class="row">
+                        <form th:object="${mascota}" method="post" class="padding">
+                            <div class="row center-align">
+                                <h3 th:text="${mascota.b_nombre_mascota}"></h3>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <label for="carnetMascota">Carnet de vacunación:</label>
+                                        <i class="material-icons prefix">chrome_reader_mode</i>
+                                        <input disabled th:value="${mascota.h_carnet_vacunacion}" id="carnetMascota"
+                                               type="text" class="validate">
+                                    </div>
+                                </div>
+
+                                <div class="col s12 m6">
+                                    <div class="input-field">
+                                        <label for="edadMascota">Edad:</label>
+                                        <i class="material-icons prefix">cake</i>
+                                        <input disabled th:value="${mascota.e_edad_mascota} + ' meses'" id="edadMascota"
+                                               type="text"
+                                               class="validate">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12 m12">
+                                <textarea disabled th:text="${mascota.f_historial_cirugias}" id="historialMacota"
+                                          class="materialize-textarea"></textarea>
+                                    <label for="historialMacota">Historial de cirugías</label>
                                 </div>
                             </div>
 
-                            <div class="col s12 m6">
-                                <div class="input-field">
-                                    <label for="edadMascota">Edad:</label>
-                                    <i class="material-icons prefix">pets</i>
-                                    <input disabled value="8 meses" id="edadMascota" type="text" class="validate">
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div th:if="${mascota.c_genero=='H'}">
+                                        <div class="input-field">
+                                            <label for="generoMascota">Género:</label>
+                                            <i class="material-icons prefix">wc</i>
+                                            <input disabled value="Hembra" type="text"
+                                                   id="generoMascota">
+                                        </div>
+
+                                    </div>
+
+                                    <div th:unless="${mascota.c_genero=='H'}">
+                                        <div class="input-field">
+                                            <label for="generoMascota">Género:</label>
+                                            <i class="material-icons prefix">wc</i>
+                                            <input disabled value="Macho" type="text"
+                                                   id="generoMascota">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div th:if="${mascota.a_especie=='P'}">
+                                        <div class="input-field">
+                                            <label for="especieMascota">Especie:</label>
+                                            <i class="material-icons prefix">pets</i>
+                                            <input disabled value="Perro" type="text"
+                                                   id="especieMascota">
+                                        </div>
+                                    </div>
+
+                                    <div th:unless="${mascota.a_especie=='P'}">
+                                        <div class="input-field">
+                                            <label for="especieMascota">Especie:</label>
+                                            <i class="material-icons prefix">pets</i>
+                                            <input disabled value="Gato" type="text"
+                                                   id="especieMascota">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col s12 m4">
+                                    <div class="input-field">
+                                        <label for="parasitoMascota">Parásito:</label>
+                                        <i class="material-icons prefix">bug_report</i>
+                                        <input disabled th:value="${mascota.g_portador_parasito}" type="text"
+                                               id="parasitoMascota">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="input-field col s12 m12">
-                                <textarea disabled id="historialMacota" class="materialize-textarea"></textarea>
-                                <label for="historialMacota">Historial de cirugías</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="input-field col s12 m4">
-                                <select disabled>
-                                    <option value="" disabled selected>Género</option>
-                                    <option value="1">F</option>
-                                    <option value="2">M</option>
-                                </select>
+                            <div class="row">
+                                <div class="col s12 top-margin center-align">
+                                    <a class="background-blue waves-effect waves-light btn-small"
+                                       th:href="${'/particular/profileMascota/edit/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
+                                        <i class="material-icons left">create</i>Editar datos</a>
+                                </div>
                             </div>
 
-                            <div class="input-field col s12 m4">
-                                <select disabled>
-                                    <option value="" disabled selected>Especie</option>
-                                    <option value="1">P</option>
-                                    <option value="2">G</option>
-                                </select>
+                            <div th:if="${petCreated}">
+                                <div class="materialert success">
+                                    <div class="material-icons">check</div>
+                                    <span >Mascota actualizada</span>
+                                </div>
                             </div>
 
-                            <div class="input-field col s12 m4">
-                                <select disabled>
-                                    <option value="" disabled selected>Portador de parásito</option>
-                                    <option value="1">Ehrlichia canis</option>
-                                    <option value="2">Toxoplasma gondii</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col s12 top-margin center-align">
-                                <a class="background-blue waves-effect waves-light btn-small">
-                                    <i class="material-icons left">create</i>Editar datos</a>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
+
+    </div>
+
+    <div th:if="${mascota == null}">
+        <div class="row">
+            <div class="col s12 no-padding">
+                <div class="card-panel no-margin background-grey-2">
+                    <div class="row">
+                        <div class="col s4 offset-s4 m2 offset-m5">
+                            <img class="responsive-img" th:src="@{/images/catX.png}">
+                        </div>
+                    </div>
+                    <h3 class="flow-text center-align"> Lo sentimos. No tienes mascotas registradas.</h3>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
