@@ -322,6 +322,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -355,6 +356,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -388,6 +390,7 @@ public class AVLTree<T> {
                                 newNode.setLeft(currentNode);
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
+                                return;
                             } else {
                                 parentNode.setLeft(newNode);
                                 newNode.setParent(parentNode);
@@ -405,7 +408,7 @@ public class AVLTree<T> {
                     }
                 }
             } else {
-
+                break;
             }
         }
     }

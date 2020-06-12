@@ -1,9 +1,12 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
+import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
@@ -21,7 +24,10 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
+    @Autowired
     private ParticularService particularService;
+    @Autowired
+    private MascotaService mascotaService;
 
     private static final int PARTICULAR = 1;
     private static final int VETERINARIO = 2;
@@ -45,14 +51,15 @@ public class UserController {
     long time_start = 0;
     long time_end = 0;
 
-    @Autowired
-    public void setParticularService(ParticularService particularService) {
-        this.particularService = particularService;
-    }
-
     @RequestMapping("/particular")
     public String particular() {
         getUsers(sortDefault);
+        petList = new DoubleLinkedList<Mascota>();
+        for (Mascota mascota: mascotaService.listAllMascotas()) {
+            if (mascota != null){
+                petList.pushBack(mascota);
+            }
+        }
         return "particular";
     }
 
@@ -117,6 +124,11 @@ public class UserController {
     }*/
 
     AVLTree<Usuario> avl = null;
+    private DoubleLinkedList<Mascota> petList;
+
+    public DoubleLinkedList<Mascota> getMascotas (){
+        return petList;
+    }
 
     public void getUsers(int sortBy) {
         if (avl == null) {

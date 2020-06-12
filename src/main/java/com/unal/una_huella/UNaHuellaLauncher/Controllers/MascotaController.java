@@ -23,7 +23,23 @@ public class MascotaController {
     @Autowired
     private UserService userService;
 
-    private AVLTree<Mascota> petTree = new AVLTree<Mascota>(AVLTree.NOMBRE_MASCOTA);
+    @Autowired
+    private UserController userController;
+
+    private DoubleLinkedList<Mascota> petList;
+
+    @RequestMapping("/particular/misMascotas/{id}")
+    public String listaMascotas(Model model, @PathVariable String id) {
+        Usuario user = new Usuario();
+        user.setId_usuario(id);
+        try {
+            model.addAttribute("listaMascota", petList);
+            model.addAttribute("mascota", petList.getHead().key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "misMascotas";
+    }
 
     @RequestMapping("/particular/profileMascota/{id_user}/{id_mascota}")
     public String datosMascota(ModelMap model, @PathVariable("id_user") String id_user,
@@ -31,38 +47,64 @@ public class MascotaController {
         Mascota mascota = new Mascota();
         Usuario user = new Usuario();
         user.setId_usuario(id_user);
-        List<Mascota> listaMascota = userService.getMascotas(user);
-        model.addAttribute("listaMascota", listaMascota);
-        mascota = mascotaService.getMascotaById(id_mascota);
+        petList = userController.getMascotas();
+        model.addAttribute("listaMascota", petList);
+        mascota = petList.findById(id_mascota);
         model.addAttribute("mascota", mascota);
         return "misMascotas";
     }
 
-    @RequestMapping("/particular/misMascotas/{id}")
-    public String listaMascotas(Model model, @PathVariable String id) {
-        Usuario user = new Usuario();
-        user.setId_usuario(id);
+    @GetMapping("/particular/profileMascota/edit/{id_user}/{id_mascota}")
+    public String editarMascota(Model model, @PathVariable("id_user") String id_user,
+                                @PathVariable("id_mascota") String id_mascota) {
         try {
-            List<Mascota> listaMascota = userService.getMascotas(user);
-            model.addAttribute("listaMascota", listaMascota);
-            model.addAttribute("mascota", listaMascota.get(0));
+            Mascota mascota = new Mascota();
+            mascota = petList.findById(id_mascota);
+
+            if (mascota == null) {
+                throw new Exception("Este registro de Mascota no existe");
+            }
+
+            model.addAttribute("mascota", mascota);
+            model.addAttribute("edit", true);
+            model.addAttribute("petCreated", false);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            model.addAttribute("formErrorMessage", e.getMessage());
+            model.addAttribute("edit", false);
+            model.addAttribute("petCreated", false);
         }
         return "misMascotas";
     }
 
-    public void getMascotas() {
-        for (Mascota mascota :
-                mascotaService.listAllMascotas()) {
+    @PostMapping("/particular/profileMascota/update/{id_user}/{id_mascota}")
+    public String actualizarMascota(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, Model model,
+                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") String id_mascota) throws Exception {
+        if (validar.hasErrors()) {
+            // rellena los campos nuevamente con los datos y solo muestra error en el que fue erroneo
+            model.addAttribute("mascota", pet);
+            // muestra el formulario con los datos en los campos
+            model.addAttribute("edit", true);
+            // no actualiza el registro
+            model.addAttribute("petCreated", false);
+            return "misMascotas";
+        } else {
             try {
-                petTree.insertAVL(mascota);
+                mascotaService.updateMascota(pet);
+                petList.update(pet);
+                model.addAttribute("petCreated", true);
             } catch (Exception e) {
-                System.err.println("No se pudo ingresar el registro de la mascota identificada con" +
-                        mascota.getId_mascota());
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("mascota", pet);
+                model.addAttribute("edit", true);
+                model.addAttribute("petCreated", false);
+                return "misMascotas";
             }
+            model.addAttribute("edit", false);
+            return datosMascota((ModelMap) model, id_user, id_mascota);
         }
     }
+
 
     @RequestMapping("/particular/{id}/registrarMascota")
     public String formRegistrarMascota(Model model, @PathVariable String id) {
@@ -104,56 +146,9 @@ public class MascotaController {
         return "inscribirMascota";
     }
 
-    @GetMapping("/particular/profileMascota/edit/{id_user}/{id_mascota}")
-    public String editarMascota(Model model, @PathVariable("id_user") String id_user,
-                                @PathVariable("id_mascota") String id_mascota) {
-        try {
-            Mascota mascota = new Mascota();
-            mascota = mascotaService.getMascotaById(id_mascota);
 
-            if (mascota == null) {
-                throw new Exception("Este registro de Mascota no existe");
-            }
 
-            model.addAttribute("mascota", mascota);
-            model.addAttribute("edit", true);
-            model.addAttribute("petCreated", false);
 
-        } catch (Exception e) {
-            model.addAttribute("formErrorMessage", e.getMessage());
-            model.addAttribute("edit", false);
-            model.addAttribute("petCreated", false);
-        }
-        return "misMascotas";
-    }
-
-    @PostMapping("/particular/profileMascota/update/{id_user}/{id_mascota}")
-    public String actualizarMascota(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, Model model,
-                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") String id_mascota) throws Exception {
-        if (validar.hasErrors()) {
-            // rellena los campos nuevamente con los datos y solo muestra error en el que fue erroneo
-            model.addAttribute("mascota", pet);
-            // muestra el formulario con los datos en los campos
-            model.addAttribute("edit", true);
-            // no actualiza el registro
-            model.addAttribute("petCreated", false);
-            return "misMascotas";
-        } else {
-            try {
-                mascotaService.updateMascota(pet);
-                model.addAttribute("petCreated", true);
-                //mascotaService.mapMascota(pet, petTree.find(pet, petTree.getRoot()));
-            } catch (Exception e) {
-                model.addAttribute("formErrorMessage", e.getMessage());
-                model.addAttribute("mascota", pet);
-                model.addAttribute("edit", true);
-                model.addAttribute("petCreated", false);
-                return "misMascotas";
-            }
-            model.addAttribute("edit", false);
-            return datosMascota((ModelMap) model, id_user, id_mascota);
-        }
-    }
 
     @GetMapping("/particular/{id}/eliminarMascota/{id_mascota}")
     public String eliminarMascota(Model model, @PathVariable String id, @PathVariable String id_mascota) {
@@ -173,17 +168,5 @@ public class MascotaController {
     @RequestMapping(value = "idpet_search", method = RequestMethod.POST)
     public String searchMascota(Mascota idpet_search) {
         return "redirect:/petprofile/" + idpet_search.getId_mascota();
-    }
-
-    public AVLTree<Mascota> getPetTree() {
-        return petTree;
-    }
-
-    public void setPetTree(AVLTree<Mascota> petTree) {
-        this.petTree = petTree;
-    }
-
-    public void setMascotaService(MascotaService mascotaService) {
-        this.mascotaService = mascotaService;
     }
 }
