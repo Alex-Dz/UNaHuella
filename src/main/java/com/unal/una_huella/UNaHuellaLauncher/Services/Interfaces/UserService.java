@@ -14,7 +14,7 @@ public interface UserService {
 
     Usuario getUserById(String id) throws Exception;
 
-    List<Role> getRoles(Usuario user) throws Exception;
+    List<Role> getRoles(Usuario user);
 
     Usuario createUser(Usuario user) throws Exception;
 

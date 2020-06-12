@@ -36,13 +36,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Role> getRoles(Usuario user) throws Exception {
-        return getUserById(user.getId_usuario()).getRoles();
+    public List<Role> getRoles(Usuario user) {
+        try {
+            return getUserById(user.getId_usuario()).getRoles();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public Usuario createUser(Usuario user) throws Exception {
-        if (checkUsernameAvailable(user) && checkPasswordValid(user)){
+        if (checkUsernameAvailable(user) && checkPasswordValid(user)) {
 
             String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void mapUser(Usuario from, Usuario to){      //  copia todos los atributos del usuario menos contraseñas para actualizar en la BBDD
+    public void mapUser(Usuario from, Usuario to) {      //  copia todos los atributos del usuario menos contraseñas para actualizar en la BBDD
         to.setA_primer_nombre(from.getA_primer_nombre());
         to.setB_primer_apellido(from.getB_primer_apellido());
         to.setC_direccion(from.getC_direccion());
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
         to.setL_num_tarjetaprof(from.getL_num_tarjetaprof());
         to.setM_especializacion(from.getM_especializacion());
         to.setN_anos_experiencia(from.getN_anos_experiencia());
-        to.setRoles(from.getRoles());
+        //to.setRoles(from.getRoles());
     }
 
     @Override
@@ -99,15 +103,4 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
-
-    /*@Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario user = userRepo.findById(username);
-
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ADMIN"));
-
-        UserDetails userDet = new User(user.getUsername(), user.getPassword(), roles);
-        return userDet;
-    }*/
 }

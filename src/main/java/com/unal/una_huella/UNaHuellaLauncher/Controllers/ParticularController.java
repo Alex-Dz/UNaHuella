@@ -723,6 +723,7 @@ public class ParticularController {
                 throw new Exception("El usuario no existe");
             }
             model.addAttribute("user", user);
+            model.addAttribute("userRole", userService.getRoles(user));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -789,6 +790,7 @@ public class ParticularController {
                 throw new Exception("el usuario no existe");
             }
             model.addAttribute("user", vet);
+            model.addAttribute("userRole", userService.getRoles(vet));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
@@ -856,6 +858,7 @@ public class ParticularController {
                 throw new Exception("El usuario no existe");
             }
             model.addAttribute("user", gestor);
+            model.addAttribute("userRole", userService.getRoles(gestor));
         } catch (Exception e) {
             model.addAttribute("formErrorMessage", e.getMessage());
             model.addAttribute("edit", true);
