@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Controller
-public class ParticularController {
+public class UserController {
 
     private ParticularService particularService;
 
