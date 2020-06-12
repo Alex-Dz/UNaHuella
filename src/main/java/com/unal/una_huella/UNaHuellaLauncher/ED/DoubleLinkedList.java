@@ -195,6 +195,17 @@ public class DoubleLinkedList<T> implements List<T> {
 
     }
 
+    public void update(T key){
+        NodoList temp = findNode(key);
+        if (temp.key instanceof Mascota){
+            temp.key = key;
+        }
+        else{
+            System.out.println("\n\n\tno se pudo actualizar el elemento en la linkedList\n");
+            return;
+        }
+    }
+
     @Override
     public void addBefore(NodoList node, T key) {
         NodoList<T> newNode = new NodoList<T>(key, node, node.prev);
