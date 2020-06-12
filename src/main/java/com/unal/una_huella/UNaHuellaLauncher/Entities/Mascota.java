@@ -3,8 +3,6 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table (name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
@@ -15,13 +13,16 @@ public class Mascota {
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator (name = "native", strategy = "native")
     private String id_mascota;
+    //P = perro, G = gato
     @Column (name = "ESPECIE",nullable = false,  length = 1)
     private String a_especie;
     @Column (name = "NOMBRE_MASCOTA", nullable = false, length = 20)
     private String b_nombre_mascota;
-    @Column (name = "GENERO", nullable = false, length = 6)
-    private char c_genero;
-    @Column (name = "RAZA", nullable = false, length = 15)
+    //H = Hembra, M = Macho
+    @Column (name = "GENERO", nullable = false, length = 1)
+    private String c_genero;
+
+    @Column (name = "RAZA", nullable = false, length = 20)
     private String d_raza;
     @Column (name = "EDAD_MASCOTA", nullable = false)
     private int e_edad_mascota;
@@ -59,11 +60,11 @@ public class Mascota {
         this.b_nombre_mascota = b_nombre_mascota;
     }
 
-    public char getC_genero() {
+    public String getC_genero() {
         return c_genero;
     }
 
-    public void setC_genero(char c_genero) {
+    public void setC_genero(String c_genero) {
         this.c_genero = c_genero;
     }
 

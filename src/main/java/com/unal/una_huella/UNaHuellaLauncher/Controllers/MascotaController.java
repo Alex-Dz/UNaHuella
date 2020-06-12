@@ -127,9 +127,9 @@ public class MascotaController {
         return "misMascotas";
     }
 
-    @PostMapping("/particular/profileMascota/updated/{id_user}/{id_mascota}")
+    @PostMapping("/particular/profileMascota/update/{id_user}/{id_mascota}")
     public String actualizarMascota(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, Model model,
-                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") String id_mascota) {
+                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") String id_mascota) throws Exception {
         if (validar.hasErrors()) {
             // rellena los campos nuevamente con los datos y solo muestra error en el que fue erroneo
             model.addAttribute("mascota", pet);
@@ -137,7 +137,7 @@ public class MascotaController {
             model.addAttribute("edit", true);
             // no actualiza el registro
             model.addAttribute("petCreated", false);
-            return "mismascotas";
+            return "misMascotas";
         } else {
             try {
                 mascotaService.updateMascota(pet);
@@ -148,11 +148,10 @@ public class MascotaController {
                 model.addAttribute("mascota", pet);
                 model.addAttribute("edit", true);
                 model.addAttribute("petCreated", false);
-                return "mismascotas";
+                return "misMascotas";
             }
             model.addAttribute("edit", false);
-            model.addAttribute("mascota", pet);
-            return "mismascotas";
+            return datosMascota((ModelMap) model, id_user, id_mascota);
         }
     }
 
