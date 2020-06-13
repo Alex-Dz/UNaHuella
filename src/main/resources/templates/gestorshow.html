@@ -117,7 +117,7 @@
                             <div class="row center">
                                 <div class="col s12 m6 offset-m3 top-margin">
                                     <a class="background-blue waves-effect waves-light btn-small"
-                                       th:href="${'/gestor/edit/' + user.id_usuario}">
+                                       th:href="${gestorConsult}? ${'/gestor/editGestor/' + user.id_usuario} : ${'/gestor/edit/' + user.id_usuario}">
                                         <i class="material-icons left">create</i>Editar datos</a>
                                 </div>
                             </div>

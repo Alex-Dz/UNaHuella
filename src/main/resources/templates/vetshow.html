@@ -5,7 +5,13 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
+<div th:if="${gestorConsult}">
+    <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+</div>
+<div th:unless="${gestorConsult}">
+    <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
+</div>
+
 <div class="container top-padding-intermediate">
     <div class="row">
         <div class="col s12 no-padding">
@@ -128,7 +134,7 @@
                             <div class="row center">
                                 <div class="col s12 m6 offset-m3 top-margin">
                                     <a class="background-blue waves-effect waves-light btn-small"
-                                       th:href="${'/vet/edit/' + user.id_usuario}">
+                                       th:href="${gestorConsult}? ${'/gestor/editVet/' + user.id_usuario} : ${'/vet/edit/' + user.id_usuario}">
                                         <i class="material-icons left">create</i>Editar datos</a>
                                 </div>
                             </div>

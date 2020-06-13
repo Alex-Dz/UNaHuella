@@ -75,17 +75,17 @@
                         <td th:if="${user != null}" class="center"
                             th:text="${user.n_anos_experiencia}"></td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/vet/profile/' + user.id_usuario}">
+                            <a th:href="${'/gestor/viewVet/' + user.id_usuario}">
                                 <i class="material-icons">visibility</i>
                             </a>
                         </td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/vet/edit/' + user.id_usuario}">
+                            <a th:href="${'/gestor/editVet/' + user.id_usuario}">
                                 <i class="material-icons">create</i>
                             </a>
                         </td>
                         <td th:if="${user != null}" class="center">
-                            <a th:href="${'/vet/delete/' + user.id_usuario}">
+                            <a th:href="${'/gestor/delete/' + user.id_usuario}">
                                 <i class="material-icons">delete</i>
                             </a>
                         </td>

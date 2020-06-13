@@ -19,7 +19,7 @@
     <div th:unless="${gestorConsult}">
         <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
     </div>
-    <div class="container">
+    <div class="container top-padding-intermediate">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
@@ -38,45 +38,50 @@
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerNombre"
                                            placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoNombre"
                                            placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                    <label for="segundoNombre">Segundo Nombre</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerApellido"
                                            placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
-
+                                    <label for="primerApellido">Primer Apellido</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoApellido"
                                            placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
-
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_pin_circle</i>
                                     <input type="text" class="validate" id="direccion"
                                            placeholder="Direccion" th:field="${user.c_direccion}"/>
-
+                                    <label for="direccion">Dirección</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">phone</i>
                                     <input type="text" class="validate" id="telefono"
                                            placeholder="Telefono" th:field="${user.d_telefono}"/>
+                                    <label for="telefono">Teléfono</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">email</i>
                                     <input type="text" class="validate" id="email"
                                            placeholder="E-mail" th:field="${user.g_correo}"/>
+                                    <label for="email">e-mail</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">extension</i>
                                     <input type="text" class="validate" id="estrato"
                                            placeholder="Estrato" th:field="${user.i_estrato}"/>
+                                    <label for="estrato">Estrato</label>
                                 </div>
 
                                 <input type="hidden" id="N-Mascotas"
@@ -111,12 +116,18 @@
     </div>
 </div>
 <div th:if="${edit == true && tipo == 2}">
-    <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
-    <div class="container">
+    <div th:if="${gestorConsult}">
+        <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+    </div>
+    <div th:unless="${gestorConsult}">
+        <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
+    </div>
+    <div class="container top-padding-intermediate">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${user}" th:action="@{/vet/updateUser}" method="post">
+                    <form class="padding" th:object="${user}"
+                          th:action="${gestorConsult}? @{/gestor/updateParticular} : @{/vet/updateUser}" method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
@@ -128,58 +139,65 @@
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerNombre"
                                            placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoNombre"
                                            placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                    <label for="segundoNombre">Segundo Nombre</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerApellido"
                                            placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
-
+                                    <label for="primerApellido">Primer Apellido</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoApellido"
                                            placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
-
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_pin_circle</i>
                                     <input type="text" class="validate" id="direccion"
                                            placeholder="Direccion" th:field="${user.c_direccion}"/>
-
+                                    <label for="direccion">Dirección</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">phone</i>
                                     <input type="text" class="validate" id="telefono"
                                            placeholder="Telefono" th:field="${user.d_telefono}"/>
+                                    <label for="telefono">Teléfono</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">email</i>
                                     <input type="text" class="validate" id="email"
                                            placeholder="E-mail" th:field="${user.g_correo}"/>
+                                    <label for="email">e-mail</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">contacts</i>
                                     <input type="text" class="validate" id="tarjetaPro"
                                            placeholder="Numero de Tarjeta Profesional"
                                            th:field="${user.l_num_tarjetaprof}"/>
+                                    <label for="tarjetaPro">N° de Tarjeta Profesional</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">recent_actors</i>
                                     <input type="text" class="validate" id="especializacion"
                                            placeholder="Especializacion" th:field="${user.m_especializacion}"/>
+                                    <label for="especializacion">Especialización</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">schedule</i>
                                     <input type="text" class="validate" id="experiencia"
                                            placeholder="Años de experiencia" th:field="${user.n_anos_experiencia}"/>
+                                    <label for="experiencia">Años de Experiencia</label>
                                 </div>
 
                             </div>
@@ -210,11 +228,13 @@
 </div>
 <div th:if="${edit == true && tipo == 3}">
     <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
-    <div class="container">
+    <div class="container top-padding-intermediate">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">
-                    <form class="padding" th:object="${user}" th:action="@{/gestor/updateUser}" method="post">
+                    <form class="padding" th:object="${user}"
+                          th:action="${gestorConsult}? @{/gestor/updateParticular} : @{/gestor/updateUser}"
+                          method="post">
                         <div class="row">
                             <div class="col s12 no-padding">
                                 <div class="col s12 no-padding">
@@ -226,51 +246,57 @@
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerNombre"
                                            placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoNombre"
                                            placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                    <label for="segundoNombre">Segundo Nombre</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person</i>
                                     <input type="text" class="validate" id="primerApellido"
                                            placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
-
+                                    <label for="primerApellido">Primer Apellido</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input type="text" class="validate" id="segundoApellido"
                                            placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
-
+                                    <label for="primerNombre">Primer Nombre</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">person_pin_circle</i>
                                     <input type="text" class="validate" id="direccion"
                                            placeholder="Direccion" th:field="${user.c_direccion}"/>
-
+                                    <label for="direccion">Dirección</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">phone</i>
                                     <input type="text" class="validate" id="telefono"
                                            placeholder="Telefono" th:field="${user.d_telefono}"/>
+                                    <label for="telefono">Teléfono</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">email</i>
                                     <input type="text" class="validate" id="email"
                                            placeholder="E-mail" th:field="${user.g_correo}"/>
+                                    <label for="email">e-mail</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">developer_board</i>
                                     <input type="text" class="validate" id="funciones"
                                            placeholder="Funciones" th:field="${user.j_funciones}"/>
+                                    <label for="funciones">Funciones</label>
                                 </div>
 
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">equalizer</i>
                                     <input type="text" class="validate" id="nivelAcceso"
                                            placeholder="Nivel de Acceso" th:field="${user.k_nivel_acceso}"/>
+                                    <label for="nivelAcceso">Nivel de Acceso</label>
                                 </div>
 
                             </div>
@@ -301,7 +327,7 @@
 </div>
 <div th:if="${edit == false}">
     <!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
-    <div class="container">
+    <div class="container top-padding-intermediate">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel no-margin background-grey-2">

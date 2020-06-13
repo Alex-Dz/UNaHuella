@@ -84,27 +84,27 @@ public class UserController {
         SortParams temp;
 
         if (sortPartiParams == null || sortVetParams == null || sortGestorParams == null) {
-            sortPartiParams = new SortParams[5];
-            sortVetParams = new SortParams[4];
-            sortGestorParams = new SortParams[4];
+            sortPartiParams = new SortParams[3];
+            sortVetParams = new SortParams[3];
+            sortGestorParams = new SortParams[3];
             for (int i = 0; i < sortPartiParams.length; i++) {
                 temp = new SortParams(sortNames[i], sortValues[i]);
                 sortPartiParams[i] = temp;
             }
 
-            for (int i = 0; i < sortVetParams.length - 1; i++) {
+            for (int i = 0; i < sortVetParams.length; i++) {
                 temp = new SortParams(sortNames[i], sortValues[i]);
                 sortVetParams[i] = temp;
             }
-            temp = new SortParams(sortNames[6], sortValues[6]);
-            sortVetParams[3] = temp;
+            /*temp = new SortParams(sortNames[6], sortValues[6]);
+            sortVetParams[3] = temp;*/
 
-            for (int i = 0; i < sortGestorParams.length - 1; i++) {
+            for (int i = 0; i < sortGestorParams.length; i++) {
                 temp = new SortParams(sortNames[i], sortValues[i]);
                 sortGestorParams[i] = temp;
             }
-            temp = new SortParams(sortNames[5], sortValues[5]);
-            sortGestorParams[3] = temp;
+            /*temp = new SortParams(sortNames[5], sortValues[5]);
+            sortGestorParams[3] = temp;*/
         }
         if (avl == null) {
             getUsers(sortDefault);
@@ -779,8 +779,7 @@ public class UserController {
 
     @RequestMapping("/particular/profile/{id}")
     public String partiProfile(@PathVariable String id, Model model) throws Exception {
-        Usuario user = new Usuario();
-        user.setId_usuario(id);
+        Usuario user = userService.getUserById(id);
         user = avl.find(user, avl.getRoot());
         /*if (user == null) {
             throw new Exception("El usuario no existe");
@@ -792,8 +791,7 @@ public class UserController {
     @GetMapping("/particular/edit/{id}")
     public String editParticular(@PathVariable String id, Model model) {
         try {
-            Usuario user = new Usuario();
-            user.setId_usuario(id);
+            Usuario user = userService.getUserById(id);
             user = avl.find(user, avl.getRoot());
             if (user == null) {
                 throw new Exception("El usuario no existe");
@@ -846,8 +844,7 @@ public class UserController {
 
     @RequestMapping("/vet/profile/{id}")
     public String vetProfile(@PathVariable String id, Model model) throws Exception {
-        Usuario vet = new Usuario();
-        vet.setId_usuario(id);
+        Usuario vet = userService.getUserById(id);
         vet = avl.find(vet, avl.getRoot());
         /*if (vet == null){
             throw new Exception("el usuario no existe");
@@ -859,8 +856,7 @@ public class UserController {
     @GetMapping("/vet/edit/{id}")
     public String editVet(@PathVariable String id, Model model) {
         try {
-            Usuario vet = new Usuario();
-            vet.setId_usuario(id);
+            Usuario vet = userService.getUserById(id);
             vet = avl.find(vet, avl.getRoot());
             if (vet == null) {
                 throw new Exception("el usuario no existe");
@@ -914,8 +910,7 @@ public class UserController {
 
     @RequestMapping("/gestor/profile/{id}")
     public String gestorProfile(@PathVariable String id, Model model) throws Exception {
-        Usuario gestor = new Usuario();
-        gestor.setId_usuario(id);
+        Usuario gestor = userService.getUserById(id);
         gestor = avl.find(gestor, avl.getRoot());
         /*if (gestor == null){
             throw new Exception("El usuario no existe");
@@ -927,8 +922,7 @@ public class UserController {
     @GetMapping("/gestor/edit/{id}")
     public String editGestor(@PathVariable String id, Model model) {
         try {
-            Usuario gestor = new Usuario();
-            gestor.setId_usuario(id);
+            Usuario gestor = userService.getUserById(id);
             gestor = avl.find(gestor, avl.getRoot());
             if (gestor == null) {
                 throw new Exception("El usuario no existe");
@@ -989,8 +983,8 @@ public class UserController {
     @RequestMapping(value = "/gestor/idsearch", method = RequestMethod.POST)
     public String searchUser(Usuario idSearch, Model model) {
         Usuario user = new Usuario();
-        user.setId_usuario(idSearch.getId_usuario());
         try {
+            user = userService.getUserById(idSearch.getId_usuario());
             user = avl.find(user, avl.getRoot());
         } catch (Exception e) {
             user = null;
@@ -1017,8 +1011,7 @@ public class UserController {
     @GetMapping("/gestor/editParticular/{id}")
     public String gestorEditParticular(@PathVariable String id, Model model) {
         try {
-            Usuario user = new Usuario();
-            user.setId_usuario(id);
+            Usuario user = userService.getUserById(id);
             user = avl.find(user, avl.getRoot());
             if (user == null) {
                 throw new Exception("El usuario no existe");
@@ -1083,8 +1076,7 @@ public class UserController {
     @GetMapping("/gestor/editVet/{id}")
     public String gestorEditVet(@PathVariable String id, Model model) {
         try {
-            Usuario user = new Usuario();
-            user.setId_usuario(id);
+            Usuario user = userService.getUserById(id);
             user = avl.find(user, avl.getRoot());
             if (user == null) {
                 throw new Exception("El usuario no existe");
@@ -1150,8 +1142,7 @@ public class UserController {
     @GetMapping("/gestor/editGestor/{id}")
     public String gestorEditGestor(@PathVariable String id, Model model) {
         try {
-            Usuario user = new Usuario();
-            user.setId_usuario(id);
+            Usuario user = userService.getUserById(id);
             user = avl.find(user, avl.getRoot());
             if (user == null) {
                 throw new Exception("El usuario no existe");
