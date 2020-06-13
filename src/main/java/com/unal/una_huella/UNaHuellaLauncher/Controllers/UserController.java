@@ -6,7 +6,6 @@ import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
-import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.ParticularService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
 import com.unal.una_huella.UNaHuellaLauncher.util.SortParams;
@@ -18,7 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
+import java.time.Instant;
 
 @Controller
 public class UserController {
@@ -56,8 +56,13 @@ public class UserController {
     AVLTree<Usuario> avl = null;
     private AVLTree<Mascota> pets = null;
 
-    long time_start = 0;
-    long time_end = 0;
+
+    Instant tInicial = Instant.now();
+    //double d = (double) tInicial.getEpochSecond() + (double) tInicial.getNano() / 1_000_000_000;
+    Instant time_start;
+    Instant time_end;
+
+    DecimalFormat formatoDecimal = new DecimalFormat("0.000000000");
 
     @RequestMapping("/particular")
     public String particular() {
@@ -157,8 +162,8 @@ public class UserController {
         if (avl == null) {
             avl = new AVLTree<Usuario>(AVLTree.ID);
 
-            time_start = 0;
-            time_start = System.currentTimeMillis();
+            //time_start = 0;
+            time_start = Instant.now();
 
             for (Usuario user : userService.listAllUser()) {
                 try {
@@ -169,9 +174,9 @@ public class UserController {
                 }
             }
 
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en crear arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
+            //time_end = 0;
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado en crear arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
         } else {
             if (avl.getOrder() != sortBy) {
                 avl.emptyTree();
@@ -206,8 +211,8 @@ public class UserController {
                     }
                 }
 
-                time_start = 0;
-                time_start = System.currentTimeMillis();
+                //time_start = 0;
+                time_start = Instant.now();
 
                 for (Usuario user : userService.listAllUser()) {
                     try {
@@ -218,9 +223,9 @@ public class UserController {
                     }
                 }
 
-                time_end = 0;
-                time_end = System.currentTimeMillis();
-                System.out.println("\n\n\t\tTiempo empleado en reconstruir arbol AVL de usuarios: " + (time_end - time_start) + " milliseconds");
+                //time_end = 0;
+                time_end = Instant.now();
+                System.out.println("\n\n\t\tTiempo empleado en reconstruir arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             }
         }
         return avl;
@@ -246,15 +251,18 @@ public class UserController {
         prevPag.emptyStack();
 
         long count = 0;
-        time_start = 0;
-        time_start = System.currentTimeMillis();
+        /*time_start = 0;
+        time_start = System.currentTimeMillis();*/
         java.util.List<Usuario> listaUsuarios = avl.getList(tipo);
-        time_end = 0;
+        /*time_end = 0;
         time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en migrar usuarios del arbol a lista: " + (time_end - time_start) + " milliseconds");
+        System.out.println("\n\n\t\tTiempo empleado en migrar usuarios del arbol a lista: " + formatoDecimal.format(time_end - time_start) + " milliseconds");*/
 
-        time_start = 0;
-        time_start = System.currentTimeMillis();
+        //time_start = 0;
+        time_start = Instant.now();
+        double time_temp_start = 0;
+        double time_temp_end = 0;
+        double time_acumulado = 0;
         while (count < listaUsuarios.size()) {
             Usuario[] pagina = new Usuario[regsPerPage];
             for (int i = 0; i < regsPerPage; i++) {
@@ -272,12 +280,15 @@ public class UserController {
                 }
             }
             if (pagina[0] != null) {
+                time_temp_start = System.currentTimeMillis();
                 prevPag.push(pagina);
+                time_temp_end = System.currentTimeMillis();
+                time_acumulado += time_temp_end - time_temp_start;
             }
         }
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
+        //time_end = 0;
+        time_end = Instant.now();
+        System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
 
 
         /*if (tipo == PARTICULAR) {
@@ -396,14 +407,14 @@ public class UserController {
             System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
         }*/
 
-        time_start = 0;
-        time_start = System.currentTimeMillis();
+        //time_start = 0;
+        time_start = Instant.now();
         while (!prevPag.isEmpty()) {
             nextPag.push(prevPag.pop());
         }
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + (time_end - time_start) + " milliseconds");
+        //time_end = 0;
+        time_end = Instant.now();
+        System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
     }
 
     /*      métodos paginadores y reordenamiento de tabla para las listas de gestor     */
@@ -762,7 +773,7 @@ public class UserController {
         return "createUserForm";
     }*/
 
-    @GetMapping("/user/delete/{id}")
+    /*@GetMapping("/user/delete/{id}")
     public String deleteUs(@PathVariable String id, Model model) {
         try {
             userService.deleteUser(id);
@@ -775,7 +786,7 @@ public class UserController {
             model.addAttribute("deleteErrorMessage", e.getMessage());
         }
         return "redirect:/usuarios";
-    }
+    }*/
 
     @RequestMapping("/particular/profile/{id}")
     public String partiProfile(@PathVariable String id, Model model) throws Exception {
@@ -982,10 +993,14 @@ public class UserController {
 
     @RequestMapping(value = "/gestor/idsearch", method = RequestMethod.POST)
     public String searchUser(Usuario idSearch, Model model) {
+
         Usuario user = new Usuario();
         try {
             user = userService.getUserById(idSearch.getId_usuario());
+            time_start = Instant.now();
             user = avl.find(user, avl.getRoot());
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado en buscar registro en arbol " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
         } catch (Exception e) {
             user = null;
         }
@@ -1203,7 +1218,10 @@ public class UserController {
             Usuario user = new Usuario();
             user.setId_usuario(id);
             userService.deleteUser(id);
+            time_start = Instant.now();
             avl.deleteAVL(user);
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado en eliminar registro de arbol " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             model.addAttribute("deleteSuccess", true);
             model.addAttribute("deleteError", false);
             model.addAttribute("deleteSuccessMessage", "Usuario eliminado");
