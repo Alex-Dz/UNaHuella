@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class gestorController {
 
-    @RequestMapping("/gestor")
+    /*@RequestMapping("/gestor")
     String gestor() {
         return "gestor";
-    }
+    }*/
 
 }

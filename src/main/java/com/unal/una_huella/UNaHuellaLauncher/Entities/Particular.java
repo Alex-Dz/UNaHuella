@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class Particular {
 
     @Id
+    @Column(name = "ID_PARTICULAR", nullable = false, length = 25)
     private String id_particular;
 
     @Column(name = "PRIMER_NOMBRE_PARTICULAR", nullable = false, length = 30)

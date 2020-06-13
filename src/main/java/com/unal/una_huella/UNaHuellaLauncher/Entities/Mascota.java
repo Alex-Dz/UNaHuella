@@ -1,22 +1,40 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
+@Table (name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
 public class Mascota {
 
     @Id
+    @Column (name = "ID_MASCOTA", length = 10)
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator (name = "native", strategy = "native")
     private String id_mascota;
-    
+    //P = perro, G = gato
+    @Column (name = "ESPECIE",nullable = false,  length = 1)
     private String a_especie;
+    @Column (name = "NOMBRE_MASCOTA", nullable = false, length = 20)
     private String b_nombre_mascota;
-    private char c_genero;
+    //H = Hembra, M = Macho
+    @Column (name = "GENERO", nullable = false, length = 1)
+    private String c_genero;
+
+    @Column (name = "RAZA", nullable = false, length = 20)
     private String d_raza;
-    private String e_edad_mascota;
+    @Column (name = "EDAD_MASCOTA", nullable = false)
+    private int e_edad_mascota;
+    @Column (name = "HISTORIAL_CIRUGIAS", nullable = false, length = 500)
     private String f_historial_cirugias;
+    @Column (name = "PORTADOR_PARASITO", length = 15, nullable = false)
     private String g_portador_parasito;
+    @Column (name = "CARNET_VACUNACION", nullable = false, length = 12)
     private String h_carnet_vacunacion;
-    private String i_id_particular;
+    @ManyToOne
+    @JoinColumn(name="ID_DUEÑO")
+    private Usuario i_id_dueño;
 
     public String getId_mascota() {
         return id_mascota;
@@ -42,11 +60,11 @@ public class Mascota {
         this.b_nombre_mascota = b_nombre_mascota;
     }
 
-    public char getC_genero() {
+    public String getC_genero() {
         return c_genero;
     }
 
-    public void setC_genero(char c_genero) {
+    public void setC_genero(String c_genero) {
         this.c_genero = c_genero;
     }
 
@@ -58,11 +76,11 @@ public class Mascota {
         this.d_raza = d_raza;
     }
 
-    public String getE_edad_mascota() {
+    public int getE_edad_mascota() {
         return e_edad_mascota;
     }
 
-    public void setE_edad_mascota(String e_edad_mascota) {
+    public void setE_edad_mascota(int e_edad_mascota) {
         this.e_edad_mascota = e_edad_mascota;
     }
 
@@ -90,12 +108,19 @@ public class Mascota {
         this.h_carnet_vacunacion = h_carnet_vacunacion;
     }
 
-    public String getI_id_particular() {
-        return i_id_particular;
+    public Usuario getI_id_usuario() {
+        return i_id_dueño;
     }
 
-    public void setI_id_particular(String i_id_particular) {
-        this.i_id_particular = i_id_particular;
+    public void setI_id_dueño(Usuario i_id_dueño) {
+        this.i_id_dueño = i_id_dueño;
     }
 
+    /*public Usuario getI_id_usuario() {
+        return i_id_dueño;
+    }
+
+    public void setI_id_dueño(Usuario i_id_dueño) {
+        this.i_id_dueño = i_id_dueño;
+    }*/
 }

@@ -4,30 +4,37 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(DosisId.class)
+@Table (name = "DOSIS", indexes = {@Index(name = "RELACION_DOSIS_MASCOTA", columnList = "ID_MASCOTA"),
+        @Index(name = "RELACION_DOSIS_MEDICAMENTO", columnList="ID_MEDICAMENTO")})
 public class Dosis {
 
     @Id
-    private String a_id_medicamento;
+    @ManyToOne
+    @JoinColumn(name = "ID_MEDICAMENTO")
+    private Medicamento a_id_medicamento;
     @Id
-    private String b_id_mascota;
-
+    @ManyToOne
+    @JoinColumn(name = "ID_MASCOTA")
+    private Mascota b_id_mascota;
+    @Column (name = "CANTIDAD_DOSIS", nullable = false, length = 10)
     private String a_cantidad_dosis;
+    @Column (name = "DESCRIPCION_DOSIS", nullable = false, length = 30)
     private String b_descripcion_dosis;
 
-    public String getId_medicamento() {
+    public Medicamento getA_id_medicamento() {
         return a_id_medicamento;
     }
 
-    public void setId_medicamento(String id_medicamento) {
-        this.a_id_medicamento = id_medicamento;
+    public void setA_id_medicamento(Medicamento a_id_medicamento) {
+        this.a_id_medicamento = a_id_medicamento;
     }
 
-    public String getId_mascota() {
+    public Mascota getB_id_mascota() {
         return b_id_mascota;
     }
 
-    public void setId_mascota(String id_mascota) {
-        this.b_id_mascota = id_mascota;
+    public void setB_id_mascota(Mascota b_id_mascota) {
+        this.b_id_mascota = b_id_mascota;
     }
 
     public String getCantidad_dosis() {

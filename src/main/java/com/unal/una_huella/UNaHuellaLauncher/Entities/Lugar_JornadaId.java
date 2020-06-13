@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 public class Lugar_JornadaId implements Serializable {
 
-    private String a_id_jornada;
-    private String b_id_lugar;
+    private Jornada a_id_jornada;
+    private Lugar b_id_lugar;
 
     @Override
     public int hashCode() {

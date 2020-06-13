@@ -18,4 +18,11 @@ $(document).ready(function () {
         coverTrigger: false,
         hover: true
     });
+
+    $('.dropdown').dropdown({
+        inDuration: 300,
+        inDuration: 500,
+        constrainWidth: false,
+        coverTrigger: false
+    });
 })

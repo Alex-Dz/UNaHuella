@@ -1,6 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.ED;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
+
 import java.util.Iterator;
 
 public class DoubleLinkedList<T> implements List<T> {
@@ -153,6 +154,17 @@ public class DoubleLinkedList<T> implements List<T> {
                 temp = temp.next;
                 i++;
             }
+        } else if (head != null && head.key instanceof Mascota) {
+            NodoList<Mascota> temp = (NodoList<Mascota>) head;
+            while (i < this.size) {
+                if (temp.key.getId_mascota().equals(id)) {
+                    return (T) temp.key;
+                }
+                temp = temp.next;
+                i++;
+            }
+        } else {
+            return null;
         }
         return null;
     }
@@ -181,6 +193,17 @@ public class DoubleLinkedList<T> implements List<T> {
             }
         }
 
+    }
+
+    public void update(T key){
+        NodoList temp = findNode(key);
+        if (temp.key instanceof Mascota){
+            temp.key = key;
+        }
+        else{
+            System.out.println("\n\n\tno se pudo actualizar el elemento en la linkedList\n");
+            return;
+        }
     }
 
     @Override

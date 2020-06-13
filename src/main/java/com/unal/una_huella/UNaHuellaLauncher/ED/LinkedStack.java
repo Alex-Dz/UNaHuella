@@ -5,8 +5,8 @@ public class LinkedStack<T> implements Stack<T> {
     private int size;
 
     public LinkedStack() {
-        this.top = new NodoStack<T>();
-        size = 0;
+        this.top = null;
+        this.size = 0;
     }
 
     @Override
@@ -14,9 +14,14 @@ public class LinkedStack<T> implements Stack<T> {
         return size;
     }
 
+    public void emptyStack(){
+        this.top = null;
+        this.size = 0;
+    }
+
     @Override
     public boolean isEmpty() {
-        if (top.next == null && top.key == null) {
+        if (top == null) {
             return true;
         } else {
             return false;

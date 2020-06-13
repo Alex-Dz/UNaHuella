@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class VetController {
 
-    @RequestMapping("/vet")
+    /*@RequestMapping("/vet")
     public String vet(){
         return "veterinario";
-    }
+    }*/
 }

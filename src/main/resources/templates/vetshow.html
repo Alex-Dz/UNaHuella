@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>UNa Huella - Particular</title>
+    <title>UNa Huella - Veterinario</title>
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
-<div class="container">
+<div th:if="${gestorConsult}">
+    <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+</div>
+<div th:unless="${gestorConsult}">
+    <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
+</div>
+
+<div class="container top-padding-intermediate">
     <div class="row">
         <div class="col s12 no-padding">
-            <div th:if="${particular != null}">
+            <div th:if="${user != null}">
                 <form class="card-panel side-padding-big no-margin background-grey-2">
                     <div class="row">
                         <div class="col s12">
@@ -22,7 +28,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="documento" class="col s11"
-                                              th:text="${particular.id_particular}"></span>
+                                              th:text="${user.id_usuario}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -34,10 +40,10 @@
                                         <label class="top-margin-little" for="nombre">Nombre:</label>
                                     </div>
                                     <div class="row side-padding">
-                                        <span id="nombre" class="col s11" th:text="${particular.getA_primer_nombre_particular()
-                                        + ' ' + particular.getE_segundo_nombre_particular()
-                                        + ' ' + particular.getB_primer_apellido_particular()
-                                        + ' ' + particular.getF_segundo_apellido_particular()}"></span>
+                                        <span id="nombre" class="col s11" th:text="${user.getA_primer_nombre()
+                                        + ' ' + user.getE_segundo_nombre()
+                                        + ' ' + user.getB_primer_apellido()
+                                        + ' ' + user.getF_segundo_apellido()}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +56,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="direccion" class="col s10"
-                                              th:text="${particular.getC_direccion_particular()}"></span>
+                                              th:text="${user.getC_direccion()}"></span>
                                     </div>
                                 </div>
 
@@ -61,7 +67,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="telefono" class="col s10"
-                                              th:text="${particular.getD_telefono_particular()}"></span>
+                                              th:text="${user.getD_telefono()}"></span>
                                     </div>
                                 </div>
 
@@ -72,7 +78,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="correo" class="col s10"
-                                              th:text="${particular.getG_correo_particular()}"></span>
+                                              th:text="${user.getG_correo()}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +91,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="n-tarjeta" class="col s10"
-                                              th:text="${'123456789'}"></span>
+                                              th:text="${user.l_num_tarjetaprof}"></span>
                                     </div>
                                 </div>
 
@@ -96,7 +102,7 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="especializacion" class="col s10"
-                                              th:text="${'fetos de canguro sasonados a la marinera'}"></span>
+                                              th:text="${user.m_especializacion}"></span>
                                     </div>
                                 </div>
 
@@ -107,15 +113,28 @@
                                     </div>
                                     <div class="row side-padding">
                                         <span id="exp" class="col s10"
-                                              th:text="${0}"></span>
+                                              th:text="${user.n_anos_experiencia}"></span>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${formErrorMessage}">
+                                <div class="materialert error">
+                                    <div class="material-icons">error_outline</div>
+                                    <span th:text="${formErrorMessage}">Error Message</span>
+                                </div>
+                            </div>
+                            <div th:if="${userCreated}">
+                                <div class="materialert success">
+                                    <div class="material-icons">check</div>
+                                    <span th:text="!${edit}?'Usuario actualizado':'Usuario Creado'">Usuario Creado/actualizado</span>
                                 </div>
                             </div>
 
                             <div class="row center">
                                 <div class="col s12 m6 offset-m3 top-margin">
                                     <a class="background-blue waves-effect waves-light btn-small"
-                                       th:href="${'/vet/edit/' + particular.id_particular}">
+                                       th:href="${gestorConsult}? ${'/gestor/editVet/' + user.id_usuario} : ${'/vet/edit/' + user.id_usuario}">
                                         <i class="material-icons left">create</i>Editar datos</a>
                                 </div>
                             </div>
@@ -126,7 +145,7 @@
                 </form>
             </div>
 
-            <div th:if="${particular == null}">
+            <div th:if="${user == null}">
                 <div class="row">
                     <div class="col s12 no-padding">
                         <div class="card-panel no-margin background-grey-2">

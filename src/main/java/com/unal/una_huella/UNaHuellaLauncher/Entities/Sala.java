@@ -1,16 +1,25 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @IdClass(SalaId.class)
+@Table(name = "SALA", indexes = {@Index(name = "RELACION_SALA_LUGAR", columnList = "ID_LUGAR")})
 public class Sala {
 
     @Id
+    @Column(name = "ID_SALA", length = 5)
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private String a_id_sala;
     @Id
-    private String b_id_lugar;
-    
+    @ManyToOne
+    @JoinColumn(name = "ID_LUGAR")
+    private Lugar b_id_lugar;
+
+    @Column(name = "CAPACIDAD_SALA")
     private int capacidad_sala;
 
     public String getId_sala() {
@@ -21,11 +30,11 @@ public class Sala {
         this.a_id_sala = a_id_sala;
     }
 
-    public String getId_lugar() {
+    public Lugar getId_lugar() {
         return b_id_lugar;
     }
 
-    public void setId_lugar(String b_id_lugar) {
+    public void setId_lugar(Lugar b_id_lugar) {
         this.b_id_lugar = b_id_lugar;
     }
 

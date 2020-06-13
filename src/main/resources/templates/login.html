@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Login</title>
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
@@ -17,21 +17,37 @@
     <div class="row">
         <div class="col s12 m8 offset-m2">
             <div class="card-panel no-margin background-grey-2">
-                <form class="padding">
+                <form class="padding" th:action="@{/login}" method="post">
+                    <div>
+                        <h3 class="flow-text">[[${#httpServletRequest.remoteUser}]]</h3>
+                    </div>
                     <div class="row">
                         <div class="col s12">
                             <div class="input-field">
-                                <label class="flow-text" for="documento">Número de Documento</label>
-                                <input id="documento" class="validate" type="email" placeholder="Documento">
+                                <label class="flow-text" for="id_usuario">Número de Documento</label>
+                                <input id="id_usuario" name="id_usuario" autofocus class="validate" type="text" placeholder="Documento">
                             </div>
                             <div class="input-field">
                                 <label class="flow-text" for="contraseña">Contraseña</label>
-                                <input id="contraseña" class="validate" type="password" placeholder="Contraseña">
+                                <input id="contraseña" name="password" class="validate" type="password" placeholder="Contraseña">
                             </div>
                         </div>
                     </div>
                     <button class="btn background-violet" type="submit" name="action">Login</button>
                 </form>
+
+                <div th:if="${param.logout}">
+                    <div class="materialert success">
+                        <div class="material-icons">check</div>
+                        <span th:text="'Has cerrado sesión'">Success Message</span>
+                    </div>
+                </div>
+                <div th:if="${param.error}">
+                    <div class="materialert error">
+                        <div class="material-icons">error_outline</div>
+                        <span th:text="'nombre de usuario y/o contraseña invalidos'">Error Message</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

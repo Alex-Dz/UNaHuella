@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class DosisId implements Serializable {
 
-    private String a_id_medicamento;
-    private String b_id_mascota;
+    private Medicamento a_id_medicamento;
+    private Mascota b_id_mascota;
 
     @Override
     public int hashCode() {
