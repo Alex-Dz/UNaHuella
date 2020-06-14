@@ -11,146 +11,149 @@
 <div th:unless="${gestorConsult}">
     <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
 </div>
-<div class="container top-padding-intermediate">
-    <div class="row">
-        <div class="col s12 no-padding">
-            <div th:if="${user != null}">
-                <form class="card-panel side-padding-big no-margin background-grey-2">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="row side-padding">
-                                        <i class="material-icons left">contact_mail</i>
-                                        <label class="top-margin-little" for="documento">Numero de
-                                            Documento:</label>
-                                    </div>
-                                    <div class="row side-padding">
+<main>
+    <div class="container top-padding-intermediate">
+        <div class="row">
+            <div class="col s12 no-padding">
+                <div th:if="${user != null}">
+                    <form class="card-panel side-padding-big no-margin background-grey-2">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="row side-padding">
+                                            <i class="material-icons left">contact_mail</i>
+                                            <label class="top-margin-little" for="documento">Numero de
+                                                Documento:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="documento" class="col s11"
                                               th:text="${user.id_usuario}"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="row side-padding">
-                                        <i class="left material-icons">person</i>
-                                        <label class="top-margin-little" for="nombre">Nombre:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <div class="row side-padding">
+                                            <i class="left material-icons">person</i>
+                                            <label class="top-margin-little" for="nombre">Nombre:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="nombre" class="col s11" th:text="${user.getA_primer_nombre()
                                         + ' ' + user.getE_segundo_nombre()
                                         + ' ' + user.getB_primer_apellido()
                                         + ' ' + user.getF_segundo_apellido()}"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <div class="row side-padding">
-                                        <i class="left material-icons">person_pin_circle</i>
-                                        <label class="top-margin-little" for="direccion">Dirección:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="row side-padding">
+                                            <i class="left material-icons">person_pin_circle</i>
+                                            <label class="top-margin-little" for="direccion">Dirección:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="direccion" class="col s10"
                                               th:text="${user.getC_direccion()}"></span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col s12 m4">
-                                    <div class="row side-padding">
-                                        <i class="left material-icons">phone</i>
-                                        <label class="top-margin-little" for="telefono">Teléfono:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                    <div class="col s12 m4">
+                                        <div class="row side-padding">
+                                            <i class="left material-icons">phone</i>
+                                            <label class="top-margin-little" for="telefono">Teléfono:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="telefono" class="col s10"
                                               th:text="${user.getD_telefono()}"></span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col s12 m4">
-                                    <div class="row side-padding">
-                                        <i class="material-icons left">email</i>
-                                        <label class="top-margin-little" for="correo">e-mail:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                    <div class="col s12 m4">
+                                        <div class="row side-padding">
+                                            <i class="material-icons left">email</i>
+                                            <label class="top-margin-little" for="correo">e-mail:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="correo" class="col s10"
                                               th:text="${user.getG_correo()}"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <div class="row side-padding">
-                                        <i class="material-icons left">pets</i>
-                                        <label class="top-margin-little" for="cantMascotas">N° de Mascotas:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                <div class="row">
+                                    <div class="col s12 m4">
+                                        <div class="row side-padding">
+                                            <i class="material-icons left">pets</i>
+                                            <label class="top-margin-little" for="cantMascotas">N° de Mascotas:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="cantMascotas" class="col s10"
                                               th:text="${user.getH_cantidad_mascotas()}"></span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col s12 m4">
-                                    <div class="row side-padding">
-                                        <i class="material-icons left">extension</i>
-                                        <label class="top-margin-little" for="estrato">Estrato:</label>
-                                    </div>
-                                    <div class="row side-padding">
+                                    <div class="col s12 m4">
+                                        <div class="row side-padding">
+                                            <i class="material-icons left">extension</i>
+                                            <label class="top-margin-little" for="estrato">Estrato:</label>
+                                        </div>
+                                        <div class="row side-padding">
                                         <span id="estrato" class="col s10"
                                               th:text="${user.getI_estrato()}"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div th:if="${formErrorMessage}">
-                                <div class="materialert error">
-                                    <div class="material-icons">error_outline</div>
-                                    <span th:text="${formErrorMessage}">Error Message</span>
+                                <div th:if="${formErrorMessage}">
+                                    <div class="materialert error">
+                                        <div class="material-icons">error_outline</div>
+                                        <span th:text="${formErrorMessage}">Error Message</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div th:if="${userCreated}">
-                                <div class="materialert success">
-                                    <div class="material-icons">check</div>
-                                    <span th:text="${edit}?'Usuario actualizado':'Usuario Creado'">Usuario Creado/actualizado</span>
+                                <div th:if="${userCreated}">
+                                    <div class="materialert success">
+                                        <div class="material-icons">check</div>
+                                        <span th:text="${edit}?'Usuario actualizado':'Usuario Creado'">Usuario Creado/actualizado</span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row center">
-                                <div class="col s12 m6 offset-m3 top-margin">
-                                    <a class="background-blue waves-effect waves-light btn-small"
-                                       th:href="${gestorConsult}? ${'/gestor/editParticular/' + user.id_usuario} : ${'/particular/edit/' + user.id_usuario}">
-                                        <i class="material-icons left">create</i>Editar datos</a>
+                                <div class="row center">
+                                    <div class="col s12 m6 offset-m3 top-margin">
+                                        <a class="background-blue waves-effect waves-light btn-small"
+                                           th:href="${gestorConsult}? ${'/gestor/editParticular/' + user.id_usuario} : ${'/particular/edit/' + user.id_usuario}">
+                                            <i class="material-icons left">create</i>Editar datos</a>
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-
-            <div th:if="${user == null}">
-                <div class="row">
-                    <div class="col s12 no-padding">
-                        <div class="card-panel no-margin background-grey-2">
-                            <div class="row">
-                                <div class="col s4 offset-s4 m2 offset-m5">
-                                    <img class="responsive-img" th:src="@{/images/catX.png}">
-                                </div>
-                            </div>
-                            <h3 class="flow-text center-align"> Lo sentimos. No existen registros con ese
-                                documento.</h3>
-                        </div>
-                    </div>
+                    </form>
                 </div>
 
+                <div th:if="${user == null}">
+                    <div class="row">
+                        <div class="col s12 no-padding">
+                            <div class="card-panel no-margin background-grey-2">
+                                <div class="row">
+                                    <div class="col s4 offset-s4 m2 offset-m5">
+                                        <img class="responsive-img" th:src="@{/images/catX.png}">
+                                    </div>
+                                </div>
+                                <h3 class="flow-text center-align"> Lo sentimos. No existen registros con ese
+                                    documento.</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+</main>
+<!--/*/ <th:block th:include="headers/footer :: footer"></th:block> /*/-->
 <!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
 </body>
 </html>

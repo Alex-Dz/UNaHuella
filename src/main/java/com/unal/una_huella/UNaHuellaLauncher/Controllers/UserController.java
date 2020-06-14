@@ -1006,7 +1006,7 @@ public class UserController {
         }
         model.addAttribute("user", user);
         model.addAttribute("gestorConsult", true);
-        if (userService.getRoles(user).get(0).getId() == PARTICULAR) {
+        if (user == null || userService.getRoles(user).get(0).getId() == PARTICULAR) {
             return "particularshow";
         } else if (userService.getRoles(user).get(0).getId() == VETERINARIO) {
             return "vetshow";

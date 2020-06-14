@@ -4,49 +4,51 @@
 </head>
 <body>
 <div th:fragment="usernavbar">
-    <div class="row">
-        <div class="col s12">
-            <div class="row">
-                <div class="navbar-fixed">
-                    <nav class="nav-extended background-violet">
-                        <div class="nav-wrapper side-padding">
-                            <a th:href="@{/}" href="#" class="brand-logo left no-margin"><i class="material-icons">pets</i></a>
-                            <a th:href="@{/particular}" href="#" class="brand-logo center">Particular</a>
-                            <a href="#" class="sidenav-trigger side-padding" data-target="mobile-navbar">
-                                <i class="material-icons">menu</i>
-                            </a>
-                            <ul class="right hide-on-med-and-down">
-                                <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
-                                <li><i class="material-icons">chevron_right</i></li>
-                                <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
-                            </ul>
-                        </div>
-                        <div class="nav-content center-align">
-                            <ul class="tabs tabs-transparent">
-                                <li class="tab"><a th:href="${'/particular/profile/' + #httpServletRequest.remoteUser}" href="#">Mis datos</a></li>
-                                <li class="tab"><a th:href="${'/particular/misMascotas/' + #httpServletRequest.remoteUser}" href="#">Mis mascotas</a></li>
-                                <li class="tab disabled"><a href="#"><!--th:href="@{/particular/mascotas/new}"-->Inscribir Mascota (próximamente)</a></li>
-                                <li class="tab"><a href="#" th:href="@{/particular/citas/new}">Asignar Cita</a></li>
-                                <li class="tab disabled"><a href="#"><!--th:href="@{/particular/citas}"-->Citas (próximamente)</a></li>
-                                <li class="tab disabled"><a href="#"><!--th:href="@{/particular/jornadas}"-->Próximas Jornadas (próximamente)</a></li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-                <div class="container no-padding no-margin sidenav background-grey-1" id="mobile-navbar">
-                    <div class="row side-padding">
-                        <div class="col s12">
-                            <ul>
-                                <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
-                                <li class="divider grey darken-3"></li>
-                                <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
-                            </ul>
+    <header>
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="navbar-fixed">
+                        <nav class="nav-extended background-violet">
+                            <div class="nav-wrapper side-padding">
+                                <a th:href="@{/}" href="#" class="brand-logo left no-margin"><i class="material-icons">pets</i></a>
+                                <a th:href="@{/particular}" href="#" class="brand-logo center">Particular</a>
+                                <a href="#" class="sidenav-trigger side-padding" data-target="mobile-navbar">
+                                    <i class="material-icons">menu</i>
+                                </a>
+                                <ul class="right hide-on-med-and-down">
+                                    <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
+                                    <li><i class="material-icons">chevron_right</i></li>
+                                    <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
+                                </ul>
+                            </div>
+                            <div class="nav-content center-align">
+                                <ul class="tabs tabs-transparent">
+                                    <li class="tab"><a th:href="${'/particular/profile/' + #httpServletRequest.remoteUser}" href="#">Mis datos</a></li>
+                                    <li class="tab"><a th:href="${'/particular/misMascotas/' + #httpServletRequest.remoteUser}" href="#">Mis mascotas</a></li>
+                                    <li class="tab disabled"><a href="#"><!--th:href="@{/particular/mascotas/new}"-->Inscribir Mascota (próximamente)</a></li>
+                                    <li class="tab"><a href="#" th:href="@{/particular/citas/new}">Asignar Cita</a></li>
+                                    <li class="tab disabled"><a href="#"><!--th:href="@{/particular/citas}"-->Citas (próximamente)</a></li>
+                                    <li class="tab disabled"><a href="#"><!--th:href="@{/particular/jornadas}"-->Próximas Jornadas (próximamente)</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="container no-padding no-margin sidenav background-grey-1" id="mobile-navbar">
+                        <div class="row side-padding">
+                            <div class="col s12">
+                                <ul>
+                                    <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
+                                    <li class="divider grey darken-3"></li>
+                                    <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 </div>
 </body>
 </html>
