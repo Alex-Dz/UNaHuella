@@ -192,3 +192,14 @@
 .background-dark-grey {
     background-color: rgba(48, 48, 50, 0.83);
 }
+
+/*      para enviar el footer al final de la pag    */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}

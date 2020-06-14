@@ -4,30 +4,32 @@
 </head>
 <body>
 <div th:fragment="mainnavbar">
-    <div class="row">
-        <div class="col s12">
-            <div class="row">
-                <nav class="background-violet">
-                    <div class="nav-wrapper side-padding">
-                        <a th:href="@{/}" href="#" class="brand-logo"><i class="material-icons">pets</i><span class="title-navbar">UNa Huella</span></a>
-                        <a href="#" class="sidenav-trigger" data-target="mobile-navbar">
-                            <i class="material-icons">menu</i>
-                        </a>
-                        <ul class="right hide-on-med-and-down">
-                            <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
-                            <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
-                            <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
-                        </ul>
-                    </div>
-                </nav>
-                <ul class="sidenav background-grey-1" id="mobile-navbar">
-                    <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
-                    <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
-                    <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
-                </ul>
+    <header>
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <nav class="background-violet">
+                        <div class="nav-wrapper side-padding">
+                            <a th:href="@{/}" href="#" class="brand-logo"><i class="material-icons">pets</i><span class="title-navbar">UNa Huella</span></a>
+                            <a href="#" class="sidenav-trigger" data-target="mobile-navbar">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul class="right hide-on-med-and-down">
+                                <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
+                                <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
+                                <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <ul class="sidenav background-grey-1" id="mobile-navbar">
+                        <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
+                        <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
+                        <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    </header>
 </div>
 </body>
 </html>

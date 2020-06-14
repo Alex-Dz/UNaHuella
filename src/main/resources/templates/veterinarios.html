@@ -9,146 +9,148 @@
 </head>
 <body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
-<div class="container top-padding-intermediate">
-    <div th:if="${pagina != null}">
-        <div class="card">
-            <div class="card-content">
-                <h2 class="card-title flow-text bottom-padding">Veterinarios Registrados</h2>
-                <div class="row">
-                    <div class="col s12 m6 l4 offset-l2">
-                        <label for="regs-perPage">Numero de registros por página:</label>
-                        <a id="regs-perPage" class="dropdown" href="#!"
-                           data-target="dropdown-pags">[[${#pagDefault}]]<i
-                                class="material-icons">arrow_drop_down</i></a>
+<main>
+    <div class="container top-padding-intermediate">
+        <div th:if="${pagina != null}">
+            <div class="card">
+                <div class="card-content">
+                    <h2 class="card-title flow-text bottom-padding">Veterinarios Registrados</h2>
+                    <div class="row">
+                        <div class="col s12 m6 l4 offset-l2">
+                            <label for="regs-perPage">Numero de registros por página:</label>
+                            <a id="regs-perPage" class="dropdown" href="#!"
+                               data-target="dropdown-pags">[[${#pagDefault}]]<i
+                                    class="material-icons">arrow_drop_down</i></a>
 
-                        <ul name="regs-perPage" id="dropdown-pags" class="dropdown-content drop-position-fixed">
-                            <div th:each="number : ${regsPerPageArray}">
-                                <div th:if="number == ${params.view}">
-                                    <li class="selected"><a th:text="${number}" href="#"
-                                                            th:href="${'/reordenar/' + number + '/' + params.orderBy}"></a>
+                            <ul name="regs-perPage" id="dropdown-pags" class="dropdown-content drop-position-fixed">
+                                <div th:each="number : ${regsPerPageArray}">
+                                    <div th:if="number == ${params.view}">
+                                        <li class="selected"><a th:text="${number}" href="#"
+                                                                th:href="${'/reordenar/' + number + '/' + params.orderBy}"></a>
+                                        </li>
+                                    </div>
+                                    <div th:unless="number == ${params.view}">
+                                        <li><a th:text="${number}" href="#"
+                                               th:href="${'/reordenar/' + number + '/' + params.orderBy}"></a></li>
+                                    </div>
+                                </div>
+
+                            </ul>
+                        </div>
+                        <div class="col s12 m6 l4">
+                            <label for="sortBy">Ordenar por:</label>
+                            <a id="sortBy" class="dropdown" href="#!"
+                               data-target="dropdown-sort">[[${#pagDefault}]]<i
+                                    class="material-icons">arrow_drop_down</i></a>
+
+                            <ul name="regs-perPage" id="dropdown-sort" class="dropdown-content drop-position-fixed">
+                                <div th:each="sort : ${sortParams}">
+                                    <li><a th:text="${sort.param}" href="#"
+                                           th:href="${'/reordenar/' + params.view + '/' + sort.value}"></a>
                                     </li>
                                 </div>
-                                <div th:unless="number == ${params.view}">
-                                    <li><a th:text="${number}" href="#"
-                                           th:href="${'/reordenar/' + number + '/' + params.orderBy}"></a></li>
-                                </div>
-                            </div>
 
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col s12 m6 l4">
-                        <label for="sortBy">Ordenar por:</label>
-                        <a id="sortBy" class="dropdown" href="#!"
-                           data-target="dropdown-sort">[[${#pagDefault}]]<i
-                                class="material-icons">arrow_drop_down</i></a>
+                    <table class="responsive-table section">
+                        <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Años de Exp</th>
+                            <th>Consultar</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                        </thead>
 
-                        <ul name="regs-perPage" id="dropdown-sort" class="dropdown-content drop-position-fixed">
-                            <div th:each="sort : ${sortParams}">
-                                <li><a th:text="${sort.param}" href="#"
-                                       th:href="${'/reordenar/' + params.view + '/' + sort.value}"></a>
+                        <tbody>
+                        <tr th:each="user : ${pagina}">
+                            <td th:if="${user != null}" th:text="${user.id_usuario}"></td>
+                            <td th:if="${user != null}"
+                                th:text="${user.getA_primer_nombre() + ' ' + user.getE_segundo_nombre()}"></td>
+                            <td th:if="${user != null}"
+                                th:text="${user.getB_primer_apellido()+' '+user.getF_segundo_apellido()}"></td>
+                            <td th:if="${user != null}" class="center"
+                                th:text="${user.n_anos_experiencia}"></td>
+                            <td th:if="${user != null}" class="center">
+                                <a th:href="${'/gestor/viewVet/' + user.id_usuario}">
+                                    <i class="material-icons">visibility</i>
+                                </a>
+                            </td>
+                            <td th:if="${user != null}" class="center">
+                                <a th:href="${'/gestor/editVet/' + user.id_usuario}">
+                                    <i class="material-icons">create</i>
+                                </a>
+                            </td>
+                            <td th:if="${user != null}" class="center">
+                                <a th:href="${'/gestor/delete/' + user.id_usuario}">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <div class="top-padding">
+                        <ul class="pagination">
+                            <div th:if="${prev == null && next > 1}">
+                                <li class="disabled">
+                                    <a><i class="material-icons left">chevron_left</i>Anterior</a>
+                                </li>
+                                <li>
+                                    <a th:href="${'/gestor/vet-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
                                 </li>
                             </div>
-
+                            <div th:if="${prev == null && next == 1}">
+                                <li class="disabled">
+                                    <a><i class="material-icons left">chevron_left</i>Anterior</a>
+                                </li>
+                                <li class="disabled">
+                                    <a><i class="material-icons right">chevron_right</i>Siguiente</a>
+                                </li>
+                            </div>
+                            <div th:if="${prev != null && next == 1}">
+                                <li>
+                                    <a th:href="${'/gestor/vet-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                                </li>
+                                <li class="disabled">
+                                    <a><i class="material-icons right">chevron_right</i>Siguiente</a>
+                                </li>
+                            </div>
+                            <div th:if="${prev != null && next > 1}">
+                                <li>
+                                    <a th:href="${'/gestor/vet-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
+                                </li>
+                                <li>
+                                    <a th:href="${'/gestor/vet-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
+                                </li>
+                            </div>
                         </ul>
                     </div>
                 </div>
-                <table class="responsive-table section">
-                    <thead>
-                    <tr>
-                        <th>Documento</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Años de Exp</th>
-                        <th>Consultar</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr th:each="user : ${pagina}">
-                        <td th:if="${user != null}" th:text="${user.id_usuario}"></td>
-                        <td th:if="${user != null}"
-                            th:text="${user.getA_primer_nombre() + ' ' + user.getE_segundo_nombre()}"></td>
-                        <td th:if="${user != null}"
-                            th:text="${user.getB_primer_apellido()+' '+user.getF_segundo_apellido()}"></td>
-                        <td th:if="${user != null}" class="center"
-                            th:text="${user.n_anos_experiencia}"></td>
-                        <td th:if="${user != null}" class="center">
-                            <a th:href="${'/gestor/viewVet/' + user.id_usuario}">
-                                <i class="material-icons">visibility</i>
-                            </a>
-                        </td>
-                        <td th:if="${user != null}" class="center">
-                            <a th:href="${'/gestor/editVet/' + user.id_usuario}">
-                                <i class="material-icons">create</i>
-                            </a>
-                        </td>
-                        <td th:if="${user != null}" class="center">
-                            <a th:href="${'/gestor/delete/' + user.id_usuario}">
-                                <i class="material-icons">delete</i>
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
-                <div class="top-padding">
-                    <ul class="pagination">
-                        <div th:if="${prev == null && next > 1}">
-                            <li class="disabled">
-                                <a><i class="material-icons left">chevron_left</i>Anterior</a>
-                            </li>
-                            <li>
-                                <a th:href="${'/gestor/vet-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
-                            </li>
-                        </div>
-                        <div th:if="${prev == null && next == 1}">
-                            <li class="disabled">
-                                <a><i class="material-icons left">chevron_left</i>Anterior</a>
-                            </li>
-                            <li class="disabled">
-                                <a><i class="material-icons right">chevron_right</i>Siguiente</a>
-                            </li>
-                        </div>
-                        <div th:if="${prev != null && next == 1}">
-                            <li>
-                                <a th:href="${'/gestor/vet-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
-                            </li>
-                            <li class="disabled">
-                                <a><i class="material-icons right">chevron_right</i>Siguiente</a>
-                            </li>
-                        </div>
-                        <div th:if="${prev != null && next > 1}">
-                            <li>
-                                <a th:href="${'/gestor/vet-list/previous'}"><i class="material-icons left">chevron_left</i>Anterior</a>
-                            </li>
-                            <li>
-                                <a th:href="${'/gestor/vet-list/next'}"><i class="material-icons right">chevron_right</i>Siguiente</a>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
             </div>
         </div>
-    </div>
-    <div th:if="${pagina == null}">
-        <div class="row">
-            <div class="col s12 no-padding">
-                <div class="card-panel no-margin background-grey-2">
-                    <div class="row">
-                        <div class="col s4 offset-s4 m2 offset-m5">
-                            <img class="responsive-img" th:src="@{/images/catX.png}">
+        <div th:if="${pagina == null}">
+            <div class="row">
+                <div class="col s12 no-padding">
+                    <div class="card-panel no-margin background-grey-2">
+                        <div class="row">
+                            <div class="col s4 offset-s4 m2 offset-m5">
+                                <img class="responsive-img" th:src="@{/images/catX.png}">
+                            </div>
                         </div>
+                        <h3 class="flow-text center-align"> Lo sentimos. No existen registros.</h3>
                     </div>
-                    <h3 class="flow-text center-align"> Lo sentimos. No existen registros.</h3>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
-
+</main>
+<!--/*/ <th:block th:include="headers/footer :: footer"></th:block> /*/-->
 <!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
 </body>
 </html>
