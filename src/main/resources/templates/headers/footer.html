@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="footer">
+    <footer class="page-footer no-padding background-violet bottom" style="bottom: 0;">
+        <div class="white-text">
+            <div class="row no-margin">
+                <div class="col s12 m6 top-margin">
+                    <h5 class="side-margin">UNa Huella</h5>
+                    <p class="side-margin">Proyecto Estructuras de Datos grupo 8</p>
+                    <p class="side-margin">Universidad Nacional de Colombia.</p>
+                </div>
+                <div class="col s12 m3 offset-m3">
+                    <h5>Contacto:</h5>
+                    <ul>
+                        <li><i class="material-icons left">person</i><p>Alexander Cárdenas Diaz</p></li>
+                        <li><i class="material-icons left">email</i><u><a class="white-text" href="mailto:dicardenasd@unal.edu.co" th:text="'dicardenasd@unal.edu.co'"></a></u></li>
+                        <li><i class="material-icons left">person</i><p>Alejandra Superlano Esquibel</p></li>
+                        <li><i class="material-icons left">email</i><u><a class="white-text" href="mailto:rsuperlano@unal.edu.co" th:text="'rsuperlano@unal.edu.co'"></a></u></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright no-padding background-purple">
+            <div>
+                <p class="side-margin left">© 2020</p>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
