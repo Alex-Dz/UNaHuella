@@ -28,7 +28,7 @@ public class Mascota {
     private int e_edad_mascota;
     @Column (name = "HISTORIAL_CIRUGIAS", nullable = false, length = 500)
     private String f_historial_cirugias;
-    @Column (name = "PORTADOR_PARASITO", length = 15, nullable = false)
+    @Column (name = "PORTADOR_PARASITO", length = 20, nullable = false)
     private String g_portador_parasito;
     @Column (name = "CARNET_VACUNACION", nullable = false, length = 12)
     private String h_carnet_vacunacion;

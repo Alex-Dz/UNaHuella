@@ -193,6 +193,9 @@ public class UserController {
                         avl = new AVLTree<Usuario>(AVLTree.PRIMER_APELLIDO);
                         break;
                     }
+
+
+
                     case 4: {
                         avl = new AVLTree<Usuario>(AVLTree.N_MASCOTAS);
                         break;
