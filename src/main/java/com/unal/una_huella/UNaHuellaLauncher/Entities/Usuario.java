@@ -80,7 +80,7 @@ public class Usuario implements Serializable {
     private String password;
 
     @Column
-    private int role;
+    private long role;
 
     @Transient
     private String confirmPassword;
@@ -224,7 +224,7 @@ public class Usuario implements Serializable {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(long role) {
         this.role = role;
     }
 
