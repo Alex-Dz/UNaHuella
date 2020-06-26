@@ -3,6 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Lugar {
@@ -15,10 +16,14 @@ public class Lugar {
 
     @Column(name = "UBICACION_LUGAR", nullable = false, length = 50)
     private String a_ubicacion_lugar;
-    @Column(name = "NOMBRE_LUGAR", nullable = false, length = 25)
+    @Column(name = "NOMBRE_LUGAR", nullable = false, length = 60)
     private String b_nombre_lugar;
     @Column(name = "CAPACIDAD_PACIENTES", nullable = false)
     private int c_capacidad_pacientes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id_lugar")
+    @Column(name = "SALAS")
+    private List<Sala> salas;
+
 
     //private int d_personal;
 

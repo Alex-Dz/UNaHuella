@@ -14,6 +14,7 @@ public class Cirugia {
     @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private String id_cirugia;
+
     @ManyToOne
     @JoinColumns({
             @JoinColumn(
@@ -25,6 +26,7 @@ public class Cirugia {
                     referencedColumnName = "ID_LUGAR",
                     insertable = false)})
     private Sala a_id_sala;
+
     @ManyToOne
     @JoinColumn(name = "ID_VETERINARIO")
     private Usuario b_id_veterinario;

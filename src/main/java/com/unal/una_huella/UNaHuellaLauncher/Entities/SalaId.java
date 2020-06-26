@@ -1,19 +1,18 @@
 package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class SalaId implements Serializable {
 
-    private String a_id_sala;
-    private Lugar b_id_lugar;
+    private String id_sala;
+    private Lugar id_lugar;
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.a_id_sala);
-        hash = 37 * hash + Objects.hashCode(this.b_id_lugar);
+        hash = 37 * hash + Objects.hashCode(this.id_sala);
+        hash = 37 * hash + Objects.hashCode(this.id_lugar);
         return hash;
     }
 
@@ -29,10 +28,10 @@ public class SalaId implements Serializable {
             return false;
         }
         final SalaId other = (SalaId) obj;
-        if (!Objects.equals(this.a_id_sala, other.a_id_sala)) {
+        if (!Objects.equals(this.id_sala, other.id_sala)) {
             return false;
         }
-        if (!Objects.equals(this.b_id_lugar, other.b_id_lugar)) {
+        if (!Objects.equals(this.id_lugar, other.id_lugar)) {
             return false;
         }
         return true;
