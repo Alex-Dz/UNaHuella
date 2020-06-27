@@ -102,6 +102,10 @@
     padding-top: 3em;
 }
 
+.bottom-padding {
+    padding-bottom: 1em;
+}
+
 .bottom-padding-intermediate {
     padding-bottom: 3em;
 }

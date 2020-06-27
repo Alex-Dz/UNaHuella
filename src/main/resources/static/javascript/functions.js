@@ -7,7 +7,10 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+        firstDay: 1,
+        format: 'dd/mm/yyyy'
+    });
 });
 
 $(document).ready(function () {

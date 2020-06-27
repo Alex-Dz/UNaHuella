@@ -1,7 +1,9 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Lugar;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class JornadasController {
 
     @Autowired
     LugarService lugarService;
+    @Autowired
+    JornadaService jornadaService;
 
     DoubleLinkedList<Lugar> listaLugares = new DoubleLinkedList<Lugar>();
 
@@ -31,6 +35,54 @@ public class JornadasController {
             listaLugares.pushBack(lugar);
         }
         return listaLugares;
+    }
+
+    @GetMapping("/gestor/jornadas/ester")
+    public String jornadasEster(Model model) {
+        List<Jornada> esterList = new ArrayList<Jornada>();
+        List<Jornada> vacunList = new ArrayList<Jornada>();
+        for (Jornada jornada : jornadaService.listAllJornadas()) {
+            if (jornada.getD_servicios().contains("esterilización")) {
+                esterList.add(jornada);
+            } else if (jornada.getD_servicios().contains("vacunación")) {
+                vacunList.add(jornada);
+            } else if (jornada.getD_servicios().contains("vacunación y esterilización")) {
+                esterList.add(jornada);
+                vacunList.add(jornada);
+            }
+        }
+        model.addAttribute("esterList", esterList);
+        model.addAttribute("vacunList", vacunList);
+        if (esterList.size() > 0) {
+            model.addAttribute("esterSelected", true);
+        } else if (vacunList.size() > 0) {
+            model.addAttribute("esterSelected", false);
+        }
+        return "jornadas";
+    }
+
+    @GetMapping("/gestor/jornadas/vacun")
+    public String jornadasVacun(Model model) {
+        List<Jornada> esterList = new ArrayList<Jornada>();
+        List<Jornada> vacunList = new ArrayList<Jornada>();
+        for (Jornada jornada : jornadaService.listAllJornadas()) {
+            if (jornada.getD_servicios().contains("vacunación y esterilización")) {
+                esterList.add(jornada);
+                vacunList.add(jornada);
+            } else if (jornada.getD_servicios().contains("vacunación")) {
+                vacunList.add(jornada);
+            } else if (jornada.getD_servicios().contains("esterilización")) {
+                esterList.add(jornada);
+            }
+        }
+        model.addAttribute("esterList", esterList);
+        model.addAttribute("vacunList", vacunList);
+        if (vacunList.size() > 0) {
+            model.addAttribute("esterSelected", false);
+        } else if (esterList.size() > 0) {
+            model.addAttribute("esterSelected", true);
+        }
+        return "jornadas";
     }
 
     @GetMapping("/gestor/newLugar")
