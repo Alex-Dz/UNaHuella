@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LugarServiceImpl implements LugarService {
 
-    private LugarRepository lugarRepository;
-
     @Autowired
-    public void setLugarRepository(LugarRepository lugarRepository) {
-        this.lugarRepository = lugarRepository;
-    }
+    private LugarRepository lugarRepository;
 
     @Override
     public Iterable<Lugar> listAllLugares() {

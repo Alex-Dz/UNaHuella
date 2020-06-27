@@ -5,27 +5,18 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CIRUGIA", indexes = {@Index(name = "RELACION_CIRUGIAS_VETERINARIO", columnList = "ID_VETERINARIO"),
-        @Index(name = "RELACION_CIRUGIA_SALA", columnList="SALA_ID, LUGAR_ID")})
+@Table(name = "CIRUGIA")
 public class Cirugia {
 
     @Id
     @Column(name = "ID_CIRUGIA", length = 10)
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private String id_cirugia;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(
-                    name = "SALA_ID",
-                    referencedColumnName = "ID_SALA",
-                    insertable = false),
-            @JoinColumn(
-                    name = "LUGAR_ID",
-                    referencedColumnName = "ID_LUGAR",
-                    insertable = false)})
-    private Sala a_id_sala;
+    @JoinColumn(name = "SALA_ID")
+    private Lugar a_id_lugar;
 
     @ManyToOne
     @JoinColumn(name = "ID_VETERINARIO")
@@ -44,12 +35,12 @@ public class Cirugia {
         this.id_cirugia = id_cirugia;
     }
 
-    public Sala getA_id_sala() {
-        return a_id_sala;
+    public Lugar getA_id_lugar() {
+        return a_id_lugar;
     }
 
-    public void setA_id_sala(Sala a_id_sala) {
-        this.a_id_sala = a_id_sala;
+    public void setA_id_lugar(Lugar a_id_lugar) {
+        this.a_id_lugar = a_id_lugar;
     }
 
     public Usuario getB_id_veterinario() {

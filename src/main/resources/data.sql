@@ -14,8 +14,7 @@ insert into mascota values (1, 'P', 'Thor', 'M', 'Yorkshire', 2, 'Ninguno', 'Nin
 insert into mascota values (2, 'P', 'Tiara', 'H', 'Yorkshire', 7, 'Ninguno', 'Ehrlichia canis', '123456203659', '1018489863');
 
 INSERT INTO lugar VALUES (1, 'Ak. 86 #26, Bogotá', 'Unidad Primaria de Atención UPA París Gaitan', 15);
-INSERT INTO sala VALUES (1, 1, 1);
-
 INSERT INTO lugar VALUES (2, 'Cl. 88 #95F-00, Engativá, Bogotá', 'UPA Unidad Primaria de Atención Bachué', 20);
-INSERT INTO sala VALUES (1, 1, 2);
+
+
 

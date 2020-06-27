@@ -6,7 +6,6 @@
     <title th:if="${edit == true && tipo == 2}">Editar Veterinario</title>
     <title th:if="${edit == true && tipo == 3}">Editar Gestor</title>
     <title th:if="${edit == false}">Registro</title>
-    <meta charset="UTF-8">
 
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 
@@ -20,7 +19,7 @@
         <div th:unless="${gestorConsult}">
             <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
         </div>
-        <div class="container top-padding-intermediate">
+        <div class="container top-padding-intermediate bottom-padding-intermediate">
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel no-margin background-grey-2">
@@ -40,12 +39,16 @@
                                         <input type="text" class="validate" id="primerNombre"
                                                placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('a_primer_nombre')}"
+                                              th:errors="*{a_primer_nombre}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoNombre"
                                                placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
                                         <label for="segundoNombre">Segundo Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('e_segundo_nombre')}"
+                                              th:errors="*{e_segundo_nombre}">UserName Error</span>
                                     </div>
 
                                     <div class="input-field col s12 m3">
@@ -53,42 +56,52 @@
                                         <input type="text" class="validate" id="primerApellido"
                                                placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
                                         <label for="primerApellido">Primer Apellido</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('b_primer_apellido')}"
+                                              th:errors="*{b_primer_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoApellido"
                                                placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('f_segundo_apellido')}"
+                                              th:errors="*{f_segundo_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_pin_circle</i>
                                         <input type="text" class="validate" id="direccion"
                                                placeholder="Direccion" th:field="${user.c_direccion}"/>
                                         <label for="direccion">Dirección</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('c_direccion')}"
+                                              th:errors="*{c_direccion}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">phone</i>
                                         <input type="text" class="validate" id="telefono"
                                                placeholder="Telefono" th:field="${user.d_telefono}"/>
                                         <label for="telefono">Teléfono</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('d_telefono')}"
+                                              th:errors="*{d_telefono}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">email</i>
                                         <input type="text" class="validate" id="email"
                                                placeholder="E-mail" th:field="${user.g_correo}"/>
                                         <label for="email">e-mail</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('g_correo')}"
+                                              th:errors="*{g_correo}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">extension</i>
                                         <input type="text" class="validate" id="estrato"
                                                placeholder="Estrato" th:field="${user.i_estrato}"/>
                                         <label for="estrato">Estrato</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('i_estrato')}"
+                                              th:errors="*{i_estrato}">UserName Error</span>
                                     </div>
 
                                     <input type="hidden" id="N-Mascotas"
                                            th:value="0" th:field="${user.h_cantidad_mascotas}"/>
-                                    <!--<input type="hidden" id="role"
-                                           th:attr="data-user.roles = ${userRole}"/>-->
 
                                 </div>
                             </div>
@@ -123,7 +136,7 @@
         <div th:unless="${gestorConsult}">
             <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
         </div>
-        <div class="container top-padding-intermediate">
+        <div class="container top-padding-intermediate bottom-padding-intermediate">
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel no-margin background-grey-2">
@@ -141,12 +154,16 @@
                                         <input type="text" class="validate" id="primerNombre"
                                                placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('a_primer_nombre')}"
+                                              th:errors="*{a_primer_nombre}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoNombre"
                                                placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
                                         <label for="segundoNombre">Segundo Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('e_segundo_nombre')}"
+                                              th:errors="*{e_segundo_nombre}">UserName Error</span>
                                     </div>
 
                                     <div class="input-field col s12 m3">
@@ -154,30 +171,40 @@
                                         <input type="text" class="validate" id="primerApellido"
                                                placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
                                         <label for="primerApellido">Primer Apellido</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('b_primer_apellido')}"
+                                              th:errors="*{b_primer_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoApellido"
                                                placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('f_segundo_apellido')}"
+                                              th:errors="*{f_segundo_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_pin_circle</i>
                                         <input type="text" class="validate" id="direccion"
                                                placeholder="Direccion" th:field="${user.c_direccion}"/>
                                         <label for="direccion">Dirección</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('c_direccion')}"
+                                              th:errors="*{c_direccion}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">phone</i>
                                         <input type="text" class="validate" id="telefono"
                                                placeholder="Telefono" th:field="${user.d_telefono}"/>
                                         <label for="telefono">Teléfono</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('d_telefono')}"
+                                              th:errors="*{d_telefono}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">email</i>
                                         <input type="text" class="validate" id="email"
                                                placeholder="E-mail" th:field="${user.g_correo}"/>
                                         <label for="email">e-mail</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('g_correo')}"
+                                              th:errors="*{g_correo}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">contacts</i>
@@ -229,7 +256,7 @@
     </div>
     <div th:if="${edit == true && tipo == 3}">
         <!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
-        <div class="container top-padding-intermediate">
+        <div class="container top-padding-intermediate bottom-padding-intermediate">
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel no-margin background-grey-2">
@@ -248,12 +275,16 @@
                                         <input type="text" class="validate" id="primerNombre"
                                                placeholder="Primer Nombre" th:field="${user.a_primer_nombre}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('a_primer_nombre')}"
+                                              th:errors="*{a_primer_nombre}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoNombre"
                                                placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
                                         <label for="segundoNombre">Segundo Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('e_segundo_nombre')}"
+                                              th:errors="*{e_segundo_nombre}">UserName Error</span>
                                     </div>
 
                                     <div class="input-field col s12 m3">
@@ -261,30 +292,40 @@
                                         <input type="text" class="validate" id="primerApellido"
                                                placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
                                         <label for="primerApellido">Primer Apellido</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('b_primer_apellido')}"
+                                              th:errors="*{b_primer_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="segundoApellido"
                                                placeholder="Segundo Apellido" th:field="${user.f_segundo_apellido}"/>
                                         <label for="primerNombre">Primer Nombre</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('f_segundo_apellido')}"
+                                              th:errors="*{f_segundo_apellido}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_pin_circle</i>
                                         <input type="text" class="validate" id="direccion"
                                                placeholder="Direccion" th:field="${user.c_direccion}"/>
                                         <label for="direccion">Dirección</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('c_direccion')}"
+                                              th:errors="*{c_direccion}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">phone</i>
                                         <input type="text" class="validate" id="telefono"
                                                placeholder="Telefono" th:field="${user.d_telefono}"/>
                                         <label for="telefono">Teléfono</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('d_telefono')}"
+                                              th:errors="*{d_telefono}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">email</i>
                                         <input type="text" class="validate" id="email"
                                                placeholder="E-mail" th:field="${user.g_correo}"/>
                                         <label for="email">e-mail</label>
+                                        <span class="helper-text" th:if="${#fields.hasErrors('g_correo')}"
+                                              th:errors="*{g_correo}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">developer_board</i>
@@ -328,7 +369,7 @@
     </div>
     <div th:if="${edit == false}">
         <!--/*/ <th:block th:include="headers/lobbynavigation :: mainnavbar"></th:block> /*/-->
-        <div class="container top-padding-intermediate">
+        <div class="container top-padding-intermediate bottom-padding-intermediate">
             <div class="row">
                 <div class="col s12">
                     <div class="card-panel no-margin background-grey-2">

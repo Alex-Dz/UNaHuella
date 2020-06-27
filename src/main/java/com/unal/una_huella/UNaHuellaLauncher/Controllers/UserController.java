@@ -824,7 +824,7 @@ public class UserController {
     }
 
     @PostMapping("/particular/updateUser")
-    public String updateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateParticular(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -889,7 +889,7 @@ public class UserController {
     }
 
     @PostMapping("/vet/updateUser")
-    public String updateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateVet(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -955,7 +955,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateUser")
-    public String updateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateGestor(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);

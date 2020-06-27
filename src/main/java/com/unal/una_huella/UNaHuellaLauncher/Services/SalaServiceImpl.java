@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services;
 
+/*
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.SalaService;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Sala;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.SalaRepository;
@@ -9,12 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SalaServiceImpl implements SalaService {
 
-    private SalaRepository salaRepository;
-
     @Autowired
-    public void setSalaRepository(SalaRepository salaRepository) {
-        this.salaRepository = salaRepository;
-    }
+    private SalaRepository salaRepository;
 
     @Override
     public Iterable<Sala> listAllSalas() {
@@ -38,3 +35,4 @@ public class SalaServiceImpl implements SalaService {
     }
 
 }
+*/
