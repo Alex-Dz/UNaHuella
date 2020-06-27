@@ -74,6 +74,12 @@ public class Usuario implements Serializable {
     @Column(name = "EXPERIENCIA_VET", nullable = true, length = 10)
     private int n_anos_experiencia;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "VETERINARIOS",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "jornada_id"))
+    private List<Jornada> o_jornadas;
+
     @Column
     @NotBlank
     @Size(min = 4, max = 60, message = "Mínimo 5 caracteres - Máximo 60 caracteres")
@@ -251,6 +257,14 @@ public class Usuario implements Serializable {
 
     public void setMismascotas(List<Mascota> mismascotas) {
         this.mismascotas = mismascotas;
+    }
+
+    public List<Jornada> getO_jornadas() {
+        return o_jornadas;
+    }
+
+    public void setO_jornadas(List<Jornada> o_jornadas) {
+        this.o_jornadas = o_jornadas;
     }
 
     @Override

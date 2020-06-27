@@ -8,14 +8,14 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "JORNADA")
+@Table (name = "JORNADA", indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")})
 public class Jornada implements Serializable {
 
     @Id
-    @Column(name = "ID_JORNADA")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @Column(name = "ID_JORNADA", length = 5)
+    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private long id_jornada;
+    private String id_jornada;
 
     @ManyToOne
     @JoinColumn(name = "ID_GESTOR")
@@ -36,11 +36,15 @@ public class Jornada implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "jornada_id"))
     private List<Lugar> lugares;
 
-    public long getId_jornada() {
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "o_jornadas")
+    @Column(name = "VETERINARIOS")
+    private List<Usuario> e_listaVeterinarios;
+
+    public String getId_jornada() {
         return id_jornada;
     }
 
-    public void setId_jornada(long id_jornada) {
+    public void setId_jornada(String id_jornada) {
         this.id_jornada = id_jornada;
     }
 
@@ -82,5 +86,13 @@ public class Jornada implements Serializable {
 
     public void setLugares(List<Lugar> lugares) {
         this.lugares = lugares;
+    }
+
+    public List<Usuario> getE_listaVeterinarios() {
+        return e_listaVeterinarios;
+    }
+
+    public void setE_listaVeterinarios(List<Usuario> e_listaVeterinarios) {
+        this.e_listaVeterinarios = e_listaVeterinarios;
     }
 }
