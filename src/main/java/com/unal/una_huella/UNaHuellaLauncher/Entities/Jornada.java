@@ -2,18 +2,20 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "JORNADA", indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")})
-public class Jornada {
+@Table(name = "JORNADA")
+public class Jornada implements Serializable {
 
     @Id
-    @Column(name = "ID_JORNADA", length = 5)
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @Column(name = "ID_JORNADA")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private String id_jornada;
+    private long id_jornada;
 
     @ManyToOne
     @JoinColumn(name = "ID_GESTOR")
@@ -28,11 +30,17 @@ public class Jornada {
     @Column(name = "SERVICIOS", nullable = false, length = 500)
     private String d_servicios;
 
-    public String getId_jornada() {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "lugar_jornada",
+            joinColumns = @JoinColumn(name = "lugar_id"),
+            inverseJoinColumns = @JoinColumn(name = "jornada_id"))
+    private List<Lugar> lugares;
+
+    public long getId_jornada() {
         return id_jornada;
     }
 
-    public void setId_jornada(String id_jornada) {
+    public void setId_jornada(long id_jornada) {
         this.id_jornada = id_jornada;
     }
 
@@ -68,4 +76,11 @@ public class Jornada {
         this.d_servicios = d_servicios;
     }
 
+    public List<Lugar> getLugares() {
+        return lugares;
+    }
+
+    public void setLugares(List<Lugar> lugares) {
+        this.lugares = lugares;
+    }
 }

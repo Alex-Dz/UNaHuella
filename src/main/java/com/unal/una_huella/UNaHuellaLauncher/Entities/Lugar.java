@@ -14,7 +14,7 @@ public class Lugar implements Serializable {
 
     @Id
     @Column(name = "ID_LUGAR", length = 12)
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id_lugar;
 
@@ -36,8 +36,8 @@ public class Lugar implements Serializable {
     @Column(name = "CIRUGIAS")
     private List<Cirugia> cirugias;
 
-
-    //private int d_personal;
+    @ManyToMany(mappedBy = "lugares")
+    private List<Jornada> jornadas;
 
 
     public long getId_lugar() {
@@ -70,5 +70,21 @@ public class Lugar implements Serializable {
 
     public void setC_capacidad_pacientes(int c_capacidad_pacientes) {
         this.c_capacidad_pacientes = c_capacidad_pacientes;
+    }
+
+    public List<Cirugia> getCirugias() {
+        return cirugias;
+    }
+
+    public void setCirugias(List<Cirugia> cirugias) {
+        this.cirugias = cirugias;
+    }
+
+    public List<Jornada> getJornadas() {
+        return jornadas;
+    }
+
+    public void setJornadas(List<Jornada> jornadas) {
+        this.jornadas = jornadas;
     }
 }
