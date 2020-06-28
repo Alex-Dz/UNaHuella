@@ -3,6 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 public class CitaId implements Serializable {
 
     private Mascota a_id_mascota;

@@ -25,7 +25,7 @@
                             <div class="nav-content center-align">
                                 <ul class="tabs tabs-transparent">
                                     <li class="tab"><a th:href="${'/vet/profile/' + #httpServletRequest.remoteUser}" href="#">Mis datos</a></li>
-                                    <li class="tab disabled"><a href="#"><!--th:href="@{/vet/cirugias}"-->Cirugías (próximamente)</a></li>
+                                    <li class="tab"><a th:href="${'/vet/cirugias/' + #httpServletRequest.remoteUser}" href="#">Cirugías</a></li>
                                     <li class="tab disabled"><a href="#"><!--th:href="@{/vet/jornadas}"-->Próximas Jornada (próximamente)</a></li>
                                 </ul>
                             </div>

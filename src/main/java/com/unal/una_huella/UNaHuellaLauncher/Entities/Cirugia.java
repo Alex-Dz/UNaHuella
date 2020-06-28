@@ -15,7 +15,7 @@ public class Cirugia {
     private String id_cirugia;
 
     @ManyToOne
-    @JoinColumn(name = "SALA_ID")
+    @JoinColumn(name = "LUGAR_ID")
     private Lugar a_id_lugar;
 
     @ManyToOne
@@ -24,6 +24,7 @@ public class Cirugia {
 
     @Column(name = "PROCEDIMIENTO", nullable = false, length = 100)
     private String c_procedimiento;
+
     @Column(name = "COMPLICACIONES", nullable = false, length = 100)
     private String d_complicaciones;
 

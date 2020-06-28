@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(CitaId.class)
-@Table (name = "CITA", indexes = {@Index(name = "RELACION_CITA_MASCOTA", columnList = "ID_MASCOTA"),
-        @Index(name = "RELACION_CITA_JORNADA", columnList="ID_JORNADA")})
+@Table (name = "CITA"/*, indexes = {@Index(name = "RELACION_CITA_MASCOTA", columnList = "ID_MASCOTA"),
+        @Index(name = "RELACION_CITA_JORNADA", columnList="ID_JORNADA")}*/)
 public class Cita {
 
     @Id

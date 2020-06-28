@@ -9,7 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "JORNADA")
+@Table(name = "JORNADA"/*, indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")}*/)
 public class Jornada implements Serializable {
 
     @Id
@@ -23,7 +23,7 @@ public class Jornada implements Serializable {
     private Usuario a_id_gestor;
 
     @Column(name = "FECHA_JORNADA", nullable = false)
-    @JsonFormat(pattern = "dd/mm/yyy")
+    @JsonFormat(pattern = "dd/mm/yyyy")
     private Date b_fecha_jornada;
 
     @Column(name = "CANTIDAD_INSCRITOS", nullable = false)
@@ -41,6 +41,9 @@ public class Jornada implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "o_jornadas")
     @Column(name = "VETERINARIOS")
     private List<Usuario> e_listaVeterinarios;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "b_id_jornada")
+    private List<Cita> citas;
 
     public long getId_jornada() {
         return id_jornada;
@@ -96,5 +99,13 @@ public class Jornada implements Serializable {
 
     public void setE_listaVeterinarios(List<Usuario> e_listaVeterinarios) {
         this.e_listaVeterinarios = e_listaVeterinarios;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
     }
 }
