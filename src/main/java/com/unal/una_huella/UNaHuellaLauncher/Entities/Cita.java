@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(CitaId.class)
-@Table (name = "CITA"/*, indexes = {@Index(name = "RELACION_CITA_MASCOTA", columnList = "ID_MASCOTA"),
-        @Index(name = "RELACION_CITA_JORNADA", columnList="ID_JORNADA")}*/)
+@Table (name = "CITA")
 public class Cita {
 
     @Id
@@ -21,8 +20,10 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "ID_JORNADA")
     private Jornada b_id_jornada;
+
     @Column(name = "FECHA_CITA", nullable = false)
     private Date a_fecha_cita;
+
     @Column(name = "ESPECIFICACION", nullable = false)
     private String b_especificacion_cita;
 

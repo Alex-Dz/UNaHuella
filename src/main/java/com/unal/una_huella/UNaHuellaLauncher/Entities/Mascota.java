@@ -6,54 +6,58 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
-@Table (name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
+@Table(name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
 public class Mascota {
 
     @Id
-    @Column (name = "ID_MASCOTA", length = 10)
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator (name = "native", strategy = "native")
+    @Column(name = "ID_MASCOTA", length = 10)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private String id_mascota;
 
     //P = perro, G = gato
-    @Column (name = "ESPECIE", nullable = false, length = 1)
+    @Column(name = "ESPECIE", nullable = false, length = 1)
     private String a_especie;
 
-    @Column (name = "NOMBRE_MASCOTA")
+    @Column(name = "NOMBRE_MASCOTA")
     @NotBlank(message = "Nombre es obligatorio")
     @Size(max = 20, message = "Máximo 20 caracteres")
     private String b_nombre_mascota;
 
     //H = Hembra, M = Macho
-    @Column (name = "GENERO", nullable = false, length = 1)
+    @Column(name = "GENERO", nullable = false, length = 1)
     private String c_genero;
 
-    @Column (name = "RAZA")
+    @Column(name = "RAZA")
     @NotBlank(message = "Raza es obligatorio")
     @Size(max = 40, message = "Máximo 40 caracteres")
     private String d_raza;
 
-    @Column (name = "EDAD_MASCOTA")
+    @Column(name = "EDAD_MASCOTA")
     @NotNull(message = "Edad es obligatorio")
     private int e_edad_mascota;
 
-    @Column (name = "HISTORIAL_CIRUGIAS")
+    @Column(name = "HISTORIAL_CIRUGIAS")
     @NotBlank(message = "Historial es obligatorio")
     @Size(max = 500, message = "Máximo 500 caracteres")
     private String f_historial_cirugias;
 
-    @Column (name = "PORTADOR_PARASITO", length = 15, nullable = false)
+    @Column(name = "PORTADOR_PARASITO", length = 15, nullable = false)
     private String g_portador_parasito;
 
-    @Column (name = "CARNET_VACUNACION", nullable = true)
+    @Column(name = "CARNET_VACUNACION", nullable = true)
     @Size(max = 12, message = "Máximo 12 caracteres")
     private String h_carnet_vacunacion;
 
     @ManyToOne
-    @JoinColumn(name="ID_DUEÑO")
+    @JoinColumn(name = "ID_DUEÑO")
     private Usuario i_id_dueño;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "a_id_mascota")
+    private List<Cita> citasMascota;
 
     public String getId_mascota() {
         return id_mascota;
@@ -135,11 +139,11 @@ public class Mascota {
         this.i_id_dueño = i_id_dueño;
     }
 
-    /*public Usuario getI_id_usuario() {
-        return i_id_dueño;
+    public List<Cita> getCitasMascota() {
+        return citasMascota;
     }
 
-    public void setI_id_dueño(Usuario i_id_dueño) {
-        this.i_id_dueño = i_id_dueño;
-    }*/
+    public void setCitasMascota(List<Cita> citasMascota) {
+        this.citasMascota = citasMascota;
+    }
 }
