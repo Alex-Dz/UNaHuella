@@ -28,7 +28,7 @@ public class MascotaController {
 
     private AVLTree<Mascota> pets = null;
 
-    public AVLTree<Mascota> getMascotas(){
+    public AVLTree<Mascota> getMascotas() {
         if (pets == null || pets.getRoot() == null) {
             pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
             for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
@@ -169,7 +169,11 @@ public class MascotaController {
             try {
                 pet.setI_id_dueño(userService.getLoggedUser());
                 pet = mascotaService.saveMascota(pet);
+                Usuario user = userService.getLoggedUser();
+                user.setH_cantidad_mascotas(user.getH_cantidad_mascotas() + 1);
+                userService.updateUser(user);
                 pets.insertAVL(pet);
+                userService.mapUser(user, userController.avl.find(user, userController.avl.getRoot()));
                 model.addAttribute("petCreated", true);
                 model.addAttribute("edit", false);
                 // con mensaje de confirmacion de mascota creada
