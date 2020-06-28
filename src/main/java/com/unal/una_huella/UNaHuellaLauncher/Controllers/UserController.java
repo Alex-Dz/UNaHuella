@@ -23,8 +23,6 @@ import java.time.Instant;
 @Controller
 public class UserController {
 
-    /*@Autowired
-    private ParticularService particularService;*/
     @Autowired
     UserService userService;
     @Autowired
@@ -43,6 +41,8 @@ public class UserController {
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
 
+    int tipo = 0;
+
     int[] regsPerPage = {10, 20, 30, 50, 100, 500};
     int pagDefault = 10;
     int[] sortValues = {1, 2, 3, 4, 5, 6, 7};
@@ -57,8 +57,8 @@ public class UserController {
     private AVLTree<Mascota> pets = null;
 
 
-    Instant tInicial = Instant.now();
-    //double d = (double) tInicial.getEpochSecond() + (double) tInicial.getNano() / 1_000_000_000;
+    /*Instant tInicial = Instant.now();
+    double d = (double) tInicial.getEpochSecond() + (double) tInicial.getNano() / 1_000_000_000;*/
     Instant time_start;
     Instant time_end;
 
@@ -71,7 +71,7 @@ public class UserController {
         }
         if (pets == null) {
             pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-            for (Mascota mascota : mascotaService.listAllMascotas()) {
+            for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
                 if (mascota != null) {
                     try {
                         pets.insertAVL(mascota);
@@ -125,35 +125,6 @@ public class UserController {
         return "veterinario";
     }
 
-    /*@RequestMapping("particular/new")
-    public String newParticular(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo = 0);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/particular/profile/{id}")
-    public String showParticular(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "particularshow";
-    }*/
-
-    /*@RequestMapping("/particular/edit/{id}")
-    public String editPart(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 1);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-particular", method = RequestMethod.POST)
-    public String saveParticular(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/particular/profile/" + particular.getId_particular();
-    }*/
-
-
     public AVLTree<Mascota> getMascotas() {
         return pets;
     }
@@ -162,7 +133,6 @@ public class UserController {
         if (avl == null) {
             avl = new AVLTree<Usuario>(AVLTree.ID);
 
-            //time_start = 0;
             time_start = Instant.now();
 
             for (Usuario user : userService.listAllUser()) {
@@ -174,7 +144,6 @@ public class UserController {
                 }
             }
 
-            //time_end = 0;
             time_end = Instant.now();
             System.out.println("\n\n\t\tTiempo empleado en crear arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
         } else {
@@ -211,7 +180,6 @@ public class UserController {
                     }
                 }
 
-                //time_start = 0;
                 time_start = Instant.now();
 
                 for (Usuario user : userService.listAllUser()) {
@@ -223,7 +191,6 @@ public class UserController {
                     }
                 }
 
-                //time_end = 0;
                 time_end = Instant.now();
                 System.out.println("\n\n\t\tTiempo empleado en reconstruir arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             }
@@ -231,34 +198,13 @@ public class UserController {
         return avl;
     }
 
-
-    /*public DoubleLinkedList<Particular> getRegisters() {
-        time_start = 0;
-        time_start = System.currentTimeMillis();
-        DoubleLinkedList<Particular> list = new DoubleLinkedList<Particular>();
-
-        for (Particular particular : particularService.listAllParticulars()) {
-            list.pushBack(particular);
-        }
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList " + (time_end - time_start) + " milliseconds");
-        return list;
-    }*/
-
     public void getPaginas(int regsPerPage, int tipo) {
         nextPag.emptyStack();
         prevPag.emptyStack();
 
         long count = 0;
-        /*time_start = 0;
-        time_start = System.currentTimeMillis();*/
         java.util.List<Usuario> listaUsuarios = avl.getList(tipo);
-        /*time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en migrar usuarios del arbol a lista: " + formatoDecimal.format(time_end - time_start) + " milliseconds");*/
 
-        //time_start = 0;
         time_start = Instant.now();
         double time_temp_start = 0;
         double time_temp_end = 0;
@@ -286,133 +232,13 @@ public class UserController {
                 time_acumulado += time_temp_end - time_temp_start;
             }
         }
-        //time_end = 0;
         time_end = Instant.now();
         System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
 
-
-        /*if (tipo == PARTICULAR) {
-            java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == PARTICULAR) {
-                        listaParticulares.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaParticulares.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaParticulares.size()) {
-                        reg = listaParticulares.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        } else if (tipo == VETERINARIO) {
-            java.util.List<Usuario> listaVets = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == VETERINARIO) {
-                        listaVets.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaVets.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaVets.size()) {
-                        reg = listaVets.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        } else {
-            java.util.List<Usuario> listaGestores = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == GESTOR) {
-                        listaGestores.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaGestores.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaGestores.size()) {
-                        reg = listaGestores.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        }*/
-
-        //time_start = 0;
         time_start = Instant.now();
         while (!prevPag.isEmpty()) {
             nextPag.push(prevPag.pop());
         }
-        //time_end = 0;
         time_end = Instant.now();
         System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
     }
@@ -608,12 +434,6 @@ public class UserController {
         return prevPage(model);
     }
 
-    /*@RequestMapping("/particular/delete/{id}")
-    public String deleteParticular(@PathVariable String id) {
-        particularService.deleteParticular(id);
-        return "redirect:/particulares";
-    }*/
-
     @RequestMapping("/particular/inscribirMascota")
     String inscribirMascota() {
         return "inscribirMascota";
@@ -623,67 +443,6 @@ public class UserController {
     String asignarCita() {
         return "asignarCita";
     }
-
-    /*  de aquí para abajo son controladores que se deben mover a su respectiva clase después   */
-
-    int tipo = 0;
-
-    /*@RequestMapping("/vet/profile/{id}")
-    public String vetProfile(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "vetshow";
-    }*/
-
-
-   /* @RequestMapping("/vet/new")
-    public String newVet(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/vet/edit/{id}")
-    public String editVete(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 2);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-vet", method = RequestMethod.POST)
-    public String saveVet(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/vet/profile/" + particular.getId_particular();
-    }*/
-
-    /*@RequestMapping("/gestor/profile/{id}")
-    public String gestorProfile(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "gestorshow";
-    }*/
-
-    /*@RequestMapping("/gestor/new")
-    public String newGestor(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/gestor/edit/{id}")
-    public String editGestor(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 3);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-gestor", method = RequestMethod.POST)
-    public String saveGestor(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/gestor/profile/" + particular.getId_particular();
-    }*/
 
     /*  de aquí para abajo van controladores de usuario unificado   */
 
@@ -723,29 +482,6 @@ public class UserController {
         return "formulario";
     }
 
-    /*@PostMapping("/updateUser")
-    public String updateUser(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
-        if (result.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("edit", true);
-        } else {
-            try {
-                userService.updateUser(user);
-                model.addAttribute("userCreated", true);
-                model.addAttribute("edit", false);
-            } catch (Exception e) {
-                model.addAttribute("formErrorMessage", e.getMessage());
-                model.addAttribute("user", user);
-                model.addAttribute("userCreated", false);
-                model.addAttribute("edit", true);
-                model.addAttribute("roles", roleRepo.findAll());
-            }
-        }
-        model.addAttribute("roles", roleRepo.findAll());
-
-        return "formulario";
-    }*/
-
     @GetMapping("/editUser/cancel")
     public String cancelEditUser() {
         return "redirect:/usuarios";
@@ -756,37 +492,6 @@ public class UserController {
         model.addAttribute("usuarios", userService.listAllUser());
         return "usuarios";
     }
-
-    /*@GetMapping("/user/edit/{id}")
-    public String editUser(@PathVariable String id, Model model) {
-        try {
-            model.addAttribute("user", userService.getUserById(id));
-        } catch (Exception e) {
-            model.addAttribute("formErrorMessage", e.getMessage());
-            model.addAttribute("edit", true);
-            model.addAttribute("userCreated", false);
-            model.addAttribute("roles", roleRepo.findAll());
-        }
-        model.addAttribute("edit", true);
-        model.addAttribute("userCreated", false);
-        model.addAttribute("roles", roleRepo.findAll());
-        return "createUserForm";
-    }*/
-
-    /*@GetMapping("/user/delete/{id}")
-    public String deleteUs(@PathVariable String id, Model model) {
-        try {
-            userService.deleteUser(id);
-            model.addAttribute("deleteSuccess", true);
-            model.addAttribute("deleteError", false);
-            model.addAttribute("deleteSuccessMessage", "Usuario eliminado");
-        } catch (Exception e) {
-            model.addAttribute("deleteSuccess", false);
-            model.addAttribute("deleteError", true);
-            model.addAttribute("deleteErrorMessage", e.getMessage());
-        }
-        return "redirect:/usuarios";
-    }*/
 
     @RequestMapping("/particular/profile/{id}")
     public String partiProfile(@PathVariable String id, Model model) throws Exception {
@@ -1049,7 +754,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateParticular")
-    public String gestorUpdateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateParticular(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1114,7 +819,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateVet")
-    public String gestorUpdateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateVet(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1180,7 +885,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateGestor")
-    public String gestorUpdateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateGestor(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1305,5 +1010,4 @@ public class UserController {
         }
         return "gestores";
     }
-
 }

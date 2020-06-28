@@ -26,17 +26,49 @@ public class MascotaController {
     @Autowired
     private UserController userController;
 
-    private AVLTree<Mascota> pets;
+    private AVLTree<Mascota> pets = null;
+
+    public AVLTree<Mascota> getMascotas(){
+        if (pets == null || pets.getRoot() == null) {
+            pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
+            for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
+                if (mascota != null) {
+                    try {
+                        pets.insertAVL(mascota);
+                    } catch (Exception e) {
+                        continue;
+                    }
+                }
+            }
+        } else {
+            if (pets.getRoot().getKey().getI_id_usuario() != userService.getLoggedUser()) {
+                pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
+                for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
+                    if (mascota != null) {
+                        try {
+                            pets.insertAVL(mascota);
+                        } catch (Exception e) {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
+        return pets;
+    }
 
     @RequestMapping("/particular/misMascotas/{id}")
     public String listaMascotas(Model model, @PathVariable String id) {
         Usuario user = new Usuario();
         user.setId_usuario(id);
-        pets = userController.getMascotas();
+        pets = getMascotas();
         List<Mascota> petList = pets.getList();
         try {
             model.addAttribute("listaMascota", petList);
-            model.addAttribute("mascota", petList.get(0));
+            if (petList != null) {
+                model.addAttribute("mascota", petList.get(0));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,12 +146,10 @@ public class MascotaController {
     /*      post        */
 
 
-    @RequestMapping("/particular/{id}/registrarMascota")
-    public String formRegistrarMascota(Model model, @PathVariable String id) {
-        model.addAttribute("edit", false);
+    @RequestMapping("/particular/newMascota")
+    public String newMascota(Model model) {
+        pets = getMascotas();
         model.addAttribute("mascota", new Mascota());
-        model.addAttribute("petCreated", false);
-
         return "inscribirMascota";
     }
 
@@ -129,29 +159,27 @@ public class MascotaController {
      * vs
      * ModelMap: herramientas de interfaz de usuario */
 
-    @PostMapping("/particular/{id}/mascotaCreada")
-    public String mascotaCreada(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, Model model) {
+    @PostMapping("/particular/saveMascota")
+    public String saveMascota(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, ModelMap model) {
         if (validar.hasErrors()) {
             // rellena los campos nuevamente con los datos y solo muestra error en el que fue erroneo
             model.addAttribute("mascota", pet);
+            return "inscribirMascota";
         } else {
             try {
-                mascotaService.saveMascota(pet);
-                //petTree.insertAVL(pet);
+                pet.setI_id_dueño(userService.getLoggedUser());
+                pet = mascotaService.saveMascota(pet);
+                pets.insertAVL(pet);
                 model.addAttribute("petCreated", true);
                 model.addAttribute("edit", false);
                 // con mensaje de confirmacion de mascota creada
-                return "inscribirMascota";
+                return datosMascota(model, userService.getLoggedUser().getId_usuario(), pet.getId_mascota());
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("mascota", pet);
-                model.addAttribute("edit", false);
-                model.addAttribute("petCreated", false);
                 return "inscribirMascota";
             }
         }
-        model.addAttribute("edit", false);
-        return "inscribirMascota";
     }
 
 

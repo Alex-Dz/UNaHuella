@@ -251,7 +251,7 @@ public class Usuario implements Serializable {
     }
 
     public void setRoles(List<Role> roles) {
-        this.role = roles.get(0).getId();
+        this.role =  roles.get(0).getId().intValue();
         this.roles = roles;
     }
 

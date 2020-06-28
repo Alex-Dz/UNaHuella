@@ -26,8 +26,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col s12 m8">
                     <div class="card-panel background-grey-2">
                         <div class="row">
@@ -125,6 +123,13 @@
                                         <a class="background-blue waves-effect waves-light btn-small"
                                            th:href="${'/particular/profileMascota/edit/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
                                             <i class="material-icons left">create</i>Editar datos</a>
+                                    </div>
+                                </div>
+
+                                <div th:if="${formErrorMessage}">
+                                    <div class="materialert error">
+                                        <div class="material-icons">error_outline</div>
+                                        <span th:text="${formErrorMessage}">Error Message</span>
                                     </div>
                                 </div>
 
