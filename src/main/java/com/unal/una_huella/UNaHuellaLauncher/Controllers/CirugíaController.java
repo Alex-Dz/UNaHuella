@@ -6,6 +6,7 @@ import com.unal.una_huella.UNaHuellaLauncher.ED.NodoList;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.CirugiaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class CirugíaController {
     private CirugiaService cirugiaService;
     @Autowired
     private JornadaService jornadaService;
+    @Autowired
+    private UserService userService;
 
     public DoubleLinkedList <Cirugia> getCirugias (){
         DoubleLinkedList <Cirugia> cirugias = new DoubleLinkedList<Cirugia>();
@@ -86,35 +89,31 @@ public class CirugíaController {
         return citasByJornada;
     }
 
-    public Jornada[] getJornadasById(String id_vet) {
-        DoubleLinkedList<Jornada> jornadasById = new DoubleLinkedList<Jornada>();
+    public List<Jornada> getJornadasById() {
+        List<Jornada> jornadasById = new ArrayList<Jornada>();
         int contador = 0;
         for (Jornada jornada : jornadaService.listAllJornadas()) {
-            if (jornada.getE_listaVeterinarios().equals(id_vet)) {
-                jornadasById.pushBack(jornada);
-                contador+=1;
+            List<Usuario> listaVets = jornada.getE_listaVeterinarios();
+            for (int i = 0; i < listaVets.size(); i++) {
+                if (listaVets.get(i).getId_usuario().equals(userService.getLoggedUser().getId_usuario())) {
+                    jornadasById.add(jornada);
+                    contador+=1;
+                }
             }
-        }
-        Jornada[] jornadasVet = new Jornada[contador];
-        contador = 0;
 
-        for (Jornada jornada : jornadasById.iterable()) {
-            jornadasVet[contador] = jornada;
-            contador++;
         }
-
-        return jornadasVet;
+        return jornadasById;
     }
 
-    @RequestMapping("/vet/cirugias/{id}")
-    public String mostrarJornadas(Model model, @PathVariable String id) {
-        Usuario vet = new Usuario();
-        vet.setId_usuario(id);
-        Jornada[] jornadasVet = getJornadasById(id);
+    @RequestMapping("/vet/cirugias")
+    public String mostrarJornadas(Model model) {
+        List<Jornada> jornadasVet = getJornadasById();
         try {
             //botones
             model.addAttribute("listaJornadas", jornadasVet);
-            model.addAttribute("jornada", jornadasVet[0]);
+            if (jornadasVet != null || jornadasVet.size() > 0){
+                model.addAttribute("jornada", jornadasVet.get(0));
+            }
         } catch (Exception e) {
             System.err.println("No se han podido cargar las jornadas");
         }

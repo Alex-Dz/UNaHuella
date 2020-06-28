@@ -4,55 +4,55 @@
     <title>UNa Huella - Cirugías pendientes</title>
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
-<body>
+<body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
 <main>
-    <div class="container background-grey-2">
+    <div class="container top-padding-intermediate bottom-padding-intermediate">
         <div th:if="${jornada != null}">
             <div class="row">
-                <div class="column s12 m4"></div>
-                <div th:each="jornada : ${listaJornadas}">
-                    <div class="card-panel padding background-dark-grey">
-                        <div class="row">
-                            <div class="col s12 center-align">
-                                <a th:href="${'/vet/cirugias/' + #httpServletRequest.remoteUser}"
-                                   th:text="${jornada.b_fecha_jornada}"
-                                   class="waves-effect waves-mediumpurple btn-flat">
-                                    <i class="material-icons right">keyboard_arrow_right</i></a>
+                <div class="column s12 m4">
+                    <div th:each="elemento : ${listaJornadas}">
+                        <div class="card-panel padding background-dark-grey">
+                            <div class="row center">
+                                <div class="col s12">
+                                    <a th:href="${'/vet/cirugias/' + #httpServletRequest.remoteUser}"
+                                       th:text="${elemento.b_fecha_jornada}"
+                                       class="waves-effect waves-mediumpurple btn-flat">
+                                        <i class="material-icons right">keyboard_arrow_right</i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="col s12 m8">
                     <div class="card-panel background-grey-2">
-                        <div class="row">
-                            <form th:object="${jornada}" method="post" class="padding">
-                                <div class="row center-align">
-                                    <h3 th:text="${jornada.b_fecha_jornada}"></h3>
-                                </div>
-
-                                <table class="striped centered responsive-table">
-                                    <thead>
-                                    <tr>
-                                        <th>Hora</th>
-                                        <th>Nombre</th>
-                                        <th>Historial clinico</th>
-                                        <th>Procedimiento</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <tr th:each="cita : ${listaCitas}">
-                                        <td th:if="${cita != null}" th:text="${cita.a_fecha_cita}"></td>
-                                        <td th:if="${cita != null}" th:text="${cita.a_id_mascota.b_nombre_mascota}"></td>
-                                        <td th:if="${cita != null}" th:text="${cita.a_id_mascota.f_historial_cirugias}"></td>
-                                        <td th:if="${cita != null}" th:text="${cita.b_especificacion_cita}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </form>
+                        <div class="row center">
+                            <h3 th:text="${jornada.b_fecha_jornada}"></h3>
                         </div>
+
+                        <table class="striped centered responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Parásito</th>
+                                <th>Procedimiento</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="cita : ${listaCitas}">
+                                <td th:if="${cita != null}" th:text="${cita.a_fecha_cita}"></td>
+                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.b_nombre_mascota}"></td>
+                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.a_especie}"></td>
+                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.g_portador_parasito}"></td>
+                                <td th:if="${cita != null}" th:text="${cita.b_especificacion_cita}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,8 @@
                                 <img class="responsive-img" th:src="@{/images/catX.png}">
                             </div>
                         </div>
-                        <h3 class="flow-text center-align"> Lo sentimos. No participas en ninguna jornada por el momento.</h3>
+                        <h3 class="flow-text center-align"> Lo sentimos. No participas en ninguna jornada por el
+                            momento.</h3>
                     </div>
                 </div>
             </div>
