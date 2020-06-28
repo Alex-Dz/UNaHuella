@@ -66,6 +66,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <version>2.3.1.RELEASE</version>
+            <optional>true</optional>
         </dependency>
 
         <!--WebJars-->

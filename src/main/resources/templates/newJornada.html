@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>UNa Huella - Asignación de cita</title>
-    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
-</head>
 
+    <title>Gestor - Nuevo Lugar</title>
+
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
+</head>
 <body>
-<!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
 <main>
     <div class="container top-padding-intermediate bottom-padding-intermediate">
         <div class="row">
             <div class="col s12 m8 offset-m2 no-padding">
-                <form class="card-panel no-margin background-grey-2">
+                <form class="card-panel no-margin background-grey-2" th:object="${jornada}"
+                      th:action="@{/gestor/saveJornada}" method="post">
+                    <input type="hidden" th:field="${jornada.id_jornada}">
+                    <input type="hidden" th:field="${jornada.a_id_gestor}" th:value="${#httpServletRequest.remoteUser}">
+
                     <div class="row no-margin">
                         <div class="col s12 m8 offset-m2">
                             <div class="input-field">
                                 <i class="material-icons prefix">looks_one</i>
-                                <select>
-                                    <option value="" disabled selected>Selecciona a tu mascota</option>
-                                    <option value="1">GuauGuau</option>
-                                    <option value="2">Mishi</option>
-                                </select>
+                                <input id="datepickerJornada" type="date" class=""
+                                       placeholder="Seleccione una fecha" th:field="*{b_fecha_jornada}">
+                                <label for="datepickerJornada">Fecha</label>
                             </div>
                         </div>
                     </div>
@@ -29,11 +33,13 @@
                         <div class="col s12 m8 offset-m2">
                             <div class="input-field">
                                 <i class="material-icons prefix">looks_two</i>
-                                <select>
-                                    <option value="" disabled selected>Selecciona un servicio</option>
-                                    <option value="1">Vacunación</option>
-                                    <option value="2">Esterilización</option>
+                                <select id="servicios" th:field="${jornada.d_servicios}">
+                                    <option value="" disabled selected>Selecciona el tipo de jornada</option>
+                                    <option th:value="'esterilización'">Esterilización</option>
+                                    <option th:value="'vacunación'">Vacunación</option>
+                                    <option th:value="'vacunación y esterilización'">Ambas</option>
                                 </select>
+                                <label for="servicios">Servicios</label>
                             </div>
                         </div>
                     </div>
@@ -42,38 +48,28 @@
                         <div class="col s12 m8 offset-m2">
                             <div class="input-field">
                                 <i class="material-icons prefix">looks_3</i>
-                                <input type="text" class="datepicker" placeholder="Seleccione una fecha">
+                                <select multiple id="lugaresSelect" th:field="${jornada.lugares}">
+                                    <option value="" disabled selected>Selecciona uno o varios lugares</option>
+                                    <option th:each="lugar : ${lugares}" th:value="${lugar.id_lugar}"
+                                            th:text="${lugar.b_nombre_lugar}"></option>
+                                </select>
+                                <label for="lugaresSelect">Lugares</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row no-margin">
-                        <div class="col s12 m8 offset-m2">
-                            <div class="input-field">
-                                <i class="material-icons prefix">looks_4</i>
-                                <select>
-                                    <option value="" disabled selected>Selecciona una hora</option>
-                                    <option value="1">9:00</option>
-                                    <option value="2">9:10</option>
-                                    <option value="2">10:20</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="row top-margin">
                         <div class="col s12 m12 center-align">
                             <button class="btn-large background-blue waves-effect waves-mediumpurple"
-                                    type="submit" name="action">Asignar cita
-                                <i class="material-icons left">add_circle_outline</i>
+                                    type="submit">Agendar Jornada<i class="material-icons left">add_circle_outline</i>
                             </button>
                         </div>
                     </div>
                     <div class="row no-margin">
                         <div class="col s12 m12 center-align bottom-margin">
-                            <button class="btn-large background-blue waves-effect
-                                        waves-mediumpurple">Cancelar cita
-                                <i class="material-icons left">highlight_off</i>
+                            <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                    type="reset">Cancelar<i class="material-icons left">highlight_off</i>
                             </button>
                         </div>
                     </div>

@@ -3,8 +3,10 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Lugar;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class JornadasController {
     LugarService lugarService;
     @Autowired
     JornadaService jornadaService;
+    @Autowired
+    UserService userService;
 
     DoubleLinkedList<Lugar> listaLugares = new DoubleLinkedList<Lugar>();
 
@@ -35,6 +38,35 @@ public class JornadasController {
             listaLugares.pushBack(lugar);
         }
         return listaLugares;
+    }
+
+    @GetMapping("/gestor/newJornada")
+    public String newJornada(Model model) {
+        model.addAttribute("jornada", new Jornada());
+        model.addAttribute("lugares", lugarService.listAllLugares());
+        return "newJornada";
+    }
+
+    @PostMapping("/gestor/saveJornada")
+    public String saveJornada(@Valid @ModelAttribute("jornada") Jornada jornada, BindingResult result, ModelMap model) {
+        Usuario loggedUser = userService.getLoggedUser();
+        if (loggedUser != null){
+            jornada.setA_id_gestor(loggedUser);
+        }
+        if (result.hasErrors()){
+            model.addAttribute("jornada", jornada);
+            return "newJornada";
+        }else{
+            try {
+                jornadaService.saveJornada(jornada);
+            } catch (Exception e){
+                model.addAttribute("jornada", jornada);
+                model.addAttribute("lugares", lugarService.listAllLugares());
+                return "newJornada";
+            }
+        }
+
+        return "redirect:/gestor/jornadas/ester";
     }
 
     @GetMapping("/gestor/jornadas/ester")

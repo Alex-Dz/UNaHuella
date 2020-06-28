@@ -26,4 +26,6 @@ public interface UserService {
     Usuario updateUser(Usuario user) throws Exception;
 
     void mapUser(Usuario from, Usuario to);
+
+    Usuario getLoggedUser();
 }

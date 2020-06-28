@@ -9,7 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "JORNADA"/*, indexes = {@Index(name = "RELACION_JORNADA_GESTOR", columnList = "ID_GESTOR")}*/)
+@Table(name = "JORNADA")
 public class Jornada implements Serializable {
 
     @Id

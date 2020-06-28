@@ -6,6 +6,8 @@ import com.unal.una_huella.UNaHuellaLauncher.Repositories.LugarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LugarServiceImpl implements LugarService {
 
@@ -13,7 +15,7 @@ public class LugarServiceImpl implements LugarService {
     private LugarRepository lugarRepository;
 
     @Override
-    public Iterable<Lugar> listAllLugares() {
+    public List<Lugar> listAllLugares() {
         return lugarRepository.findAll();
     }
 

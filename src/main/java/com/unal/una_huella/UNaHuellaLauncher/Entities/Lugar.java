@@ -16,7 +16,7 @@ public class Lugar implements Serializable {
     @Column(name = "ID_LUGAR", length = 12)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private long id_lugar;
+    private String id_lugar;
 
     @Column(name = "UBICACION_LUGAR")
     @NotBlank(message = "Ubicación es obligatoria")
@@ -40,11 +40,11 @@ public class Lugar implements Serializable {
     private List<Jornada> jornadas;
 
 
-    public long getId_lugar() {
+    public String getId_lugar() {
         return id_lugar;
     }
 
-    public void setId_lugar(long id_lugar) {
+    public void setId_lugar(String id_lugar) {
         this.id_lugar = id_lugar;
     }
 
