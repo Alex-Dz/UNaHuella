@@ -47,7 +47,6 @@ public class UserController {
 
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
-    List<Jornada> listaJornadas = new ArrayList<Jornada>();
 
     int tipo = 0;
 
@@ -1046,6 +1045,7 @@ public class UserController {
     }
 
     public List<Jornada> getJornadas (){
+        List<Jornada> listaJornadas = new ArrayList<Jornada>();
         for (Jornada jornada:jornadaService.listAllJornadas()) {
             listaJornadas.add(jornada);
         }
