@@ -58,6 +58,11 @@ public class MascotaController {
         return pets;
     }
 
+    public void setMascotas(AVLTree<Mascota> pets){
+        this.pets = pets;
+        userController.pets = pets;
+    }
+
     @RequestMapping("/particular/misMascotas/{id}")
     public String listaMascotas(Model model, @PathVariable String id) {
         Usuario user = new Usuario();

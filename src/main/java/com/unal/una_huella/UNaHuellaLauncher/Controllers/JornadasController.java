@@ -1,9 +1,8 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
+import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Lugar;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
@@ -30,15 +29,10 @@ public class JornadasController {
     JornadaService jornadaService;
     @Autowired
     UserService userService;
+    @Autowired
+    MascotaController mascotaController;
 
-    DoubleLinkedList<Lugar> listaLugares = new DoubleLinkedList<Lugar>();
-
-    public DoubleLinkedList<Lugar> getLugares() {
-        for (Lugar lugar : lugarService.listAllLugares()) {
-            listaLugares.pushBack(lugar);
-        }
-        return listaLugares;
-    }
+    private AVLTree<Mascota> pets = null;
 
     @GetMapping("/gestor/newJornada")
     public String newJornada(Model model) {
@@ -50,16 +44,16 @@ public class JornadasController {
     @PostMapping("/gestor/saveJornada")
     public String saveJornada(@Valid @ModelAttribute("jornada") Jornada jornada, BindingResult result, ModelMap model) {
         Usuario loggedUser = userService.getLoggedUser();
-        if (loggedUser != null){
+        if (loggedUser != null) {
             jornada.setA_id_gestor(loggedUser);
         }
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("jornada", jornada);
             return "newJornada";
-        }else{
+        } else {
             try {
                 jornadaService.saveJornada(jornada);
-            } catch (Exception e){
+            } catch (Exception e) {
                 model.addAttribute("jornada", jornada);
                 model.addAttribute("lugares", lugarService.listAllLugares());
                 return "newJornada";
@@ -135,4 +129,21 @@ public class JornadasController {
         }
     }
 
+    @GetMapping("/particular/citas")
+    public String citasList(Model model) {
+        pets = mascotaController.getMascotas();
+        List<Mascota> mascotas = pets.getList();
+        List<Cita> allCitas = new ArrayList<Cita>();
+        for (Mascota mascota : mascotas) {
+            List<Cita> citas = mascota.getCitasMascota();
+            for (int i = 0; i < citas.size(); i++) {
+                allCitas.add(citas.get(i));
+            }
+        }
+        if (allCitas.size() == 0) {
+            allCitas = null;
+        }
+        model.addAttribute("citasByUser", allCitas);
+        return "citas";
+    }
 }

@@ -37,7 +37,12 @@ public class Lugar implements Serializable {
     private List<Cirugia> cirugias;
 
     @ManyToMany(mappedBy = "lugares")
+    @Column(name = "JORNADAS")
     private List<Jornada> jornadas;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "lugar")
+    @Column(name = "CITAS")
+    private List<Cita> citas;
 
 
     public String getId_lugar() {
@@ -86,5 +91,13 @@ public class Lugar implements Serializable {
 
     public void setJornadas(List<Jornada> jornadas) {
         this.jornadas = jornadas;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
     }
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>UNa Huella - Citas</title>
+
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
+<main>
+    <div class="container top-padding-intermediate bottom-padding-intermediate">
+        <div th:if="${citasByUser != null}">
+            <div class="card">
+                <div class="card-content">
+                    <h2 class="card-title flow-text bottom-padding">Citas Agendadas</h2>
+                    <table class="striped responsive-table section">
+                        <thead>
+                        <tr>
+                            <th>Mascota</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Especificación</th>
+                            <th>Lugar</th>
+                            <th>Dirección</th>
+                            <th>Reagendar Cita</th>
+                            <th>Cancelar Cita</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="cita : ${citasByUser}">
+                            <td th:if="${cita != null}" th:text="${cita.a_id_mascota.b_nombre_mascota}"></td>
+                            <td th:if="${cita != null}"
+                                th:text="${cita.b_id_jornada.b_fecha_jornada}"></td>
+                            <td th:if="${cita != null}"
+                                th:text="${cita.a_hora_cita}"></td>
+                            <td th:if="${cita != null}"
+                                th:text="${cita.b_especificacion_cita}"></td>
+                            <td th:if="${cita != null}"
+                                th:text="${cita.lugar.b_nombre_lugar}"></td>
+                            <td th:if="${cita != null}"
+                                th:text="${cita.lugar.a_ubicacion_lugar}"></td>
+
+                            <td th:if="${cita != null}" class="center">
+                                <a th:href="${'/particular/editCita/' + cita.a_id_mascota.id_mascota}">
+                                    <i class="material-icons">assignment</i>
+                                </a>
+                            </td>
+                            <td th:if="${cita != null}" class="center">
+                                <a th:href="${'/particular/deleteCita/' + cita.a_id_mascota.id_mascota}">
+                                    <i class="material-icons">event_busy</i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:if="${citasByUser == null}">
+            <div class="row">
+                <div class="col s12 no-padding">
+                    <div class="card-panel no-margin background-grey-2">
+                        <div class="row">
+                            <div class="col s4 offset-s4 m2 offset-m5">
+                                <img class="responsive-img" th:src="@{/images/catX.png}">
+                            </div>
+                        </div>
+                        <h3 class="flow-text center-align"> Lo sentimos. No tienes citas.</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+<!--/*/ <th:block th:include="headers/footer :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

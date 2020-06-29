@@ -54,7 +54,7 @@ public class UserController {
     SortParams[] sortGestorParams = null;
 
     AVLTree<Usuario> avl = null;
-    private AVLTree<Mascota> pets = null;
+    AVLTree<Mascota> pets = null;
 
 
     /*Instant tInicial = Instant.now();
