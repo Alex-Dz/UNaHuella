@@ -4,12 +4,17 @@ $(document).ready(function () {
 
 $('.carousel.carousel-slider').carousel({
     fullWidth: true,
-    indicators: true
+    indicators: true,
+    pressed: true
 });
 
-$('.carousel.carousel-slider').carousel({
-    fullWidth: true
+$(document).ready(function(){
+    $('#carousel-content').carousel();
+    setInterval(function() {
+        $('#carousel-content').carousel('next');
+    }, 5000);
 });
+
 
 $(document).ready(function () {
     $('.slider').slider({full_width: true});

@@ -12,8 +12,8 @@
         <div class="row">
             <div class="col s12 m6">
                 <div class="card-panel no-margin background-grey-2">
-                    <h3 class="card-title center">Próximas jornadas</h3>
                     <div th:if="${proxJornada != null}">
+                        <h3 class="card-title center">Próximas jornadas</h3>
                         <table class="responsive-table highlight centered">
                             <thead>
                             <tr>
@@ -30,16 +30,27 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
 
+                    <div th:if="${proxJornada == null}">
+                        <div class="row top-padding">
+                            <div class="col s6 offset-s3 m4 offset-m4">
+                                <img class="responsive-img" th:src="@{/images/catX.png}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h3 class="flow-text center-align"> Lo sentimos. No hay jornadas próximamente.</h3>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
 
             <div class="col s12 m6">
-                <div class="slider">
+                <!--<div class="slider">
                     <ul class="slides">
                         <li>
-                            <img src="images/perritoygatito.jpg">
+                            <img src="images/.png">
                             <div class="caption center-align">
                                 <h5 class="center-align black-text">Cuidados para michis y perritus</h5>
                                 <p class="black-text">Holi :3.</p>
@@ -68,27 +79,74 @@
                             </div>
                         </li>
                     </ul>
-                </div>
-
-                <!--<div class="carousel carousel-slider center">
-                    <div class="carousel-item background-gatito black-text"  href="#one!">
-                            <h2>First Panel</h2>
-                            <p class="white-text">This is your first panel</p>
-                    </div>
-
-                    <div class="carousel-item amber white-text" href="#two!">
-                        <h2>Second Panel</h2>
-                        <p class="white-text">This is your second panel</p>
-                    </div>
-                    <div class="carousel-item green white-text" href="#three!">
-                        <h2>Third Panel</h2>
-                        <p class="white-text">This is your third panel</p>
-                    </div>
-                    <div class="carousel-item blue white-text" href="#four!">
-                        <h2>Fourth Panel</h2>
-                        <p class="white-text">This is your fourth panel</p>
-                    </div>
                 </div>-->
+                <div class="carousel carousel-slider" id="carousel-content" data-indicators="true">
+                    <a class="carousel-item" href="#one">
+                        <!--<div class="carousel-fixed-item center">-->
+                            <div class="card">
+                                <div class="card-image waves-effect waves-block waves-light no-padding">
+                                    <img class="activator" src="images/perritoygatito.jpg">
+                                </div>
+                                <div class="card-content no-padding">
+                                    <h5 class="center-align black-text">Cuidados para mascotas pequeñas</h5>
+                                </div>
+                                <div class="card-reveal">
+                                    <span class="card-title grey-text text-darken-4">Cuidados para mascotas pequeñas
+                                        <i class="material-icons right">close</i></span>
+                                    <p class="flow-text">▪ Todas nuestras mascotas necesitan desparasitarse porque es frecuente que tengan
+                                        tanto parásitos internos (lombrices) como parásitos externos (pulgas).</p>
+                                    <p class="flow-text">▪ La comida afecta en gran parte a la salud de tu mascota.
+                                        Por eso, opta siempre por productos con ingredientes de calidad que aporten
+                                        nutrientes a su organismo y que sienten bien a su pequeño estómago.</p>
+                                    <p class="flow-text">▪ Cómprale un collar bonito y ponle una chapa con tu número de teléfono,
+                                        por si se extravía durante una de sus aventuras.</p>
+                                </div>
+                            </div>
+                        <!--</div>-->
+                    </a>
+                    <a class="carousel-item" href="#two">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light no-padding">
+                                <img class="activator" src="images/perritos.png">
+                            </div>
+                            <div class="card-content  no-padding">
+                                <h5 class="center-align black-text">Maneras de hacer feliz a tu perro</h5>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Maneras de hacer feliz a tu perro
+                                    <i class="material-icons right">close</i></span>
+                                <p class="flow-text">▪ A los perros les gusta sentirse limpios y cuidados. Por eso un cepillado regular,
+                                    no sólo logra que tu mascota se vea bonita, sino que también ayuda a prevenir algunas
+                                    enfermedades de la piel.</p>
+                                <p class="flow-text">▪ La alimentación también es muy importante. Para ello, escoge un alimento de alta
+                                    calidad que promueva  la salud  y el bienestar de tu perro.</p>
+                                <p class="flow-text">▪ Todos los días juega con tu perro. Realiza una dinámica de juegos.
+                                    Te sorprenderás cómo puede cambiar tu ánimo y, claro, también el de tu perro.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="carousel-item" href="#three">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light no-padding">
+                                <img class="activator" src="images/perroygato.jpg">
+                            </div>
+                            <div class="card-content  no-padding">
+                                <h5 class="center-align black-text">Consejos para la convivencia entre perros y gatos</h5>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Consejos para la convivencia entre perros y gatos
+                                    <i class="material-icons right">close</i></span>
+                                <p class="flow-text">▪ Darles comida en áreas separadas.</p>
+                                <p class="flow-text">▪ Proporcionales varios juguetes a cada uno de distintos colores formas y algunos
+                                    que emitan ruido, ellos te lo agradecerán y además les proporcionarás
+                                    una auténtica distracción cuando tu no estés.</p>
+                                <p class="flow-text">▪ Iniciar la convivencia desde la primera etapa de vida. No cometas el error de dividir
+                                    tu hogar en dos zonas, una para cada animal, ya que entonces será muy complicado que
+                                    se toleren una vez pase el tiempo.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
