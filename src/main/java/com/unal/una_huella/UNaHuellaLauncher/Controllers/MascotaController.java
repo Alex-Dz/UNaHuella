@@ -41,7 +41,7 @@ public class MascotaController {
                 }
             }
         } else {
-            if (pets.getRoot().getKey().getI_id_usuario() != userService.getLoggedUser()) {
+            if (pets.getRoot().getKey().getI_id_dueño() != userService.getLoggedUser()) {
                 pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
                 for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
                     if (mascota != null) {

@@ -22,7 +22,8 @@ public class JornadaServiceImpl implements JornadaService {
     }
 
     @Override
-    public Jornada getJornadaById(String id) {
+    public Jornada getJornadaById(long id) {
+
         return jornadaRepository.findById(id)
                 .orElse(new Jornada());
     }
@@ -33,7 +34,7 @@ public class JornadaServiceImpl implements JornadaService {
     }
 
     @Override
-    public void deleteJornada(String id) {
+    public void deleteJornada(long id) {
         jornadaRepository.deleteById(id);
     }
 

@@ -27,7 +27,8 @@ INSERT INTO lugar_jornada VALUES (2, 2);
 INSERT INTO lugar_jornada VALUES (3, 1);
 INSERT INTO lugar_jornada VALUES (3, 2);
 
-INSERT INTO cita VALUES (parsedatetime('09:00', 'HH:mm'), 'vacunación', 2, 1, 1);
+INSERT INTO cita VALUES (1, parsedatetime('09:00', 'HH:mm'), 'vacunación', 2, 1, 1);
+INSERT INTO cita VALUES (2, parsedatetime('12:00', 'HH:mm'), 'vacunación', 1, 3, 1);
 
 
 

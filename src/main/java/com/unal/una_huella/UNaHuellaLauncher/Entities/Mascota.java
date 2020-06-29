@@ -131,7 +131,7 @@ public class Mascota {
         this.h_carnet_vacunacion = h_carnet_vacunacion;
     }
 
-    public Usuario getI_id_usuario() {
+    public Usuario getI_id_dueño() {
         return i_id_dueño;
     }
 

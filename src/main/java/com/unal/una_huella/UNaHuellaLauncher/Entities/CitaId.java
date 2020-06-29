@@ -9,6 +9,30 @@ public class CitaId implements Serializable {
     private Mascota a_id_mascota;
     private Jornada b_id_jornada;
 
+    public CitaId() {
+    }
+
+    public CitaId(Mascota a_id_mascota, Jornada b_id_jornada) {
+        this.setA_id_mascota(a_id_mascota);
+        this.setB_id_jornada(b_id_jornada);
+    }
+
+    public Mascota getA_id_mascota() {
+        return a_id_mascota;
+    }
+
+    public void setA_id_mascota(Mascota a_id_mascota) {
+        this.a_id_mascota = a_id_mascota;
+    }
+
+    public Jornada getB_id_jornada() {
+        return b_id_jornada;
+    }
+
+    public void setB_id_jornada(Jornada b_id_jornada) {
+        this.b_id_jornada = b_id_jornada;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

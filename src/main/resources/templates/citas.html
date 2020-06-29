@@ -35,21 +35,21 @@
                             <td th:if="${cita != null}"
                                 th:text="${cita.b_id_jornada.b_fecha_jornada}"></td>
                             <td th:if="${cita != null}"
-                                th:text="${cita.a_hora_cita}"></td>
+                                th:text="${cita.c_hora_cita}"></td>
                             <td th:if="${cita != null}"
-                                th:text="${cita.b_especificacion_cita}"></td>
+                                th:text="${cita.d_especificacion_cita}"></td>
                             <td th:if="${cita != null}"
                                 th:text="${cita.lugar.b_nombre_lugar}"></td>
                             <td th:if="${cita != null}"
                                 th:text="${cita.lugar.a_ubicacion_lugar}"></td>
 
                             <td th:if="${cita != null}" class="center">
-                                <a th:href="${'/particular/editCita/' + cita.a_id_mascota.id_mascota}">
+                                <a th:href="${'/particular/editCita/' + cita.getId_cita()}">
                                     <i class="material-icons">assignment</i>
                                 </a>
                             </td>
                             <td th:if="${cita != null}" class="center">
-                                <a th:href="${'/particular/deleteCita/' + cita.a_id_mascota.id_mascota}">
+                                <a th:href="${'/particular/deleteCita/' + cita.getId_cita()}">
                                     <i class="material-icons">event_busy</i>
                                 </a>
                             </td>

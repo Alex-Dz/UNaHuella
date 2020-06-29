@@ -3,9 +3,7 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
-import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
-import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
-import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -29,6 +28,10 @@ public class JornadasController {
     JornadaService jornadaService;
     @Autowired
     UserService userService;
+    @Autowired
+    MascotaService mascotaService;
+    @Autowired
+    CitaService citaService;
     @Autowired
     MascotaController mascotaController;
 
@@ -145,5 +148,14 @@ public class JornadasController {
         }
         model.addAttribute("citasByUser", allCitas);
         return "citas";
+    }
+
+    @GetMapping("/particular/deleteCita/{idCita}")
+    public String deleteCita(@PathVariable("idCita") String idCita, Model model) throws Exception {
+        Cita cita = citaService.getCitaById(idCita);
+        if (cita != null){
+            citaService.deleteCita(cita);
+        }
+        return "redirect:/particular/citas";
     }
 }

@@ -1,6 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Cita;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.CitaId;
 
 public interface CitaService {
     Iterable<Cita> listAllCitas();
@@ -8,6 +9,8 @@ public interface CitaService {
     Cita getCitaById(String id);
     
     Cita saveCita(Cita cita);
+
+    void deleteCita(Cita cita);
     
-    void deleteCita(String id);
+    void deleteCitaById(String id);
 }
