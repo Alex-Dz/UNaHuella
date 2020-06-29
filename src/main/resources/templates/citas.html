@@ -44,7 +44,7 @@
                                 th:text="${cita.lugar.a_ubicacion_lugar}"></td>
 
                             <td th:if="${cita != null}" class="center">
-                                <a th:href="${'/particular/editCita/' + cita.getId_cita()}">
+                                <a ><!--th:href="${'/particular/editCita/' + cita.getId_cita()}"-->
                                     <i class="material-icons">assignment</i>
                                 </a>
                             </td>
@@ -55,7 +55,6 @@
                             </td>
                         </tr>
                         </tbody>
-
                     </table>
                 </div>
             </div>
@@ -73,7 +72,19 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div th:if="${formErrorMessage}">
+            <div class="materialert error">
+                <div class="material-icons">error_outline</div>
+                <span th:text="${formErrorMessage}">Error Message</span>
+            </div>
+        </div>
+        <div th:if="${citaCreated}">
+            <div class="materialert success">
+                <div class="material-icons">check</div>
+                <span th:text="${edit}?'Cita actualizada':'Cita Cancelada'">cita eliminada/actualizado</span>
+            </div>
         </div>
     </div>
 </main>

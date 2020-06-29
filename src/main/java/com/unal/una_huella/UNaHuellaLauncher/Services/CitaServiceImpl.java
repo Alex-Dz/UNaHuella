@@ -1,8 +1,5 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services;
 
-import com.unal.una_huella.UNaHuellaLauncher.Entities.CitaId;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.CitaService;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Cita;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.CitaRepository;
@@ -11,22 +8,20 @@ import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CitaServiceImpl implements CitaService {
 
+    @Autowired
     private CitaRepository citaRepository;
     @Autowired
     private MascotaService mascotaService;
     @Autowired
     private JornadaService jornadaService;
 
-    @Autowired
-    public void setCitaRepository(CitaRepository citaRepository) {
-        this.citaRepository = citaRepository;
-    }
-
     @Override
-    public Iterable<Cita> listAllCitas() {
+    public List<Cita> listAllCitas() {
         return citaRepository.findAll();
     }
 
@@ -49,6 +44,12 @@ public class CitaServiceImpl implements CitaService {
     @Override
     public void deleteCitaById(String id) {
         citaRepository.deleteById(id);
+    }
+
+    public Cita mapCita(Cita from, Cita to){
+        to.setA_id_mascota(from.getA_id_mascota());
+        to.setD_especificacion_cita(from.getD_especificacion_cita());
+        return to;
     }
 
 }

@@ -1,10 +1,11 @@
 package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Cita;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.CitaId;
+
+import java.util.List;
 
 public interface CitaService {
-    Iterable<Cita> listAllCitas();
+    List<Cita> listAllCitas();
     
     Cita getCitaById(String id);
     
@@ -13,4 +14,6 @@ public interface CitaService {
     void deleteCita(Cita cita);
     
     void deleteCitaById(String id);
+
+    Cita mapCita(Cita from, Cita to);
 }

@@ -132,6 +132,61 @@ public class JornadasController {
         }
     }
 
+    @GetMapping("/particular/newCita")
+    public String newCita(Model model) {
+        pets = mascotaController.getMascotas();
+        Iterable<Jornada> jornadas = jornadaService.listAllJornadas();
+        List<Cita> allCitas = citaService.listAllCitas();
+        List<Cita> citas = new ArrayList<Cita>();
+        for (Cita cita : allCitas) {
+            if (cita.getA_id_mascota() == null) {
+                citas.add(cita);
+            }
+        }
+        /*List<Lugar> lugares = lugarService.listAllLugares();
+        List<CitasByLugar> citasByLugar = new ArrayList<CitasByLugar>();
+        for (Lugar lugar : lugares) {
+            CitasByLugar temp;
+            List<Cita> citasLibres = new ArrayList<Cita>();
+            for (Cita cita : lugar.getCitas()) {
+                if (cita.getA_id_mascota() == null) {
+                    citasLibres.add(cita);
+                }
+            }
+            temp = new CitasByLugar(lugar, citasLibres);
+            citasByLugar.add(temp);
+        }
+        if (citasByLugar.size() == 0) {
+            citasByLugar = null;
+        }*/
+        model.addAttribute("cita", new Cita());
+        model.addAttribute("mascotas", pets.getList());
+        model.addAttribute("jornadas", jornadas);
+        model.addAttribute("citasLibres", citas);
+        return "asignarCita";
+    }
+
+    @PostMapping("/particular/saveCita")
+    public String saveCita(@ModelAttribute("cita") Cita cita, ModelMap model) {
+        Cita citaToSave = new Cita();
+        Jornada jornada = cita.getB_id_jornada();
+        List<Cita> citaslibres = new ArrayList<Cita>();
+        for (Cita cit : jornada.getCitas()) {
+            if (cit.getA_id_mascota() == null) {
+                citaslibres.add(cit);
+            }
+        }
+        for (Cita cit : citaslibres) {
+            if (cita.getC_hora_cita().toString().equals(cit.getC_hora_cita().toString())){
+                citaToSave = citaService.mapCita(cita, cit);
+                break;
+            }
+        }
+        citaService.saveCita(citaToSave);
+        model.addAttribute("citaCreated", true);
+        return newCita((Model) model);
+    }
+
     @GetMapping("/particular/citas")
     public String citasList(Model model) {
         pets = mascotaController.getMascotas();
@@ -153,9 +208,36 @@ public class JornadasController {
     @GetMapping("/particular/deleteCita/{idCita}")
     public String deleteCita(@PathVariable("idCita") String idCita, Model model) throws Exception {
         Cita cita = citaService.getCitaById(idCita);
-        if (cita != null){
+        if (cita != null) {
             citaService.deleteCita(cita);
         }
-        return "redirect:/particular/citas";
+        model.addAttribute("citaCreated", true);
+        return citasList(model);
+    }
+
+    public class CitasByLugar {
+        Lugar lugar;
+        List<Cita> citaslibres;
+
+        public CitasByLugar(Lugar lugar, List<Cita> citaslibres) {
+            this.lugar = lugar;
+            this.citaslibres = citaslibres;
+        }
+
+        public Lugar getLugar() {
+            return lugar;
+        }
+
+        public void setLugar(Lugar lugar) {
+            this.lugar = lugar;
+        }
+
+        public List<Cita> getCitaslibres() {
+            return citaslibres;
+        }
+
+        public void setCitaslibres(List<Cita> citaslibres) {
+            this.citaslibres = citaslibres;
+        }
     }
 }
