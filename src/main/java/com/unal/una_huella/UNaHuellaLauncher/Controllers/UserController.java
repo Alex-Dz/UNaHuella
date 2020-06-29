@@ -2,9 +2,11 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
@@ -17,8 +19,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -31,6 +36,8 @@ public class UserController {
     private MascotaService mascotaService;
     @Autowired
     IndexController indexController;
+    @Autowired
+    JornadaService jornadaService;
 
 
     private static final int PARTICULAR = 1;
@@ -40,6 +47,7 @@ public class UserController {
 
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
+    List<Jornada> listaJornadas = new ArrayList<Jornada>();
 
     int tipo = 0;
 
@@ -65,7 +73,7 @@ public class UserController {
     DecimalFormat formatoDecimal = new DecimalFormat("0.000000000");
 
     @RequestMapping("/particular")
-    public String particular() {
+    public String particular(Model model) {
         if (avl == null) {
             getUsers(sortDefault);
         }
@@ -81,11 +89,20 @@ public class UserController {
                 }
             }
         }
+
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e){
+            System.err.println("No se han podido cargar las jornadas");
+        }
+
         return "particular";
     }
 
     @RequestMapping("/gestor")
-    String gestor() {
+    String gestor(Model model) {
         SortParams temp;
 
         if (sortPartiParams == null || sortVetParams == null || sortGestorParams == null) {
@@ -114,13 +131,30 @@ public class UserController {
         if (avl == null) {
             getUsers(sortDefault);
         }
+
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e){
+            System.err.println("No se han podido cargar las jornadas");
+        }
+
+
         return "gestor";
     }
 
     @RequestMapping("/vet")
-    public String vet() {
+    public String vet(Model model) {
         if (avl == null) {
             getUsers(sortDefault);
+        }
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e){
+            System.err.println("No se han podido cargar las jornadas");
         }
         return "veterinario";
     }
@@ -1009,5 +1043,25 @@ public class UserController {
             model.addAttribute("next", 0);
         }
         return "gestores";
+    }
+
+    public List<Jornada> getJornadas (){
+        for (Jornada jornada:jornadaService.listAllJornadas()) {
+            listaJornadas.add(jornada);
+        }
+
+        return listaJornadas;
+    }
+
+    public List<Jornada> proximasJornadas (){
+        //fecha-mes-dia
+        Date fechaActual = new Date(System.currentTimeMillis());
+        List<Jornada> proximasJornadas = new ArrayList<Jornada>();
+        for (Jornada jornada:getJornadas()) {
+            if (jornada.getB_fecha_jornada().after(fechaActual)){
+                proximasJornadas.add(jornada);
+            }
+        }
+        return proximasJornadas;
     }
 }

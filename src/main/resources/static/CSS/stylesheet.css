@@ -197,6 +197,10 @@
     background-color: rgba(48, 48, 50, 0.83);
 }
 
+.slider .indicators .indicator-item.active {
+    background-color: #70B8FF;
+}
+
 /*      para enviar el footer al final de la pag    */
 body {
     display: flex;
