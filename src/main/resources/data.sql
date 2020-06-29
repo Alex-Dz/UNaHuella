@@ -16,9 +16,9 @@ insert into mascota values (2, 'P', 'Tiara', 'H', 'Yorkshire', 7, 'Ninguno', 'Eh
 INSERT INTO lugar VALUES (1, 'Ak. 86 #26, Bogotá', 'Unidad Primaria de Atención UPA París Gaitan', 15);
 INSERT INTO lugar VALUES (2, 'Cl. 88 #95F-00, Engativá, Bogotá', 'UPA Unidad Primaria de Atención Bachué', 20);
 
-INSERT INTO jornada VALUES  (1, parsedatetime('15/07/2020', 'dd/mm/yyyy'), 1, 'vacunación y esterilización', 666);
-INSERT INTO jornada VALUES  (2, parsedatetime('20/07/2020', 'dd/mm/yyyy'), 0, 'esterilización', 666);
-INSERT INTO jornada VALUES  (3, parsedatetime('30/07/2020', 'dd/mm/yyyy'), 0, 'vacunación', 666);
+INSERT INTO jornada VALUES  (1, parsedatetime('15/07/2020', 'dd/MM/yyyy'), 1, 'vacunación y esterilización', 666);
+INSERT INTO jornada VALUES  (2, parsedatetime('20/07/2020', 'dd/MM/yyyy'), 0, 'esterilización', 666);
+INSERT INTO jornada VALUES  (3, parsedatetime('30/07/2020', 'dd/MM/yyyy'), 0, 'vacunación', 666);
 
 INSERT INTO lugar_jornada VALUES (1, 1);
 INSERT INTO lugar_jornada VALUES (1, 2);
