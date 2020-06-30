@@ -23,56 +23,102 @@
     </div>
 
     <div class="container bottom-padding-intermediate">
-        <div class="row no-margin">
-            <div class="col s12 m8 offset-m2 no-margin">
-                <div class="row no-margin">
-                    <div class="col s12  m8 offset-m2 l4">
-                        <div class="card-panel background-violet center-align sid">
-                            <div>
-                                <object class="adaptative-img" data="images/userpawvector.svg"
-                                        type="image/svg+xml"></object>
-                            </div>
-                            <div>
-                                <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
-                                   href="#"
-                                   th:href="@{/particular}">Particular</a>
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <div class="row">
 
+                    <div th:if="${loggedUser == null}">
+                        <div class="col s12 m8 offset-m2 l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/userpawvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
+                                       href="#"
+                                       th:href="@{/particular}">Particular</a>
+                                </div>
                             </div>
-
+                        </div>
+                    </div>
+                    <div th:if="${loggedUser != null && loggedUser.role == 1}">
+                        <div class="col s12 m8 offset-m2 l4 offset-l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/userpawvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
+                                       href="#"
+                                       th:href="@{/particular}">Particular</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col s12  m8 offset-m2 l4">
-                        <div class="card-panel background-violet center-align">
-                            <div>
-                                <object class="adaptative-img" data="images/vetvector.svg"
-                                        type="image/svg+xml"></object>
-                            </div>
 
-                            <div>
-                                <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
-                                   href="#" th:href="@{/vet}">Veterinario</a>
+                    <div th:if="${loggedUser == null}">
+                        <div class="col s12 m8 offset-m2 l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/vetvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
+                                       href="#" th:href="@{/vet}">Veterinario</a>
+                                </div>
                             </div>
-
+                        </div>
+                    </div>
+                    <div th:if="${loggedUser != null && loggedUser.role == 2}">
+                        <div class="col s12 m8 offset-m2 l4 offset-l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/vetvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light center-align btn vertical-margin"
+                                       href="#" th:href="@{/vet}">Veterinario</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col s12  m8 offset-m2 l4">
-                        <div class="card-panel background-violet center-align">
-                            <div>
-                                <object class="adaptative-img" data="images/gestorvector.svg"
-                                        type="image/svg+xml"></object>
-                            </div>
-                            <div>
-                                <a class="background-blue waves-effect waves-light btn vertical-margin"
-                                   href="#" th:href="@{/gestor}">Gestor</a>
-                            </div>
 
+                    <div th:if="${loggedUser == null}">
+                        <div class="col s12 m8 offset-m2 l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/gestorvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light btn vertical-margin"
+                                       href="#" th:href="@{/gestor}">Gestor</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${loggedUser != null && loggedUser.role == 3}">
+                        <div class="col s12 m8 offset-m2 l4 offset-l4">
+                            <div class="card-panel background-violet center-align">
+                                <div>
+                                    <object class="adaptative-img" data="images/gestorvector.svg"
+                                            type="image/svg+xml"></object>
+                                </div>
+                                <div>
+                                    <a class="background-blue waves-effect waves-light btn vertical-margin"
+                                       href="#" th:href="@{/gestor}">Gestor</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
-
             </div>
         </div>
     </div>
