@@ -24,6 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers(resources).permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers("/newUser", "/saveUser").permitAll()
                 .antMatchers("/gestor*").access("hasRole('GESTOR')")
