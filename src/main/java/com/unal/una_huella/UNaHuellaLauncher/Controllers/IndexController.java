@@ -15,6 +15,14 @@ import javax.validation.Valid;
 @Controller
 public class IndexController {
 
+    @Autowired
+    UserService userService;
+
+    @ModelAttribute
+    public void addLoggedUserToView(Model model) {
+        model.addAttribute("loggedUser", userService.getLoggedUser());
+    }
+
     @RequestMapping("/")
     String index() {
         return "index";

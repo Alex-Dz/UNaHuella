@@ -71,6 +71,12 @@ public class UserController {
 
     DecimalFormat formatoDecimal = new DecimalFormat("0.000000000");
 
+
+    @ModelAttribute
+    public void addLoggedUserToView(Model model){
+        model.addAttribute("loggedUser", userService.getLoggedUser());
+    }
+
     @RequestMapping("/particular")
     public String particular(Model model) {
         if (avl == null) {

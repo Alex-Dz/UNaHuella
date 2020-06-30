@@ -1,7 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
-import com.unal.una_huella.UNaHuellaLauncher.ED.DoubleLinkedList;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,11 @@ public class JornadasController {
     MascotaController mascotaController;
 
     private AVLTree<Mascota> pets = null;
+
+    @ModelAttribute
+    public void addLoggedUserToView(Model model){
+        model.addAttribute("loggedUser", userService.getLoggedUser());
+    }
 
     @GetMapping("/gestor/newJornada")
     public String newJornada(Model model) {
@@ -244,23 +248,6 @@ public class JornadasController {
         model.addAttribute("citaCreated", true);
         return newCita((Model) model);
     }
-
-    /*      controlador para refrescar un solo item select al vuelo mediante jQuery     */
-
-    /*@RequestMapping(value = "/particular/refreshJornada", method = RequestMethod.GET)
-    public String refreshItem(@RequestParam("d_especificacion_cita") String servicio, ModelMap model) {
-        List<Jornada> allJornadas = jornadaService.listAllJornadas();
-        List<Jornada> jornadasFiltradas = new ArrayList<Jornada>();
-        for (Jornada jornada : allJornadas) {
-            if (jornada.getD_servicios().contains(servicio)) {
-                jornadasFiltradas.add(jornada);
-            }
-        }
-
-        model.addAttribute("jornadas", jornadasFiltradas);
-
-        return "contents :: jornadaSelect-frag";
-    }*/
 
     @GetMapping("/particular/citas")
     public String citasList(Model model) {

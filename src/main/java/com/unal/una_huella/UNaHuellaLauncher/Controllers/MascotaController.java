@@ -28,6 +28,11 @@ public class MascotaController {
 
     private AVLTree<Mascota> pets = null;
 
+    @ModelAttribute
+    public void addLoggedUserToView(Model model){
+        model.addAttribute("loggedUser", userService.getLoggedUser());
+    }
+
     public AVLTree<Mascota> getMascotas() {
         if (pets == null || pets.getRoot() == null) {
             pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);

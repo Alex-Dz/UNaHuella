@@ -121,8 +121,13 @@ public class UserServiceImpl implements UserService {
         if (principal instanceof UserDetails){
             loggedUser = (UserDetails) principal;
         }
+        Usuario user;
+        try {
+            user = userRepo.findById(loggedUser.getUsername()).orElse(null);
+        }catch (Exception e){
+            user = null;
+        }
 
-        Usuario user = userRepo.findById(loggedUser.getUsername()).orElse(null);
         return user;
     }
 }
