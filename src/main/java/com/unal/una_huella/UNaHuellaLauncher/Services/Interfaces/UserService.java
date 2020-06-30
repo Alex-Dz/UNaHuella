@@ -27,5 +27,9 @@ public interface UserService {
 
     void mapUser(Usuario from, Usuario to);
 
+    boolean checkUsernameAvailable(Usuario user) throws Exception;
+
+    boolean checkPasswordValid(Usuario user) throws Exception;
+
     Usuario getLoggedUser();
 }

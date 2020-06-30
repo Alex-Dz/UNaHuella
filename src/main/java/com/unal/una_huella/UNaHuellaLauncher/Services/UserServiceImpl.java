@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private boolean checkUsernameAvailable(Usuario user) throws Exception {
+    public boolean checkUsernameAvailable(Usuario user) throws Exception {
         Optional<Usuario> userFound = userRepo.findById(user.getId_usuario());
         if (userFound.isPresent()) {
             throw new Exception("Ya existe un registro con este documento");
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    private boolean checkPasswordValid(Usuario user) throws Exception {
+    public boolean checkPasswordValid(Usuario user) throws Exception {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new Exception("Campo contraseña y confirmar contraseña no coinciden");
         }
