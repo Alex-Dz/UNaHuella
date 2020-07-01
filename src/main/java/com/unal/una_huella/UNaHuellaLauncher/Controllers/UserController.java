@@ -73,7 +73,7 @@ public class UserController {
 
 
     @ModelAttribute
-    public void addLoggedUserToView(Model model){
+    public void addLoggedUserToView(Model model) {
         model.addAttribute("loggedUser", userService.getLoggedUser());
     }
 
@@ -99,7 +99,7 @@ public class UserController {
         try {
             model.addAttribute("listaProxJornadas", proximasJornadas);
             model.addAttribute("proxJornada", proximasJornadas.get(0));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("No se han podido cargar las jornadas");
         }
 
@@ -141,7 +141,7 @@ public class UserController {
         try {
             model.addAttribute("listaProxJornadas", proximasJornadas);
             model.addAttribute("proxJornada", proximasJornadas.get(0));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("No se han podido cargar las jornadas");
         }
 
@@ -158,7 +158,7 @@ public class UserController {
         try {
             model.addAttribute("listaProxJornadas", proximasJornadas);
             model.addAttribute("proxJornada", proximasJornadas.get(0));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("No se han podido cargar las jornadas");
         }
         return "veterinario";
@@ -485,8 +485,9 @@ public class UserController {
 
     /*  de aquí para abajo van controladores de usuario unificado   */
 
-    @RequestMapping("/newUser")
-    public String formNewUser(Model model) {
+    @GetMapping("/newUser")
+    public String newUser(Model model) {
+        avl = getUsers(sortDefault);
         model.addAttribute("edit", false);
         model.addAttribute("user", new Usuario());
         model.addAttribute("userCreated", false);
@@ -495,15 +496,66 @@ public class UserController {
         return "formulario";
     }
 
+    @PostMapping("/newUser-2")
+    public String newUser2(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("tipo", 0);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                if (userService.checkUsernameAvailable(user) && userService.checkPasswordValid(user)) {
+                    if (user.getRole() == PARTICULAR) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", PARTICULAR);
+                        model.addAttribute("roles", roleRepo.findAll());
+                    }
+                    if (user.getRole() == VETERINARIO) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", VETERINARIO);
+                        model.addAttribute("roles", roleRepo.findAll());
+                    }
+                    if (user.getRole() == GESTOR) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", GESTOR);
+                        model.addAttribute("roles", roleRepo.findAll());
+                    }
+                } else {
+                    model.addAttribute("user", user);
+                    model.addAttribute("edit", false);
+                    model.addAttribute("tipo", 0);
+                    model.addAttribute("roles", roleRepo.findAll());
+                }
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("edit", false);
+                model.addAttribute("tipo", 0);
+                model.addAttribute("roles", roleRepo.findAll());
+            }
+
+            return "formulario";
+        }
+    }
+
     @PostMapping("/saveUser")
     public String createUser(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("tipo", user.getRole());
         } else {
             try {
                 userService.createUser(user);
                 model.addAttribute("userCreated", true);
+                model.addAttribute("user", new Usuario());
                 model.addAttribute("edit", false);
+                model.addAttribute("tipo", 0);
                 model.addAttribute("roles", roleRepo.findAll());
                 avl.insertAVL(user);
                 return "formulario";
@@ -523,7 +575,7 @@ public class UserController {
 
     @GetMapping("/editUser/cancel")
     public String cancelEditUser() {
-        return "redirect:/usuarios";
+        return "redirect://";
     }
 
     @GetMapping("/usuarios")
@@ -1050,21 +1102,21 @@ public class UserController {
         return "gestores";
     }
 
-    public List<Jornada> getJornadas (){
+    public List<Jornada> getJornadas() {
         List<Jornada> listaJornadas = new ArrayList<Jornada>();
-        for (Jornada jornada:jornadaService.listAllJornadas()) {
+        for (Jornada jornada : jornadaService.listAllJornadas()) {
             listaJornadas.add(jornada);
         }
 
         return listaJornadas;
     }
 
-    public List<Jornada> proximasJornadas (){
+    public List<Jornada> proximasJornadas() {
         //fecha-mes-dia
         Date fechaActual = new Date(System.currentTimeMillis());
         List<Jornada> proximasJornadas = new ArrayList<Jornada>();
-        for (Jornada jornada:getJornadas()) {
-            if (jornada.getB_fecha_jornada().after(fechaActual)){
+        for (Jornada jornada : getJornadas()) {
+            if (jornada.getB_fecha_jornada().after(fechaActual)) {
                 proximasJornadas.add(jornada);
             }
         }
