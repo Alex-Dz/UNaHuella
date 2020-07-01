@@ -2,12 +2,10 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
-import com.unal.una_huella.UNaHuellaLauncher.Entities.Particular;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Role;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
 

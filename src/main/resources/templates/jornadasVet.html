@@ -8,15 +8,15 @@
 <!--/*/ <th:block th:include="headers/veterinarionavbar :: usernavbar"></th:block> /*/-->
 <main>
     <div class="container top-padding-intermediate bottom-padding-intermediate">
-        <div th:if="${jornada != null}">
+        <div th:if="${listaJornadas != null}">
             <div class="row">
-                <div class="column s12 m4">
-                    <div th:each="elemento : ${listaJornadas}">
+                <div class="col s12 m4">
+                    <div th:each="jornada : ${listaJornadas}">
                         <div class="card-panel padding background-dark-grey">
                             <div class="row center">
                                 <div class="col s12">
-                                    <a th:href="${'/vet/cirugias/' + #httpServletRequest.remoteUser}"
-                                       th:text="${elemento.b_fecha_jornada}"
+                                    <a th:href="${'/vet/jornadas/' + jornada.id_jornada}"
+                                       th:text="${jornada.b_fecha_jornada}"
                                        class="waves-effect waves-mediumpurple btn-flat">
                                         <i class="material-icons right">keyboard_arrow_right</i></a>
                                 </div>
@@ -29,7 +29,7 @@
                 <div class="col s12 m8">
                     <div class="card-panel background-grey-2">
                         <div class="row center">
-                            <h3 th:text="${jornada.b_fecha_jornada}"></h3>
+                            <h3>Citas</h3>
                         </div>
 
                         <table class="striped centered responsive-table">
@@ -45,11 +45,25 @@
 
                             <tbody>
                             <tr th:each="cita : ${listaCitas}">
-                                <td th:if="${cita != null}" th:text="${cita.a_fecha_cita}"></td>
-                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.b_nombre_mascota}"></td>
-                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.a_especie}"></td>
-                                <td th:if="${cita != null}" th:text="${cita.a_id_mascota.g_portador_parasito}"></td>
-                                <td th:if="${cita != null}" th:text="${cita.d_especificacion_cita}"></td>
+                                <div th:if="${cita != null && cita.a_id_mascota != null}">
+                                    <td th:if="${cita != null}" th:text="${cita.c_hora_cita}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.a_id_mascota.b_nombre_mascota}"></td>
+                                    <div th:if="${cita != null && cita.a_id_mascota.a_especie == 'P'}">
+                                        <td th:text="Perro"></td>
+                                    </div>
+                                    <div th:if="${cita != null && cita.a_id_mascota.a_especie == 'G'}">
+                                        <td th:text="Gato"></td>
+                                    </div>
+                                    <td th:if="${cita != null}" th:text="${cita.a_id_mascota.g_portador_parasito}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.d_especificacion_cita}"></td>
+                                </div>
+                                <div th:if="${cita != null && cita.a_id_mascota == null}">
+                                    <td th:if="${cita != null}" th:text="${cita.c_hora_cita}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.a_id_mascota}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.a_id_mascota}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.a_id_mascota}"></td>
+                                    <td th:if="${cita != null}" th:text="${cita.d_especificacion_cita}"></td>
+                                </div>
                             </tr>
                             </tbody>
                         </table>
@@ -58,7 +72,7 @@
             </div>
         </div>
 
-        <div th:if="${jornada == null}">
+        <div th:if="${listaJornadas == null}">
             <div class="row top-margin">
                 <div class="col s12 no-padding">
                     <div class="card-panel no-margin background-grey-2">

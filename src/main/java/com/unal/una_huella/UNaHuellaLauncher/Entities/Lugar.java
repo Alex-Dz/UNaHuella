@@ -36,9 +36,13 @@ public class Lugar implements Serializable {
     @Column(name = "CIRUGIAS")
     private List<Cirugia> cirugias;
 
-    @ManyToMany(mappedBy = "lugares")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "lugares")
     @Column(name = "JORNADAS")
     private List<Jornada> jornadas;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "p_lugares")
+    @Column(name = "VETERINARIOS")
+    private List<Usuario> vets;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "lugar")
     @Column(name = "CITAS")

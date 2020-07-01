@@ -145,10 +145,10 @@ public class DoubleLinkedList<T> implements List<T> {
 
     public T findById(String id) {
         long i = 0;
-        if (head != null && head.key instanceof Particular) {
-            NodoList<Particular> temp = (NodoList<Particular>) head;
+        if (head != null && head.key instanceof Usuario) {
+            NodoList<Usuario> temp = (NodoList<Usuario>) head;
             while (i < this.size) {
-                if (temp.key.getId_particular().equals(id)) {
+                if (temp.key.getId_usuario().equals(id)) {
                     return (T) temp.key;
                 }
                 temp = temp.next;

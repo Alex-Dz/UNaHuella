@@ -35,7 +35,7 @@ public class JornadasController {
     private AVLTree<Mascota> pets = null;
 
     @ModelAttribute
-    public void addLoggedUserToView(Model model){
+    public void addLoggedUserToView(Model model) {
         model.addAttribute("loggedUser", userService.getLoggedUser());
     }
 
@@ -277,29 +277,86 @@ public class JornadasController {
         return citasList(model);
     }
 
-    public class CitasByLugar {
-        Lugar lugar;
-        List<Cita> citaslibres;
-
-        public CitasByLugar(Lugar lugar, List<Cita> citaslibres) {
-            this.lugar = lugar;
-            this.citaslibres = citaslibres;
+    @GetMapping("/vet/jornadas")
+    public String jornadasVet(Model model) {
+        Date fechaActual = new Date();
+        java.sql.Date serverDate = new java.sql.Date(fechaActual.getTime());
+        List<Jornada> allJornadas = userService.getLoggedUser().getO_jornadas();
+        List<Lugar> lugares = userService.getLoggedUser().getP_lugares();
+        List<Jornada> jornadas = new ArrayList<Jornada>();
+        List<Cita> citasFiltradas = new ArrayList<>();
+        List<Cita> citas = null;
+        for (Jornada jornada : allJornadas) {
+            if (jornada.getB_fecha_jornada().compareTo(serverDate) >= 0) {
+                jornadas.add(jornada);
+            }
         }
-
-        public Lugar getLugar() {
-            return lugar;
+        if (jornadas.size() > 0) {
+            citas = jornadas.get(0).getCitas();
+            for (Cita cita : citas) {
+                if (cita.getLugar().getId_lugar() == lugares.get(0).getId_lugar()) {
+                    citasFiltradas.add(cita);
+                }
+            }
+        } else {
+            jornadas = null;
         }
-
-        public void setLugar(Lugar lugar) {
-            this.lugar = lugar;
+        for (int i = 0; i < citasFiltradas.size(); i++) {
+            if (i<citasFiltradas.size()-1){
+                Cita aux = citasFiltradas.get(i + 1);
+                if (citasFiltradas.get(i).getC_hora_cita().compareTo(citasFiltradas.get(i + 1).getC_hora_cita()) > 0) {
+                    citasFiltradas.set(i + 1, citasFiltradas.get(i));
+                    citasFiltradas.set(i, aux);
+                }
+            }
         }
+        model.addAttribute("listaJornadas", jornadas);
+        model.addAttribute("listaCitas", citasFiltradas);
+        return "jornadasVet";
+    }
 
-        public List<Cita> getCitaslibres() {
-            return citaslibres;
+    @GetMapping("/vet/jornadas/{idJornada}")
+    public String jornadasVetButton(@PathVariable("idJornada") long idJornada, Model model) {
+        int posJornada = 0;
+        Date fechaActual = new Date();
+        java.sql.Date serverDate = new java.sql.Date(fechaActual.getTime());
+        List<Jornada> allJornadas = userService.getLoggedUser().getO_jornadas();
+        List<Lugar> lugares = userService.getLoggedUser().getP_lugares();
+        List<Jornada> jornadas = new ArrayList<Jornada>();
+        List<Cita> citasFiltradas = new ArrayList<>();
+        List<Cita> citas = null;
+        for (Jornada jornada : allJornadas) {
+            if (jornada.getB_fecha_jornada().compareTo(serverDate) >= 0) {
+                jornadas.add(jornada);
+            }
         }
+        if (jornadas.size() > 0) {
+            for (int i = 0; i < jornadas.size(); i++) {
+                if (jornadas.get(i).getId_jornada() == idJornada) {
+                    posJornada = i;
+                }
+            }
+            citas = jornadas.get(posJornada).getCitas();
+            for (Cita cita : citas) {
+                if (cita.getLugar().getId_lugar() == lugares.get(0).getId_lugar()) {
+                    citasFiltradas.add(cita);
+                }
+            }
+        } else {
+            jornadas = null;
+        }
+        for (int i = 0; i < citasFiltradas.size(); i++) {
+            if (i<citasFiltradas.size()-1){
+                Cita aux = citasFiltradas.get(i + 1);
+                if (citasFiltradas.get(i).getC_hora_cita().compareTo(citasFiltradas.get(i + 1).getC_hora_cita()) > 0) {
+                    citasFiltradas.set(i + 1, citasFiltradas.get(i));
+                    citasFiltradas.set(i, aux);
+                }
+            }
+        }
+        model.addAttribute("listaJornadas", jornadas);
+        model.addAttribute("listaCitas", citasFiltradas);
+        return "jornadasVet";
 
-        public void setCitaslibres(List<Cita> citaslibres) {
-            this.citaslibres = citaslibres;
-        }
     }
 }

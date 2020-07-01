@@ -73,11 +73,18 @@ public class Usuario implements Serializable {
     private String m_especializacion;
     @Column(name = "EXPERIENCIA_VET", nullable = true, length = 10)
     private int n_anos_experiencia;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "VETERINARIOS",
+    @JoinTable(name = "VET_JORNADA",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "jornada_id"))
     private List<Jornada> o_jornadas;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "VET_LUGAR",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "lugar_id"))
+    private List<Lugar> p_lugares;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "b_id_veterinario")
     @Column(name = "MIS_CIRUGIAS")
@@ -277,6 +284,14 @@ public class Usuario implements Serializable {
 
     public void setCirugias(List<Cirugia> cirugias) {
         this.cirugias = cirugias;
+    }
+
+    public List<Lugar> getP_lugares() {
+        return p_lugares;
+    }
+
+    public void setP_lugares(List<Lugar> p_lugares) {
+        this.p_lugares = p_lugares;
     }
 
     @Override

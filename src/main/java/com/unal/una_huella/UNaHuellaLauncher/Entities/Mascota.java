@@ -59,6 +59,9 @@ public class Mascota {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "a_id_mascota")
     private List<Cita> citasMascota;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "b_id_mascota")
+    private List<Dosis> dosis;
+
     public String getId_mascota() {
         return id_mascota;
     }
