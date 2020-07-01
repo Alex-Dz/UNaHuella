@@ -211,8 +211,11 @@ body {
 main {
     flex: 1 0 auto;
 }
+.carousel .indicators .indicator-item.active{
+    background-color: #70B8FF;
+}
 
-.card {
+/*.card {
     width: 30em;
     height: 35em;
-}
+}*/

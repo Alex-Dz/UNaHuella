@@ -1,19 +1,18 @@
 $(document).ready(function () {
     $('.sidenav').sidenav();
-})
-
-$('.carousel.carousel-slider').carousel({
-    // fullWidth: true,
-    indicators: true
 });
 
 $(document).ready(function () {
-    $('#carousel-content').carousel();
+    $('.carousel.carousel-slider').carousel({
+        fullWidth: true,
+        indicators: true,
+        duration: 100
+    });
+
     setInterval(function () {
         $('#carousel-content').carousel('next');
-    }, 5000);
+    }, 10000);
 });
-
 
 $(document).ready(function () {
     $('.slider').slider({full_width: true});
@@ -47,33 +46,5 @@ $(document).ready(function () {
     });
 
 
-})
-/*
-$(document).ready(function () {
-    /!*var url = '/particular/refreshJornada';
-    if ($('#servicioSelect').val() != ''){
-        url = url + '/' + $('#servicioSelect').val();
-    }
-    $("#servicioSelect").load(url);*!/
-    /!*if ($('#servicioSelect').val() != '') {
-        $("#jornadaSelect").load("refreshJornada", $('#servicioSelect').serialize());
-    }*!/
+});
 
-    //call function when page is loaded
-    getContent();
-
-    //set on change listener
-    $('#servicioSelect').change(getContent);
-
-    function getContent() {
-
-        //create url to request fragment
-        if ($('#servicioSelect').val() != '') {
-            //load fragment and replace content
-            $('#jornadaSelect').load("refreshJornada", $('#servicioSelect').serialize());
-            //$("#inputJornada").load(" #inputJornada");
-
-            //$('#inputJornada').load(' #inputJornada');
-        }
-    }
-})*/
