@@ -3,9 +3,8 @@ $(document).ready(function () {
 })
 
 $('.carousel.carousel-slider').carousel({
-    fullWidth: true,
-    indicators: true,
-    pressed: true
+    // fullWidth: true,
+    indicators: true
 });
 
 $(document).ready(function () {

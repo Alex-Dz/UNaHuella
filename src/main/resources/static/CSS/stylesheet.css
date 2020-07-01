@@ -98,6 +98,10 @@
     padding-top: 1em;
 }
 
+.top-margin-little {
+    margin-top: 0.5em;
+}
+
 .top-padding-intermediate{
     padding-top: 3em;
 }
@@ -197,10 +201,6 @@
     background-color: rgba(48, 48, 50, 0.83);
 }
 
-.slider .indicators .indicator-item.active {
-    background-color: #70B8FF;
-}
-
 /*      para enviar el footer al final de la pag    */
 body {
     display: flex;
@@ -210,4 +210,9 @@ body {
 
 main {
     flex: 1 0 auto;
+}
+
+.card {
+    width: 30em;
+    height: 35em;
 }

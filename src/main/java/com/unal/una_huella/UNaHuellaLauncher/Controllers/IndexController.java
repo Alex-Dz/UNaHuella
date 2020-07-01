@@ -32,4 +32,19 @@ public class IndexController {
     String login() {
         return "login";
     }
+
+    @RequestMapping("/404error")
+    String error404() {
+        return "404error";
+    }
+
+    @RequestMapping("/403error")
+    String error403() {
+        return "403error";
+    }
+
+    @RequestMapping("/500error")
+    String error500() {
+        return "500error";
+    }
 }
