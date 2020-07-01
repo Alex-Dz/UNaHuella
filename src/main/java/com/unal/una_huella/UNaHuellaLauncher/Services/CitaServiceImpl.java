@@ -37,6 +37,11 @@ public class CitaServiceImpl implements CitaService {
     }
 
     @Override
+    public List<Cita> saveAllCitas(List<Cita> citas){
+        return citaRepository.saveAll(citas);
+    }
+
+    @Override
     public void deleteCita(Cita cita) {
         citaRepository.delete(cita);
     }

@@ -10,7 +10,7 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 
 </head>
-<body>
+<body class="background-grey-1">
 <main>
     <div th:if="${edit == true && tipo == 1}">
         <div th:if="${gestorConsult}">
@@ -631,16 +631,27 @@
                                     <i class="material-icons prefix">contacts</i>
                                     <input type="text" class="validate" id="tarjetaPro"
                                            placeholder="Numero de Tarjeta Profesional" th:field="${user.l_num_tarjetaprof}"/>
+                                    <label for="tarjetaPro">Numero de Tarjeta Profesional</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">recent_actors</i>
                                     <input type="text" class="validate" id="especializacion"
                                            placeholder="Especializacion" th:field="${user.m_especializacion}"/>
+                                    <label for="especializacion">Especialización</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <i class="material-icons prefix">schedule</i>
                                     <input type="number" class="validate" id="experiencia"
                                            placeholder="Años de experiencia" th:field="${user.n_anos_experiencia}"/>
+                                    <label for="experiencia">Años de Experiencia</label>
+                                </div>
+                                <div class="input-field col s12 m3">
+                                    <i class="material-icons prefix">location_on</i>
+                                    <select id="lugarSelect" th:field="${user.p_lugares}">
+                                        <option value="" selected disabled>Selcciona un lugar</option>
+                                        <option th:each="lugar : ${lugares}" th:value="${lugar.id_lugar}" th:text="${lugar.b_nombre_lugar}"></option>
+                                    </select>
+                                    <label for="lugarSelect">Centro Medico</label>
                                 </div>
                             </div>
 

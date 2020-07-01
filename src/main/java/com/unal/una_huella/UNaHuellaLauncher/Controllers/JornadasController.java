@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,8 @@ public class JornadasController {
     MascotaService mascotaService;
     @Autowired
     CitaService citaService;
+    @Autowired
+    UserController userController;
     @Autowired
     MascotaController mascotaController;
 
@@ -54,10 +57,39 @@ public class JornadasController {
         }
         if (result.hasErrors()) {
             model.addAttribute("jornada", jornada);
+            model.addAttribute("lugares", lugarService.listAllLugares());
             return "newJornada";
         } else {
             try {
-                jornadaService.saveJornada(jornada);
+                jornada = jornadaService.saveJornada(jornada);
+                List<Cita> nuevasCitas = new ArrayList<Cita>();
+                int hour = 8;
+                for (Lugar lugar : jornada.getLugares()) {
+                    for (int i = 0; i < 5; i++) {
+                        Cita cita = new Cita();
+                        cita.setA_id_mascota(null);
+                        cita.setB_id_jornada(jornada);
+                        cita.setC_hora_cita(new Time(hour, 0, 0));
+                        hour++;
+                        cita.setD_especificacion_cita("");
+                        cita.setLugar(lugar);
+                        nuevasCitas.add(cita);
+                    }
+                    hour = 8;
+                }
+                citaService.saveAllCitas(nuevasCitas);
+                for (Lugar lugar : jornada.getLugares()) {
+                    //Usuario vet = lugar.getVets().get(0);
+                    for (Usuario vet : lugar.getVets()) {
+                        List<Jornada> jornadasVet = vet.getO_jornadas();
+                        if (jornadasVet.contains(jornada) == false) {
+                            jornadasVet.add(jornada);
+                            vet.setO_jornadas(jornadasVet);
+                            userService.updateUser(vet);
+                            userService.mapUser(vet, userController.avl.find(vet, userController.avl.getRoot()));
+                        }
+                    }
+                }
             } catch (Exception e) {
                 model.addAttribute("jornada", jornada);
                 model.addAttribute("lugares", lugarService.listAllLugares());
@@ -302,7 +334,7 @@ public class JornadasController {
             jornadas = null;
         }
         for (int i = 0; i < citasFiltradas.size(); i++) {
-            if (i<citasFiltradas.size()-1){
+            if (i < citasFiltradas.size() - 1) {
                 Cita aux = citasFiltradas.get(i + 1);
                 if (citasFiltradas.get(i).getC_hora_cita().compareTo(citasFiltradas.get(i + 1).getC_hora_cita()) > 0) {
                     citasFiltradas.set(i + 1, citasFiltradas.get(i));
@@ -346,7 +378,7 @@ public class JornadasController {
             jornadas = null;
         }
         for (int i = 0; i < citasFiltradas.size(); i++) {
-            if (i<citasFiltradas.size()-1){
+            if (i < citasFiltradas.size() - 1) {
                 Cita aux = citasFiltradas.get(i + 1);
                 if (citasFiltradas.get(i).getC_hora_cita().compareTo(citasFiltradas.get(i + 1).getC_hora_cita()) > 0) {
                     citasFiltradas.set(i + 1, citasFiltradas.get(i));

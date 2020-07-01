@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface CitaService {
     List<Cita> listAllCitas();
-    
+
     Cita getCitaById(String id);
-    
+
     Cita saveCita(Cita cita);
 
+    List<Cita> saveAllCitas(List<Cita> citas);
+
     void deleteCita(Cita cita);
-    
+
     void deleteCitaById(String id);
 
     Cita mapCita(Cita from, Cita to);

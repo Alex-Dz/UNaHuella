@@ -11,6 +11,8 @@ public class IndexController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserController userController;
 
     @ModelAttribute
     public void addLoggedUserToView(Model model) {
@@ -24,6 +26,7 @@ public class IndexController {
 
     @RequestMapping("/login")
     String login() {
+        userController.avl = userController.getUsers(userController.sortDefault);
         return "login";
     }
 }

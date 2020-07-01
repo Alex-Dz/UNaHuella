@@ -7,6 +7,7 @@ import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
@@ -38,6 +39,8 @@ public class UserController {
     IndexController indexController;
     @Autowired
     JornadaService jornadaService;
+    @Autowired
+    LugarService lugarService;
 
 
     private static final int PARTICULAR = 1;
@@ -518,6 +521,7 @@ public class UserController {
                         model.addAttribute("edit", false);
                         model.addAttribute("tipo", VETERINARIO);
                         model.addAttribute("roles", roleRepo.findAll());
+                        model.addAttribute("lugares", lugarService.listAllLugares());
                     }
                     if (user.getRole() == GESTOR) {
                         model.addAttribute("user", user);

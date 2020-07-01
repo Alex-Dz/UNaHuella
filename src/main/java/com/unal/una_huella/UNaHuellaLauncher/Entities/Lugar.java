@@ -104,4 +104,12 @@ public class Lugar implements Serializable {
     public void setCitas(List<Cita> citas) {
         this.citas = citas;
     }
+
+    public List<Usuario> getVets() {
+        return vets;
+    }
+
+    public void setVets(List<Usuario> vets) {
+        this.vets = vets;
+    }
 }
