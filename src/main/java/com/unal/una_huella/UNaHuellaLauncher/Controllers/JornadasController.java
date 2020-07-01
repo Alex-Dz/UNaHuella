@@ -303,7 +303,9 @@ public class JornadasController {
     public String deleteCita(@PathVariable("idCita") String idCita, Model model) throws Exception {
         Cita cita = citaService.getCitaById(idCita);
         if (cita != null) {
-            citaService.deleteCita(cita);
+            cita.setA_id_mascota(null);
+            cita.setD_especificacion_cita("");
+            citaService.saveCita(cita);
         }
         model.addAttribute("citaCreated", true);
         return citasList(model);
