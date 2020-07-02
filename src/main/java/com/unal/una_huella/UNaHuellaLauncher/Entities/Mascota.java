@@ -23,7 +23,7 @@ public class Mascota {
     private String a_especie;
 
     @Column(name = "NOMBRE_MASCOTA")
-    @NotBlank(message = "Nombre es obligatorio")
+    @NotBlank(message = "Este campo es obligatorio")
     @Size(max = 20, message = "Máximo 20 caracteres")
     private String b_nombre_mascota;
 
@@ -32,7 +32,7 @@ public class Mascota {
     private String c_genero;
 
     @Column(name = "RAZA")
-    @NotBlank(message = "Raza es obligatorio")
+    @NotBlank(message = "Este campo es obligatorio")
     @Size(max = 40, message = "Máximo 40 caracteres")
     private String d_raza;
 
@@ -41,7 +41,7 @@ public class Mascota {
     private int e_edad_mascota;
 
     @Column(name = "HISTORIAL_CIRUGIAS")
-    @NotBlank(message = "Historial es obligatorio")
+    @NotBlank(message = "Este campo es obligatorio")
     @Size(max = 500, message = "Máximo 500 caracteres")
     private String f_historial_cirugias;
 

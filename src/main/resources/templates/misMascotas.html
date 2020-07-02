@@ -34,7 +34,7 @@
                                     <h3 th:text="${mascota.b_nombre_mascota}"></h3>
                                 </div>
                                 <div class="row">
-                                    <div class="col s12 m6">
+                                    <div class="col s12 m4">
                                         <div class="input-field">
                                             <label for="carnetMascota">Carnet de vacunación:</label>
                                             <i class="material-icons prefix">chrome_reader_mode</i>
@@ -43,7 +43,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="col s12 m6">
+                                    <div class="col s12 m4">
+                                        <div class="input-field">
+                                            <label for="raza_mascota">Raza: </label>
+                                            <i class="material-icons prefix">pets</i>
+                                            <input disabled class="validate" type="text" id="raza_mascota"
+                                                   th:value="${mascota.d_raza}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col s12 m4">
                                         <div class="input-field">
                                             <label for="edadMascota">Edad:</label>
                                             <i class="material-icons prefix">cake</i>
@@ -136,7 +145,7 @@
                                 <div th:if="${petCreated}">
                                     <div class="materialert success">
                                         <div class="material-icons">check</div>
-                                        <span>Mascota actualizada</span>
+                                        <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
                                     </div>
                                 </div>
 
@@ -159,6 +168,9 @@
                                         <label for="nombre_mascota">Nombre de tu mascota: </label>
                                         <input class="validate" type="text" id="nombre_mascota"
                                                th:field="${mascota.b_nombre_mascota}"/>
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('b_nombre_mascota')}"
+                                              th:errors="*{b_nombre_mascota}">Mascota Error</span>
                                     </div>
                                 </div>
 
@@ -167,6 +179,8 @@
                                         <label for="raza_mascota">Raza: </label>
                                         <input class="validate" type="text" id="raza_mascota"
                                                th:field="${mascota.d_raza}"/>
+                                        <span class="helper-text materialert error" th:if="${#fields.hasErrors('d_raza')}"
+                                              th:errors="*{d_raza}">Mascota Error</span>
                                     </div>
                                 </div>
 
@@ -189,6 +203,8 @@
                                                class="validate">
                                         <span class="helper-text" data-error="Error" data-success="">La edad de tu
                                             mascota debes ingresarla en meses</span>
+                                        <span class="helper-text materialert error" th:if="${#fields.hasErrors('e_edad_mascota')}"
+                                              th:errors="*{e_edad_mascota}">Mascota Error</span>
                                     </div>
                                 </div>
                             </div>
@@ -198,6 +214,8 @@
                                 <textarea th:field="${mascota.f_historial_cirugias}" id="historialMacota"
                                           class="materialize-textarea"></textarea>
                                     <label for="historialMacota">Historial de cirugías</label>
+                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('f_historial_cirugias')}"
+                                          th:errors="*{f_historial_cirugias}">Mascota Error</span>
                                 </div>
                             </div>
 
@@ -255,6 +273,13 @@
                                     <span th:text="${formErrorMessage}">Error Message</span>
                                 </div>
                             </div>
+                            <div th:if="${petCreated}">
+                                <div class="materialert success">
+                                    <div class="material-icons">check</div>
+                                    <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
+                                </div>
+                            </div>
+
 
                         </form>
                     </div>

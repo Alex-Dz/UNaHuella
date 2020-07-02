@@ -56,8 +56,6 @@
                                     <label>Carnet de vacunación</label>
                                     <input th:field="${mascota.h_carnet_vacunacion}" id="carnetMascota"
                                            type="text" class="validate">
-                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('h_carnet_vacunacion')}"
-                                          th:errors="*{h_carnet_vacunacion}">Mascota Error</span>
                                 </div>
                             </div>
                         </div>
