@@ -45,6 +45,13 @@
                                     </div>
 
                                     <div class="input-field col s12 m3">
+                                        <i class="material-icons prefix">person_outline</i>
+                                        <input type="text" class="validate" id="segundoNombre"
+                                               placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                        <label for="segundoNombre">Segundo Nombre</label>
+                                    </div>
+
+                                    <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person</i>
                                         <input type="text" class="validate" id="primerApellido"
                                                placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
@@ -54,12 +61,7 @@
                                               th:errors="*{b_primer_apellido}">UserName Error</span>
                                     </div>
 
-                                    <div class="input-field col s12 m3">
-                                        <i class="material-icons prefix">person_outline</i>
-                                        <input type="text" class="validate" id="segundoNombre"
-                                               placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
-                                        <label for="segundoNombre">Segundo Nombre</label>
-                                    </div>
+
 
                                     <div class="input-field col s12 m3">
                                         <i class="material-icons prefix">person_outline</i>
@@ -178,6 +180,13 @@
                                         </div>
 
                                         <div class="input-field col s12 m3">
+                                            <i class="material-icons prefix">person_outline</i>
+                                            <input type="text" class="validate" id="segundoNombre"
+                                                   placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                            <label for="segundoNombre">Segundo Nombre</label>
+                                        </div>
+
+                                        <div class="input-field col s12 m3">
                                             <i class="material-icons prefix">person</i>
                                             <input type="text" class="validate" id="primerApellido"
                                                    placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
@@ -187,12 +196,7 @@
                                                   th:errors="*{b_primer_apellido}">UserName Error</span>
                                         </div>
 
-                                        <div class="input-field col s12 m3">
-                                            <i class="material-icons prefix">person_outline</i>
-                                            <input type="text" class="validate" id="segundoNombre"
-                                                   placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
-                                            <label for="segundoNombre">Segundo Nombre</label>
-                                        </div>
+
 
                                         <div class="input-field col s12 m3">
                                             <i class="material-icons prefix">person_outline</i>
@@ -320,6 +324,13 @@
                                         </div>
 
                                         <div class="input-field col s12 m3">
+                                            <i class="material-icons prefix">person_outline</i>
+                                            <input type="text" class="validate" id="segundoNombre"
+                                                   placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                            <label for="segundoNombre">Segundo Nombre</label>
+                                        </div>
+
+                                        <div class="input-field col s12 m3">
                                             <i class="material-icons prefix">person</i>
                                             <input type="text" class="validate" id="primerApellido"
                                                    placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
@@ -329,12 +340,7 @@
                                                   th:errors="*{b_primer_apellido}">UserName Error</span>
                                         </div>
 
-                                        <div class="input-field col s12 m3">
-                                            <i class="material-icons prefix">person_outline</i>
-                                            <input type="text" class="validate" id="segundoNombre"
-                                                   placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
-                                            <label for="segundoNombre">Segundo Nombre</label>
-                                        </div>
+
 
                                         <div class="input-field col s12 m3">
                                             <i class="material-icons prefix">person_outline</i>
@@ -465,6 +471,17 @@
                                     </div>
 
                                     <div class="input-field col s12 m4">
+                                        <i class="material-icons prefix">person_outline</i>
+                                        <input type="text" class="validate" id="e_segundo_nombre"
+                                               placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('e_segundo_nombre')}"
+                                              th:errors="*{e_segundo_nombre}">UserName Error</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4">
                                         <i class="material-icons prefix">person</i>
                                         <input type="text" class="validate" id="b_primer_apellido"
                                                placeholder="Primer Apellido" th:field="${user.b_primer_apellido}"/>
@@ -475,18 +492,6 @@
                                               th:errors="*{b_primer_apellido}">UserName Error</span>
 
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="input-field col s12 m4">
-                                        <i class="material-icons prefix">person_outline</i>
-                                        <input type="text" class="validate" id="e_segundo_nombre"
-                                               placeholder="Segundo Nombre" th:field="${user.e_segundo_nombre}"/>
-                                        <span class="helper-text materialert error"
-                                              th:if="${#fields.hasErrors('e_segundo_nombre')}"
-                                              th:errors="*{e_segundo_nombre}">UserName Error</span>
-                                    </div>
-
                                     <div class="input-field col s12 m4">
                                         <i class="material-icons prefix">person_outline</i>
                                         <input type="text" class="validate" id="f_segundo_apellido"
