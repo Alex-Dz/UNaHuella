@@ -20,22 +20,22 @@ public class Usuario implements Serializable {
 
     @Column(name = "PRIMER_NOMBRE")
     @NotBlank
-    @Size(min = 2, max = 30, message = "Primer nombre obligatorio, máximo 30 caracteres")
+    @Size(min = 2, max = 30, message = "Campo obligatorio")
     private String a_primer_nombre;
 
     @Column(name = "PRIMER_APELLIDO")
     @NotBlank
-    @Size(min = 2, max = 30, message = "Primer apellido obligatorio, máximo 30 caracteres")
+    @Size(min = 2, max = 30, message = "Campo obligatorio")
     private String b_primer_apellido;
 
     @Column(name = "DIRECCION")
     @NotBlank
-    @Size(min = 2, max = 50, message = "Dirección obligatoria, máximo 50 caracteres")
+    @Size(min = 2, max = 70, message = "Campo obligatorio")
     private String c_direccion;
 
     @Column(name = "TELEFONO")
     @NotBlank
-    @Size(min = 7, max = 11, message = "Número no valido, mínimo 7 caracteres, máximo 11 caracteres")
+    @Size(min = 7, max = 11, message = "Campo obligatorio")
     private String d_telefono;
 
     @Column(name = "SEGUNDO_NOMBRE", nullable = true)
@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "CORREO")
     @NotBlank
-    @Size(min = 6, max = 40, message = "E-mail obligatorio, máximo 30 caracteres")
+    @Size(min = 6, max = 50, message = "Campo obligatorio")
     private String g_correo;
 
     // ATRIBUTOS PROPIOS DE PARTICULAR

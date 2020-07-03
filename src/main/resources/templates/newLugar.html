@@ -24,24 +24,24 @@
                                         <input type="hidden" th:field="${lugar.id_lugar}"/>
                                     </div>
                                 </div>
-                                <div class="input-field col s12 m3">
+                                <div class="input-field col s12 m4">
                                     <i class="material-icons prefix">location_on</i>
                                     <input autofocus type="text" class="validate" id="ubicacion"
                                            placeholder="Dirección" th:field="${lugar.a_ubicacion_lugar}"/>
                                     <label for="ubicacion">Ubicación</label>
-                                    <span class="helper-text" th:if="${#fields.hasErrors('a_ubicacion_lugar')}"
+                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('a_ubicacion_lugar')}"
                                           th:errors="*{a_ubicacion_lugar}">Ubication Error</span>
                                 </div>
-                                <div class="input-field col s12 m3">
+                                <div class="input-field col s12 m4">
                                     <i class="material-icons prefix">local_hospital</i>
                                     <input type="text" class="validate" id="nombreLugar"
                                            placeholder="Nombre" th:field="${lugar.b_nombre_lugar}"/>
                                     <label for="nombreLugar">Nombre</label>
-                                    <span class="helper-text" th:if="${#fields.hasErrors('b_nombre_lugar')}"
+                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('b_nombre_lugar')}"
                                           th:errors="*{b_nombre_lugar}">Nombre Error</span>
                                 </div>
 
-                                <div class="input-field col s12 m3">
+                                <div class="input-field col s12 m4">
                                     <i class="material-icons prefix">pets</i>
                                     <input type="text" class="validate" id="capacidadPacientes"
                                            placeholder="Capacidad de Pacientes del Lugar"

@@ -121,8 +121,21 @@
                             </button>
                         </div>
 
-                    </form>
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${petCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
+                            </div>
+                        </div>
 
+                    </form>
+<!--
                     <div th:if="${formErrorMessage}">
                         <div class="materialert error">
                             <div class="material-icons">error_outline</div>
@@ -135,7 +148,7 @@
                             <div class="material-icons">check</div>
                             <span>Mascota actualizada</span>
                         </div>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
