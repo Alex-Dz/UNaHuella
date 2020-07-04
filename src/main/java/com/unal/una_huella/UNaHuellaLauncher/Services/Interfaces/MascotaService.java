@@ -9,7 +9,7 @@ import java.util.List;
 public interface MascotaService {
     Iterable<Mascota> listAllMascotas();
     
-    Mascota getMascotaById(String id);
+    Mascota getMascotaById(long id);
 
     void mapMascota(Mascota from, Mascota to);
 
@@ -17,7 +17,7 @@ public interface MascotaService {
     
     Mascota saveMascota(Mascota mascota);
     
-    void deleteMascota(String id);
+    void deleteMascota(long id);
 
     List<Cita> listCitas(Mascota mascota);
 

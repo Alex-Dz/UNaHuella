@@ -86,11 +86,6 @@ public class Usuario implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "lugar_id"))
     private List<Lugar> p_lugares;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "b_id_veterinario")
-    @Column(name = "MIS_CIRUGIAS")
-    private List<Cirugia> cirugias;
-
-
     @Column
     @NotBlank
     @Size(min = 4, max = 60, message = "Mínimo 5 caracteres - Máximo 60 caracteres")
@@ -278,14 +273,6 @@ public class Usuario implements Serializable {
         this.o_jornadas = o_jornadas;
     }
 
-    public List<Cirugia> getCirugias() {
-        return cirugias;
-    }
-
-    public void setCirugias(List<Cirugia> cirugias) {
-        this.cirugias = cirugias;
-    }
-
     public List<Lugar> getP_lugares() {
         return p_lugares;
     }
@@ -313,7 +300,10 @@ public class Usuario implements Serializable {
                 ", l_num_tarjetaprof='" + l_num_tarjetaprof + '\'' +
                 ", m_especializacion='" + m_especializacion + '\'' +
                 ", n_anos_experiencia=" + n_anos_experiencia +
+                ", o_jornadas=" + o_jornadas +
+                ", p_lugares=" + p_lugares +
                 ", password='" + password + '\'' +
+                ", role=" + role +
                 ", confirmPassword='" + confirmPassword + '\'' +
                 ", roles=" + roles +
                 '}';

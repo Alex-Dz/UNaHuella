@@ -26,7 +26,7 @@ public class CitaServiceImpl implements CitaService {
     }
 
     @Override
-    public Cita getCitaById(String id) {
+    public Cita getCitaById(long id) {
         return citaRepository.findById(id)
                 .orElse(new Cita());
     }
@@ -47,7 +47,7 @@ public class CitaServiceImpl implements CitaService {
     }
 
     @Override
-    public void deleteCitaById(String id) {
+    public void deleteCitaById(long id) {
         citaRepository.deleteById(id);
     }
 

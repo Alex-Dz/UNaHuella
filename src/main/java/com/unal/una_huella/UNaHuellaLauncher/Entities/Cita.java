@@ -2,17 +2,19 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.io.Serializable;
 import java.sql.Time;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "CITA")
-public class Cita {
+public class Cita implements Serializable {
 
     @Id
+    @Column(name = "ID_CITA")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private String id_cita;
+    private long id_cita;
 
     @ManyToOne
     @JoinColumn(name = "ID_MASCOTA")
@@ -32,11 +34,11 @@ public class Cita {
     @JoinColumn(name = "ID_LUGAR")
     private Lugar lugar;
 
-    public String getId_cita() {
+    public long getId_cita() {
         return id_cita;
     }
 
-    public void setId_cita(String id_cita) {
+    public void setId_cita(long id_cita) {
         this.id_cita = id_cita;
     }
 

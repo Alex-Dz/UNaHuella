@@ -27,43 +27,12 @@ public class MascotaController {
     @Autowired
     private UserController userController;
 
-    //private AVLTree<Mascota> pets = null;
-
     HashTable petsTable = null;
 
     @ModelAttribute
     public void addLoggedUserToView(Model model) {
         model.addAttribute("loggedUser", userService.getLoggedUser());
     }
-
-    /*public AVLTree<Mascota> getMascotas() {
-        if (pets == null || pets.getRoot() == null) {
-            pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-            for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
-                if (mascota != null) {
-                    try {
-                        pets.insertAVL(mascota);
-                    } catch (Exception e) {
-                        continue;
-                    }
-                }
-            }
-        } else {
-            if (pets.getRoot().getKey().getI_id_dueño() != userService.getLoggedUser()) {
-                pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-                for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
-                    if (mascota != null) {
-                        try {
-                            pets.insertAVL(mascota);
-                        } catch (Exception e) {
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-        return pets;
-    }*/
 
     public HashTable getMascotos() {
         if (petsTable == null) {
@@ -95,7 +64,7 @@ public class MascotaController {
 
     @RequestMapping("/particular/profileMascota/{id_user}/{id_mascota}")
     public String datosMascota(ModelMap model, @PathVariable("id_user") String id_user,
-                               @PathVariable("id_mascota") String id_mascota) throws Exception {
+                               @PathVariable("id_mascota") long id_mascota) throws Exception {
         Mascota mascota = new Mascota();
         List<Mascota> petList = petsTable.findAll(id_user);
         model.addAttribute("listaMascota", petList);
@@ -107,7 +76,7 @@ public class MascotaController {
 
     @GetMapping("/particular/profileMascota/edit/{id_user}/{id_mascota}")
     public String editarMascota(Model model, @PathVariable("id_user") String id_user,
-                                @PathVariable("id_mascota") String id_mascota) {
+                                @PathVariable("id_mascota") long id_mascota) {
         try {
             Mascota mascota = new Mascota();
             mascota = petsTable.find(id_user, id_mascota);
@@ -128,7 +97,7 @@ public class MascotaController {
 
     @PostMapping("/particular/profileMascota/update/{id_user}/{id_mascota}")
     public String actualizarMascota(@Valid @ModelAttribute("mascota") Mascota pet, BindingResult validar, Model model,
-                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") String id_mascota) throws Exception {
+                                    @PathVariable("id_user") String id_user, @PathVariable("id_mascota") long id_mascota) throws Exception {
         if (validar.hasErrors()) {
             // rellena los campos nuevamente con los datos y solo muestra error en el que fue erroneo
             model.addAttribute("mascota", pet);
@@ -198,7 +167,7 @@ public class MascotaController {
     }
 
     @GetMapping("/particular/eliminarMascota/{id_mascota}")
-    public String eliminarMascota(Model model, @PathVariable String id_mascota) {
+    public String eliminarMascota(Model model, @PathVariable long id_mascota) {
         try {
             petsTable = getMascotos();
             Mascota mascoto = petsTable.delete(petsTable.find(userService.getLoggedUser().getId_usuario(), id_mascota));
@@ -214,9 +183,4 @@ public class MascotaController {
         }
         return listaMascotas(model, userService.getLoggedUser().getId_usuario());
     }
-
-    /*@RequestMapping(value = "idpet_search", method = RequestMethod.POST)
-    public String searchMascota(Mascota idpet_search) {
-        return "redirect:/petprofile/" + idpet_search.getId_mascota();
-    }*/
 }

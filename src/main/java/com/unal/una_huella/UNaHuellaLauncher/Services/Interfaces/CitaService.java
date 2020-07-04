@@ -7,7 +7,7 @@ import java.util.List;
 public interface CitaService {
     List<Cita> listAllCitas();
 
-    Cita getCitaById(String id);
+    Cita getCitaById(long id);
 
     Cita saveCita(Cita cita);
 
@@ -15,7 +15,7 @@ public interface CitaService {
 
     void deleteCita(Cita cita);
 
-    void deleteCitaById(String id);
+    void deleteCitaById(long id);
 
     Cita mapCita(Cita from, Cita to);
 }

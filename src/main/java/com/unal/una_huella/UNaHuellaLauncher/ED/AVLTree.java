@@ -313,8 +313,8 @@ public class AVLTree<T> {
             } else if (key instanceof Mascota) {
                 switch (order) {
                     case 1: {   //  id_mascota
-                        long id_mascota = Long.parseLong(((Mascota) key).getId_mascota());
-                        long id_nodo = Long.parseLong(((Mascota) currentNode.getKey()).getId_mascota());
+                        long id_mascota = ((Mascota) key).getId_mascota();
+                        long id_nodo = ((Mascota) currentNode.getKey()).getId_mascota();
                         if (id_mascota < id_nodo) {
                             currentNode = currentNode.getLeft();
                             if (currentNode == null) {
@@ -590,8 +590,8 @@ public class AVLTree<T> {
             } else if (key instanceof Mascota) {
                 switch (order) {
                     case 1: {    //id_mascota
-                        long id_mascota = Long.parseLong(((Mascota) key).getId_mascota());
-                        long id_nodo = Long.parseLong(((Mascota) nodo.getKey()).getId_mascota());
+                        long id_mascota = ((Mascota) key).getId_mascota();
+                        long id_nodo = ((Mascota) nodo.getKey()).getId_mascota();
                         if (id_mascota == id_nodo) {
                             return nodo;
                         } else if (id_mascota < id_nodo) {

@@ -6,17 +6,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "MASCOTA", indexes = {@Index(name = "RELACION_MASCOTA_DUEÑO", columnList = "ID_DUEÑO")})
-public class Mascota {
+@Table(name = "MASCOTA")
+public class Mascota implements Serializable {
 
     @Id
     @Column(name = "ID_MASCOTA", length = 10)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private String id_mascota;
+    private long id_mascota;
 
     //P = perro, G = gato
     @Column(name = "ESPECIE", nullable = false, length = 1)
@@ -59,14 +60,11 @@ public class Mascota {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "a_id_mascota")
     private List<Cita> citasMascota;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "b_id_mascota")
-    private List<Dosis> dosis;
-
-    public String getId_mascota() {
+    public long getId_mascota() {
         return id_mascota;
     }
 
-    public void setId_mascota(String id_mascota) {
+    public void setId_mascota(long id_mascota) {
         this.id_mascota = id_mascota;
     }
 

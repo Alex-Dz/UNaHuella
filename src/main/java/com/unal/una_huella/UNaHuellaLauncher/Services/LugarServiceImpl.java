@@ -20,7 +20,7 @@ public class LugarServiceImpl implements LugarService {
     }
 
     @Override
-    public Lugar getLugarById(String id) {
+    public Lugar getLugarById(long id) {
         return lugarRepository.findById(id)
                 .orElse(new Lugar());
     }
@@ -31,7 +31,7 @@ public class LugarServiceImpl implements LugarService {
     }
 
     @Override
-    public void deleteLugar(String id) {
+    public void deleteLugar(long id) {
         lugarRepository.deleteById(id);
     }
 

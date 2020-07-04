@@ -28,7 +28,7 @@ public class MascotaServiceImpl implements MascotaService {
     }
 
     @Override
-    public Mascota getMascotaById(String id) {
+    public Mascota getMascotaById(long id) {
         return mascotaRepository.findById(id)
                 .orElse(new Mascota());
     }
@@ -39,7 +39,7 @@ public class MascotaServiceImpl implements MascotaService {
     }
 
     @Override
-    public void deleteMascota(String id) {
+    public void deleteMascota(long id) {
         mascotaRepository.deleteById(id);
     }
 

@@ -155,9 +155,10 @@ public class DoubleLinkedList<T> implements List<T> {
                 i++;
             }
         } else if (head != null && head.key instanceof Mascota) {
+            long mascotaId = Long.parseLong(id);
             NodoList<Mascota> temp = (NodoList<Mascota>) head;
             while (i < this.size) {
-                if (temp.key.getId_mascota().equals(id)) {
+                if (temp.key.getId_mascota() == mascotaId) {
                     return (T) temp.key;
                 }
                 temp = temp.next;

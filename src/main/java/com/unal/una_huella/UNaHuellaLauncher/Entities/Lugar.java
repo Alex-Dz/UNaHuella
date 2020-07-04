@@ -10,13 +10,14 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name = "LUGAR")
 public class Lugar implements Serializable {
 
     @Id
-    @Column(name = "ID_LUGAR", length = 12)
+    @Column(name = "ID_LUGAR")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private String id_lugar;
+    private long id_lugar;
 
     @Column(name = "UBICACION_LUGAR")
     @NotBlank(message = "Ubicación es obligatoria")
@@ -32,10 +33,6 @@ public class Lugar implements Serializable {
     @NotNull(message = "Cantidad de pacientes es obligatorio")
     private int c_capacidad_pacientes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "a_id_lugar")
-    @Column(name = "CIRUGIAS")
-    private List<Cirugia> cirugias;
-
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "lugares")
     @Column(name = "JORNADAS")
     private List<Jornada> jornadas;
@@ -49,11 +46,11 @@ public class Lugar implements Serializable {
     private List<Cita> citas;
 
 
-    public String getId_lugar() {
+    public long getId_lugar() {
         return id_lugar;
     }
 
-    public void setId_lugar(String id_lugar) {
+    public void setId_lugar(long id_lugar) {
         this.id_lugar = id_lugar;
     }
 
@@ -79,14 +76,6 @@ public class Lugar implements Serializable {
 
     public void setC_capacidad_pacientes(int c_capacidad_pacientes) {
         this.c_capacidad_pacientes = c_capacidad_pacientes;
-    }
-
-    public List<Cirugia> getCirugias() {
-        return cirugias;
-    }
-
-    public void setCirugias(List<Cirugia> cirugias) {
-        this.cirugias = cirugias;
     }
 
     public List<Jornada> getJornadas() {

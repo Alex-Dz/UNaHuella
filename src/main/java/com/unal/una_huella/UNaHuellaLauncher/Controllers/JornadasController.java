@@ -313,7 +313,7 @@ public class JornadasController {
     }
 
     @GetMapping("/particular/deleteCita/{idCita}")
-    public String deleteCita(@PathVariable("idCita") String idCita, Model model) throws Exception {
+    public String deleteCita(@PathVariable("idCita") long idCita, Model model) throws Exception {
         Cita cita = citaService.getCitaById(idCita);
         petsTable = mascotaController.getMascotos();
         Mascota mascota;

@@ -107,12 +107,15 @@ public class HashTable {
         }
     }
 
-    public Mascota find(String idDueño, String idMascota) {
+    public Mascota find(String idDueño, long idMascota) {
         colider = 0;
         long id = Long.parseLong(idDueño);
         long hash = id % array.length;
         long pos = hash;
-        if (array[(int) pos] != null && array[(int) pos].getI_id_dueño() != null && array[(int) pos].getI_id_dueño().getId_usuario().equals(idDueño) && array[(int) pos].getId_mascota().equals(idMascota)) {
+        if (array[(int) pos] != null
+                && array[(int) pos].getI_id_dueño() != null
+                && array[(int) pos].getI_id_dueño().getId_usuario().equals(idDueño)
+                && array[(int) pos].getId_mascota() == idMascota) {
             return array[(int) pos];
         } else {
             colider++;
@@ -121,7 +124,7 @@ public class HashTable {
                 if (array[(int) pos] != null
                         && array[(int) pos].getI_id_dueño() != null
                         && array[(int) pos].getI_id_dueño().getId_usuario().equals(idDueño)
-                        && array[(int) pos].getId_mascota().equals(idMascota)) {
+                        && array[(int) pos].getId_mascota() == idMascota) {
                     break;
                 }
                 colider++;
@@ -179,9 +182,9 @@ public class HashTable {
         long pos = hash;
         if (array[(int) pos] != null
                 && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
-                && array[(int) pos].getId_mascota().equals(mascota.getId_mascota())) {
+                && array[(int) pos].getId_mascota() == mascota.getId_mascota()) {
             array[(int) pos].setI_id_dueño(null);
-            array[(int) pos].setId_mascota("");
+            array[(int) pos].setId_mascota(-1);
             array[(int) pos].setA_especie("");
             array[(int) pos].setB_nombre_mascota("");
             array[(int) pos].setC_genero("");
@@ -200,14 +203,14 @@ public class HashTable {
                 if (array[(int) pos] != null
                         && array[(int) pos].getI_id_dueño() != null
                         && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
-                        && array[(int) pos].getId_mascota().equals(mascota.getId_mascota())) {
+                        && array[(int) pos].getId_mascota() == mascota.getId_mascota()) {
                     break;
                 }
             } while (array[(int) pos] != null);
 
             if (array[(int) pos] != null) {
                 array[(int) pos].setI_id_dueño(null);
-                array[(int) pos].setId_mascota("");
+                array[(int) pos].setId_mascota(-1);
                 array[(int) pos].setA_especie("");
                 array[(int) pos].setB_nombre_mascota("");
                 array[(int) pos].setC_genero("");

@@ -7,9 +7,9 @@ import java.util.List;
 public interface LugarService {
     List<Lugar> listAllLugares();
     
-    Lugar getLugarById(String id);
+    Lugar getLugarById(long id);
     
     Lugar saveLugar(Lugar lugar);
     
-    void deleteLugar(String id);
+    void deleteLugar(long id);
 }
