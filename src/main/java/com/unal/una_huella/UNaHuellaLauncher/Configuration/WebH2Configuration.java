@@ -1,6 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Configuration;
 
-import org.h2.server.web.WebServlet;
+//import org.h2.server.web.WebServlet;
 //import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +16,10 @@ public class WebH2Configuration {
     Pass: 
     */
     
-    @Bean
+    /*@Bean
     ServletRegistrationBean h2servletRegistration(){
         ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
         registrationBean.addUrlMappings("/console/*");
         return registrationBean;
-    }
+    }*/
 }
