@@ -1,5 +1,6 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
+import com.unal.una_huella.UNaHuellaLauncher.ED.HashTable;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,16 @@ public class MascotaController {
     @Autowired
     private UserController userController;
 
-    private AVLTree<Mascota> pets = null;
+    //private AVLTree<Mascota> pets = null;
+
+    HashTable petsTable = null;
 
     @ModelAttribute
-    public void addLoggedUserToView(Model model){
+    public void addLoggedUserToView(Model model) {
         model.addAttribute("loggedUser", userService.getLoggedUser());
     }
 
-    public AVLTree<Mascota> getMascotas() {
+    /*public AVLTree<Mascota> getMascotas() {
         if (pets == null || pets.getRoot() == null) {
             pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
             for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
@@ -59,21 +62,25 @@ public class MascotaController {
                 }
             }
         }
-
         return pets;
+    }*/
+
+    public HashTable getMascotos() {
+        if (petsTable == null) {
+            petsTable = new HashTable();
+            for (Mascota mascota : mascotaService.listAllMascotas()) {
+                if (mascota != null) {
+                    petsTable.insert(mascota);
+                }
+            }
+        }
+        return petsTable;
     }
 
-    public void setMascotas(AVLTree<Mascota> pets){
-        this.pets = pets;
-        userController.pets = pets;
-    }
-
-    @RequestMapping("/particular/misMascotas/{id}")
-    public String listaMascotas(Model model, @PathVariable String id) {
-        Usuario user = new Usuario();
-        user.setId_usuario(id);
-        pets = getMascotas();
-        List<Mascota> petList = pets.getList();
+    @RequestMapping("/particular/misMascotas/{idUsuario}")
+    public String listaMascotas(Model model, @PathVariable String idUsuario) {
+        petsTable = getMascotos();
+        List<Mascota> petList = petsTable.findAll(idUsuario);
         try {
             model.addAttribute("listaMascota", petList);
             if (petList != null) {
@@ -90,12 +97,9 @@ public class MascotaController {
     public String datosMascota(ModelMap model, @PathVariable("id_user") String id_user,
                                @PathVariable("id_mascota") String id_mascota) throws Exception {
         Mascota mascota = new Mascota();
-        Usuario user = new Usuario();
-        user.setId_usuario(id_user);
-        List<Mascota> petList = pets.getList();
+        List<Mascota> petList = petsTable.findAll(id_user);
         model.addAttribute("listaMascota", petList);
-        mascota.setId_mascota(id_mascota);
-        mascota = pets.find(mascota, pets.getRoot());
+        mascota = petsTable.find(id_user, id_mascota);
         model.addAttribute("mascota", mascota);
         model.addAttribute("edit", false);
         return "misMascotas";
@@ -106,13 +110,10 @@ public class MascotaController {
                                 @PathVariable("id_mascota") String id_mascota) {
         try {
             Mascota mascota = new Mascota();
-            mascota.setId_mascota(id_mascota);
-            mascota = pets.find(mascota, pets.getRoot());
-
+            mascota = petsTable.find(id_user, id_mascota);
             if (mascota == null) {
                 throw new Exception("Este registro de Mascota no existe");
             }
-
             model.addAttribute("mascota", mascota);
             model.addAttribute("edit", true);
             model.addAttribute("petCreated", false);
@@ -134,18 +135,18 @@ public class MascotaController {
             // muestra el formulario con los datos en los campos
             model.addAttribute("edit", true);
             // no actualiza el registro
-            model.addAttribute("petCreated", false);
+            model.addAttribute("petUpdated", false);
             return "misMascotas";
         } else {
             try {
                 mascotaService.updateMascota(pet);
-                mascotaService.mapMascota(pet, pets.find(pet, pets.getRoot()));
-                model.addAttribute("petCreated", true);
+                mascotaService.mapMascota(pet, petsTable.find(id_user, id_mascota));
+                model.addAttribute("petUpdated", true);
             } catch (Exception e) {
                 model.addAttribute("formErrorMessage", e.getMessage());
                 model.addAttribute("mascota", pet);
                 model.addAttribute("edit", true);
-                model.addAttribute("petCreated", false);
+                model.addAttribute("petUpdated", false);
                 return "misMascotas";
             }
             model.addAttribute("edit", false);
@@ -158,7 +159,7 @@ public class MascotaController {
 
     @RequestMapping("/particular/newMascota")
     public String newMascota(Model model) {
-        pets = getMascotas();
+        petsTable = getMascotos();
         model.addAttribute("mascota", new Mascota());
         return "inscribirMascota";
     }
@@ -182,7 +183,7 @@ public class MascotaController {
                 Usuario user = userService.getLoggedUser();
                 user.setH_cantidad_mascotas(user.getH_cantidad_mascotas() + 1);
                 userService.updateUser(user);
-                pets.insertAVL(pet);
+                petsTable.insert(pet);
                 userService.mapUser(user, userController.avl.find(user, userController.avl.getRoot()));
                 model.addAttribute("petCreated", true);
                 model.addAttribute("edit", false);
@@ -196,24 +197,26 @@ public class MascotaController {
         }
     }
 
-
-    @GetMapping("/particular/{id}/eliminarMascota/{id_mascota}")
-    public String eliminarMascota(Model model, @PathVariable String id, @PathVariable String id_mascota) {
+    @GetMapping("/particular/eliminarMascota/{id_mascota}")
+    public String eliminarMascota(Model model, @PathVariable String id_mascota) {
         try {
+            petsTable = getMascotos();
+            Mascota mascoto = petsTable.delete(petsTable.find(userService.getLoggedUser().getId_usuario(), id_mascota));
             mascotaService.deleteMascota(id_mascota);
+            Usuario user = userService.getLoggedUser();
+            user.setH_cantidad_mascotas(user.getH_cantidad_mascotas() - 1);
+            userService.updateUser(user);
+            userService.mapUser(user, userController.avl.find(user, userController.avl.getRoot()));
             model.addAttribute("deletePet", true);
-            model.addAttribute("deletePetMensaje", "Registro eliminado");
-            model.addAttribute("deletePetError", false);
         } catch (Exception e) {
-            model.addAttribute("deletePetError", true);
+            model.addAttribute("formErrorMessage", "No se ha podido eliminar el registro");
             model.addAttribute("deletePet", false);
-            model.addAttribute("deletePetErrorMensaje", "No se ha podido eliminar el registro");
         }
-        return "redirect:/mismascotas";
+        return listaMascotas(model, userService.getLoggedUser().getId_usuario());
     }
 
-    @RequestMapping(value = "idpet_search", method = RequestMethod.POST)
+    /*@RequestMapping(value = "idpet_search", method = RequestMethod.POST)
     public String searchMascota(Mascota idpet_search) {
         return "redirect:/petprofile/" + idpet_search.getId_mascota();
-    }
+    }*/
 }

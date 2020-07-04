@@ -162,31 +162,49 @@ public class HashTable {
 
     public Mascota delete(Mascota mascota) {
         colider = 0;
+        Mascota mascoto = new Mascota();
+        mascoto.setId_mascota(mascota.getId_mascota());
+        mascoto.setA_especie(mascota.getA_especie());
+        mascoto.setB_nombre_mascota(mascota.getB_nombre_mascota());
+        mascoto.setC_genero(mascota.getC_genero());
+        mascoto.setD_raza(mascota.getD_raza());
+        mascoto.setE_edad_mascota(mascota.getE_edad_mascota());
+        mascoto.setF_historial_cirugias(mascota.getF_historial_cirugias());
+        mascoto.setG_portador_parasito(mascota.getG_portador_parasito());
+        mascoto.setH_carnet_vacunacion(mascota.getH_carnet_vacunacion());
+        mascoto.setI_id_dueño(mascota.getI_id_dueño());
+        mascoto.setCitasMascota(mascota.getCitasMascota());
         long id = Long.parseLong(mascota.getI_id_dueño().getId_usuario());
         long hash = id % array.length;
-        long pos = 0;
-        if (array[(int) hash] != null && array[(int) hash].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())) {
-            array[(int) hash].setI_id_dueño(null);
-            array[(int) hash].setId_mascota("");
-            array[(int) hash].setA_especie("");
-            array[(int) hash].setB_nombre_mascota("");
-            array[(int) hash].setC_genero("");
-            array[(int) hash].setD_raza("");
-            array[(int) hash].setE_edad_mascota(0);
-            array[(int) hash].setF_historial_cirugias("");
-            array[(int) hash].setG_portador_parasito("");
-            array[(int) hash].setH_carnet_vacunacion(null);
+        long pos = hash;
+        if (array[(int) pos] != null
+                && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
+                && array[(int) pos].getId_mascota().equals(mascota.getId_mascota())) {
+            array[(int) pos].setI_id_dueño(null);
+            array[(int) pos].setId_mascota("");
+            array[(int) pos].setA_especie("");
+            array[(int) pos].setB_nombre_mascota("");
+            array[(int) pos].setC_genero("");
+            array[(int) pos].setD_raza("");
+            array[(int) pos].setE_edad_mascota(0);
+            array[(int) pos].setF_historial_cirugias("");
+            array[(int) pos].setG_portador_parasito("");
+            array[(int) pos].setH_carnet_vacunacion(null);
             count--;
             getCarga();
-            return mascota;
+            return mascoto;
         } else {
             do {
                 colider++;
                 pos = h1(id);
-                /*if (array[(int) pos] == null) {
+                if (array[(int) pos] != null
+                        && array[(int) pos].getI_id_dueño() != null
+                        && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
+                        && array[(int) pos].getId_mascota().equals(mascota.getId_mascota())) {
                     break;
-                }*/
-            } while (array[(int) pos] != null && !array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario()));
+                }
+            } while (array[(int) pos] != null);
+
             if (array[(int) pos] != null) {
                 array[(int) pos].setI_id_dueño(null);
                 array[(int) pos].setId_mascota("");
@@ -202,7 +220,7 @@ public class HashTable {
                 count--;
                 colider = 0;
                 getCarga();
-                return mascota;
+                return mascoto;
             }
             return null;
         }

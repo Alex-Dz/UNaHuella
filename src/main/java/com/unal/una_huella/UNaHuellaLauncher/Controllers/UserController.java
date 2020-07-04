@@ -64,7 +64,7 @@ public class UserController {
     SortParams[] sortGestorParams = null;
 
     AVLTree<Usuario> avl = null;
-    AVLTree<Mascota> pets = null;
+    //AVLTree<Mascota> pets = null;
 
 
     /*Instant tInicial = Instant.now();
@@ -84,18 +84,6 @@ public class UserController {
     public String particular(Model model) {
         if (avl == null) {
             getUsers(sortDefault);
-        }
-        if (pets == null) {
-            pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-            for (Mascota mascota : userService.getLoggedUser().getMismascotas()) {
-                if (mascota != null) {
-                    try {
-                        pets.insertAVL(mascota);
-                    } catch (Exception e) {
-                        continue;
-                    }
-                }
-            }
         }
 
         List<Jornada> proximasJornadas = proximasJornadas();
@@ -165,10 +153,6 @@ public class UserController {
             System.err.println("No se han podido cargar las jornadas");
         }
         return "veterinario";
-    }
-
-    public AVLTree<Mascota> getMascotas() {
-        return pets;
     }
 
     public AVLTree<Usuario> getUsers(int sortBy) {

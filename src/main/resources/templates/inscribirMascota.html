@@ -5,7 +5,7 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 
-<body>
+<body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
 
 <main>
@@ -125,12 +125,6 @@
                             <div class="materialert error">
                                 <div class="material-icons">error_outline</div>
                                 <span th:text="${formErrorMessage}">Error Message</span>
-                            </div>
-                        </div>
-                        <div th:if="${petCreated}">
-                            <div class="materialert success">
-                                <div class="material-icons">check</div>
-                                <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
                             </div>
                         </div>
 

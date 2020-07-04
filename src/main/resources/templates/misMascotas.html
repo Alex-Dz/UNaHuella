@@ -5,7 +5,7 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 
-<body>
+<body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
 <main>
     <div class="container top-padding-intermediate bottom-padding-intermediate">
@@ -56,7 +56,8 @@
                                         <div class="input-field">
                                             <label for="edadMascota">Edad:</label>
                                             <i class="material-icons prefix">cake</i>
-                                            <input disabled th:value="${mascota.e_edad_mascota} + ' meses'" id="edadMascota"
+                                            <input disabled th:value="${mascota.e_edad_mascota} + ' meses'"
+                                                   id="edadMascota"
                                                    type="text"
                                                    class="validate">
                                         </div>
@@ -127,11 +128,16 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col s12 top-margin center-align">
+                                <div class="row center">
+                                    <div class="col s12 m6 top-margin">
                                         <a class="background-blue waves-effect waves-light btn-small"
                                            th:href="${'/particular/profileMascota/edit/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
                                             <i class="material-icons left">create</i>Editar datos</a>
+                                    </div>
+                                    <div class="col s12 m6 top-margin">
+                                        <a th:href="${'/particular/eliminarMascota/' + mascota.id_mascota}"
+                                           class="background-blue waves-effect waves-light btn-small" href="#"><i
+                                                class="material-icons left">delete_forever</i>Eliminar Mascota</a>
                                     </div>
                                 </div>
 
@@ -145,7 +151,21 @@
                                 <div th:if="${petCreated}">
                                     <div class="materialert success">
                                         <div class="material-icons">check</div>
-                                        <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
+                                        <span th:text="'Mascota creada'">Mascota creada/actualizada</span>
+                                    </div>
+                                </div>
+
+                                <div th:if="${petUpdated}">
+                                    <div class="materialert success">
+                                        <div class="material-icons">check</div>
+                                        <span th:text="'Mascota actualizada'">Mascota creada/actualizada</span>
+                                    </div>
+                                </div>
+
+                                <div th:if="${deletePet}">
+                                    <div class="materialert success">
+                                        <div class="material-icons">check</div>
+                                        <span th:text="'Mascota eliminada'">Mascota creada/actualizada</span>
                                     </div>
                                 </div>
 
@@ -162,6 +182,7 @@
                     <div class="row">
                         <form th:object="${mascota}" method="post" class="padding"
                               th:action="${'/particular/profileMascota/update/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
+                            <input type="hidden" th:field="${mascota.citasMascota}">
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="input-field">
@@ -179,7 +200,8 @@
                                         <label for="raza_mascota">Raza: </label>
                                         <input class="validate" type="text" id="raza_mascota"
                                                th:field="${mascota.d_raza}"/>
-                                        <span class="helper-text materialert error" th:if="${#fields.hasErrors('d_raza')}"
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('d_raza')}"
                                               th:errors="*{d_raza}">Mascota Error</span>
                                     </div>
                                 </div>
@@ -203,7 +225,8 @@
                                                class="validate">
                                         <span class="helper-text" data-error="Error" data-success="">La edad de tu
                                             mascota debes ingresarla en meses</span>
-                                        <span class="helper-text materialert error" th:if="${#fields.hasErrors('e_edad_mascota')}"
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('e_edad_mascota')}"
                                               th:errors="*{e_edad_mascota}">Mascota Error</span>
                                     </div>
                                 </div>
@@ -214,7 +237,8 @@
                                 <textarea th:field="${mascota.f_historial_cirugias}" id="historialMacota"
                                           class="materialize-textarea"></textarea>
                                     <label for="historialMacota">Historial de cirugías</label>
-                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('f_historial_cirugias')}"
+                                    <span class="helper-text materialert error"
+                                          th:if="${#fields.hasErrors('f_historial_cirugias')}"
                                           th:errors="*{f_historial_cirugias}">Mascota Error</span>
                                 </div>
                             </div>
@@ -252,19 +276,12 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col s12 top-margin center-align">
+                            <div class="row center">
+                                <div class="col s12 m6 top-margin">
                                     <button class="background-blue waves-effect waves-light btn-small" type="submit">
                                         <i class="material-icons left">create</i>Actualizar datos
                                     </button>
                                 </div>
-
-                                <!-- <div class="col s12 top-margin center-align">
-                                     <a class="background-blue waves-effect waves-light btn-small"
-                                        th:href="${'/particular/profileMascota/edit/' + #httpServletRequest.remoteUser + '/' + mascota.id_mascota}">
-                                         <i class="material-icons left">create</i>Cancelar</a>
-                                 </div>-->
-
                             </div>
 
                             <div th:if="${formErrorMessage}">
@@ -279,7 +296,6 @@
                                     <span th:text="${edit}?'Mascota actualizada':'Mascota creada'">Mascota creada/actualizada</span>
                                 </div>
                             </div>
-
 
                         </form>
                     </div>

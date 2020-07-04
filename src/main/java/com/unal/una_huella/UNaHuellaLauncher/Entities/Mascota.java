@@ -56,7 +56,7 @@ public class Mascota {
     @JoinColumn(name = "ID_DUEÑO")
     private Usuario i_id_dueño;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "a_id_mascota")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "a_id_mascota")
     private List<Cita> citasMascota;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "b_id_mascota")

@@ -1,6 +1,7 @@
 package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
+import com.unal.una_huella.UNaHuellaLauncher.ED.HashTable;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.*;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,9 @@ public class JornadasController {
     @Autowired
     MascotaController mascotaController;
 
-    private AVLTree<Mascota> pets = null;
+    //private AVLTree<Mascota> pets = null;
+
+    HashTable petsTable = null;
 
     @ModelAttribute
     public void addLoggedUserToView(Model model) {
@@ -168,9 +171,9 @@ public class JornadasController {
 
     @GetMapping("/particular/newCita")
     public String newCita(Model model) {
-        pets = mascotaController.getMascotas();
+        petsTable = mascotaController.getMascotos();
         model.addAttribute("cita", new Cita());
-        model.addAttribute("mascotas", pets.getList());
+        model.addAttribute("mascotas", petsTable.findAll(userService.getLoggedUser().getId_usuario()));
         return "asignarCita";
     }
 
@@ -276,20 +279,30 @@ public class JornadasController {
                 break;
             }
         }
+        List<Cita> citasMascota = citaToSave.getA_id_mascota().getCitasMascota();
+        if (citasMascota == null) {
+            citasMascota = new ArrayList<Cita>();
+        }
+        citasMascota.add(citaToSave);
+        citaToSave.getA_id_mascota().setCitasMascota(citasMascota);
         citaService.saveCita(citaToSave);
+        petsTable = mascotaController.getMascotos();
+        mascotaService.mapMascota(mascotaService.getMascotaById(citaToSave.getA_id_mascota().getId_mascota()), petsTable.find(userService.getLoggedUser().getId_usuario(), citaToSave.getA_id_mascota().getId_mascota()));
         model.addAttribute("citaCreated", true);
         return newCita((Model) model);
     }
 
     @GetMapping("/particular/citas")
     public String citasList(Model model) {
-        pets = mascotaController.getMascotas();
-        List<Mascota> mascotas = pets.getList();
+        petsTable = mascotaController.getMascotos();
+        List<Mascota> mascotas = petsTable.findAll(userService.getLoggedUser().getId_usuario());
         List<Cita> allCitas = new ArrayList<Cita>();
         for (Mascota mascota : mascotas) {
             List<Cita> citas = mascota.getCitasMascota();
-            for (int i = 0; i < citas.size(); i++) {
-                allCitas.add(citas.get(i));
+            if (citas != null) {
+                for (int i = 0; i < citas.size(); i++) {
+                    allCitas.add(citas.get(i));
+                }
             }
         }
         if (allCitas.size() == 0) {
@@ -302,10 +315,14 @@ public class JornadasController {
     @GetMapping("/particular/deleteCita/{idCita}")
     public String deleteCita(@PathVariable("idCita") String idCita, Model model) throws Exception {
         Cita cita = citaService.getCitaById(idCita);
+        petsTable = mascotaController.getMascotos();
+        Mascota mascota;
         if (cita != null) {
+            mascota = cita.getA_id_mascota();
             cita.setA_id_mascota(null);
             cita.setD_especificacion_cita("");
             citaService.saveCita(cita);
+            mascotaService.mapMascota(mascotaService.getMascotaById(mascota.getId_mascota()), petsTable.find(userService.getLoggedUser().getId_usuario(), mascota.getId_mascota()));
         }
         model.addAttribute("citaCreated", true);
         return citasList(model);
