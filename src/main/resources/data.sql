@@ -16,9 +16,9 @@ insert into mascota values (2, 'P', 'Tiara', 'H', 'Yorkshire', 7, 'Ninguno', 'Eh
 INSERT INTO lugar VALUES (1, 'Ak. 86 #26, Bogotá', 'Unidad Primaria de Atención UPA París Gaitan', 15);
 INSERT INTO lugar VALUES (2, 'Cl. 88 #95F-00, Engativá, Bogotá', 'UPA Unidad Primaria de Atención Bachué', 20);
 
-INSERT INTO jornada VALUES  (1, parsedatetime('15/07/2020', 'dd/MM/yyyy'), 1, 'vacunación y esterilización', 666);
-INSERT INTO jornada VALUES  (2, parsedatetime('20/07/2020', 'dd/MM/yyyy'), 0, 'esterilización', 666);
-INSERT INTO jornada VALUES  (3, parsedatetime('30/07/2020', 'dd/MM/yyyy'), 0, 'vacunación', 666);
+INSERT INTO jornada VALUES  (1, STR_TO_DATE('15/07/2020', '%d/%m/%Y'), 1, 'vacunación y esterilización', 666);
+INSERT INTO jornada VALUES  (2, STR_TO_DATE('20/07/2020', '%d/%m/%Y'), 0, 'esterilización', 666);
+INSERT INTO jornada VALUES  (3, STR_TO_DATE('30/07/2020', '%d/%m/%Y'), 0, 'vacunación', 666);
 
 INSERT INTO lugar_jornada VALUES (1, 1);
 INSERT INTO lugar_jornada VALUES (1, 2);
@@ -27,40 +27,40 @@ INSERT INTO lugar_jornada VALUES (2, 2);
 INSERT INTO lugar_jornada VALUES (3, 1);
 INSERT INTO lugar_jornada VALUES (3, 2);
 
-INSERT INTO cita VALUES (2, parsedatetime('09:00', 'HH:mm'), 'vacunación', 2, 1, 1);
-INSERT INTO cita VALUES (25, parsedatetime('12:00', 'HH:mm'), 'vacunación', 1, 3, 1);
+INSERT INTO cita VALUES (2, STR_TO_DATE('09:00', '%H:%i'), 'vacunación', 2, 1, 1);
+INSERT INTO cita VALUES (25, STR_TO_DATE('12:00', '%H:%i'), 'vacunación', 1, 3, 1);
 --lista de citas que nadie ha agendado
-INSERT INTO cita VALUES (1, parsedatetime('08:00', 'HH:mm'), '', null , 1, 1);
-INSERT INTO cita VALUES (3, parsedatetime('10:00', 'HH:mm'), '', null , 1, 1);
-INSERT INTO cita VALUES (4, parsedatetime('11:00', 'HH:mm'), '', null , 1, 1);
-INSERT INTO cita VALUES (5, parsedatetime('12:00', 'HH:mm'), '', null , 1, 1);
+INSERT INTO cita VALUES (1, STR_TO_DATE('08:00', '%H:%i'), '', null , 1, 1);
+INSERT INTO cita VALUES (3, STR_TO_DATE('10:00', '%H:%i'), '', null , 1, 1);
+INSERT INTO cita VALUES (4, STR_TO_DATE('11:00', '%H:%i'), '', null , 1, 1);
+INSERT INTO cita VALUES (5, STR_TO_DATE('12:00', '%H:%i'), '', null , 1, 1);
 
-INSERT INTO cita VALUES (6, parsedatetime('08:00', 'HH:mm'), '', null , 1, 2);
-INSERT INTO cita VALUES (7, parsedatetime('09:00', 'HH:mm'), '', null , 1, 2);
-INSERT INTO cita VALUES (8, parsedatetime('10:00', 'HH:mm'), '', null , 1, 2);
-INSERT INTO cita VALUES (9, parsedatetime('11:00', 'HH:mm'), '', null , 1, 2);
-INSERT INTO cita VALUES (10, parsedatetime('12:00', 'HH:mm'), '', null , 1, 2);
+INSERT INTO cita VALUES (6, STR_TO_DATE('08:00', '%H:%i'), '', null , 1, 2);
+INSERT INTO cita VALUES (7, STR_TO_DATE('09:00', '%H:%i'), '', null , 1, 2);
+INSERT INTO cita VALUES (8, STR_TO_DATE('10:00', '%H:%i'), '', null , 1, 2);
+INSERT INTO cita VALUES (9, STR_TO_DATE('11:00', '%H:%i'), '', null , 1, 2);
+INSERT INTO cita VALUES (10, STR_TO_DATE('12:00', '%H:%i'), '', null , 1, 2);
 
-INSERT INTO cita VALUES (11, parsedatetime('08:00', 'HH:mm'), '', null , 2, 1);
-INSERT INTO cita VALUES (12, parsedatetime('09:00', 'HH:mm'), '', null , 2, 1);
-INSERT INTO cita VALUES (13, parsedatetime('10:00', 'HH:mm'), '', null , 2, 1);
-INSERT INTO cita VALUES (14, parsedatetime('11:00', 'HH:mm'), '', null , 2, 1);
-INSERT INTO cita VALUES (15, parsedatetime('12:00', 'HH:mm'), '', null , 2, 1);
-INSERT INTO cita VALUES (16, parsedatetime('08:00', 'HH:mm'), '', null , 2, 2);
-INSERT INTO cita VALUES (17, parsedatetime('09:00', 'HH:mm'), '', null , 2, 2);
-INSERT INTO cita VALUES (18, parsedatetime('10:00', 'HH:mm'), '', null , 2, 2);
-INSERT INTO cita VALUES (19, parsedatetime('11:00', 'HH:mm'), '', null , 2, 2);
-INSERT INTO cita VALUES (20, parsedatetime('12:00', 'HH:mm'), '', null , 2, 2);
+INSERT INTO cita VALUES (11, STR_TO_DATE('08:00', '%H:%i'), '', null , 2, 1);
+INSERT INTO cita VALUES (12, STR_TO_DATE('09:00', '%H:%i'), '', null , 2, 1);
+INSERT INTO cita VALUES (13, STR_TO_DATE('10:00', '%H:%i'), '', null , 2, 1);
+INSERT INTO cita VALUES (14, STR_TO_DATE('11:00', '%H:%i'), '', null , 2, 1);
+INSERT INTO cita VALUES (15, STR_TO_DATE('12:00', '%H:%i'), '', null , 2, 1);
+INSERT INTO cita VALUES (16, STR_TO_DATE('08:00', '%H:%i'), '', null , 2, 2);
+INSERT INTO cita VALUES (17, STR_TO_DATE('09:00', '%H:%i'), '', null , 2, 2);
+INSERT INTO cita VALUES (18, STR_TO_DATE('10:00', '%H:%i'), '', null , 2, 2);
+INSERT INTO cita VALUES (19, STR_TO_DATE('11:00', '%H:%i'), '', null , 2, 2);
+INSERT INTO cita VALUES (20, STR_TO_DATE('12:00', '%H:%i'), '', null , 2, 2);
 
-INSERT INTO cita VALUES (21, parsedatetime('08:00', 'HH:mm'), '', null , 3, 1);
-INSERT INTO cita VALUES (22, parsedatetime('09:00', 'HH:mm'), '', null , 3, 1);
-INSERT INTO cita VALUES (23, parsedatetime('10:00', 'HH:mm'), '', null , 3, 1);
-INSERT INTO cita VALUES (24, parsedatetime('11:00', 'HH:mm'), '', null , 3, 1);
-INSERT INTO cita VALUES (26, parsedatetime('08:00', 'HH:mm'), '', null , 3, 2);
-INSERT INTO cita VALUES (27, parsedatetime('09:00', 'HH:mm'), '', null , 3, 2);
-INSERT INTO cita VALUES (28, parsedatetime('10:00', 'HH:mm'), '', null , 3, 2);
-INSERT INTO cita VALUES (29, parsedatetime('11:00', 'HH:mm'), '', null , 3, 2);
-INSERT INTO cita VALUES (30, parsedatetime('12:00', 'HH:mm'), '', null , 3, 2);
+INSERT INTO cita VALUES (21, STR_TO_DATE('08:00', '%H:%i'), '', null , 3, 1);
+INSERT INTO cita VALUES (22, STR_TO_DATE('09:00', '%H:%i'), '', null , 3, 1);
+INSERT INTO cita VALUES (23, STR_TO_DATE('10:00', '%H:%i'), '', null , 3, 1);
+INSERT INTO cita VALUES (24, STR_TO_DATE('11:00', '%H:%i'), '', null , 3, 1);
+INSERT INTO cita VALUES (26, STR_TO_DATE('08:00', '%H:%i'), '', null , 3, 2);
+INSERT INTO cita VALUES (27, STR_TO_DATE('09:00', '%H:%i'), '', null , 3, 2);
+INSERT INTO cita VALUES (28, STR_TO_DATE('10:00', '%H:%i'), '', null , 3, 2);
+INSERT INTO cita VALUES (29, STR_TO_DATE('11:00', '%H:%i'), '', null , 3, 2);
+INSERT INTO cita VALUES (30, STR_TO_DATE('12:00', '%H:%i'), '', null , 3, 2);
 
 INSERT INTO vet_jornada VALUES (676282, 1);
 INSERT INTO vet_jornada VALUES (676282, 2);
