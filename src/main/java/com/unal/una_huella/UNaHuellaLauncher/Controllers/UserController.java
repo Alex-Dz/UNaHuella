@@ -67,8 +67,7 @@ public class UserController {
     //AVLTree<Mascota> pets = null;
 
 
-    /*Instant tInicial = Instant.now();
-    double d = (double) tInicial.getEpochSecond() + (double) tInicial.getNano() / 1_000_000_000;*/
+
     Instant time_start;
     Instant time_end;
 

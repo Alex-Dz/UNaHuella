@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.DecimalFormat;
+import java.time.Instant;
 import java.util.List;
 
 @Controller
@@ -29,19 +31,28 @@ public class MascotaController {
 
     HashTable petsTable = null;
 
+    Instant time_start;
+    Instant time_end;
+
+    DecimalFormat formatoDecimal = new DecimalFormat("0.000000000");
+
     @ModelAttribute
     public void addLoggedUserToView(Model model) {
         model.addAttribute("loggedUser", userService.getLoggedUser());
     }
 
+
     public HashTable getMascotos() {
         if (petsTable == null) {
+            time_start = Instant.now();
             petsTable = new HashTable();
             for (Mascota mascota : mascotaService.listAllMascotas()) {
                 if (mascota != null) {
                     petsTable.insert(mascota);
                 }
             }
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado en crear HashTable de mascotas: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
         }
         return petsTable;
     }
@@ -79,7 +90,10 @@ public class MascotaController {
                                 @PathVariable("id_mascota") long id_mascota) {
         try {
             Mascota mascota = new Mascota();
+            time_start = Instant.now();
             mascota = petsTable.find(id_user, id_mascota);
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado en buscar una mascota en la HashTable: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             if (mascota == null) {
                 throw new Exception("Este registro de Mascota no existe");
             }
@@ -170,7 +184,10 @@ public class MascotaController {
     public String eliminarMascota(Model model, @PathVariable long id_mascota) {
         try {
             petsTable = getMascotos();
+            time_start = Instant.now();
             Mascota mascoto = petsTable.delete(petsTable.find(userService.getLoggedUser().getId_usuario(), id_mascota));
+            time_end = Instant.now();
+            System.out.println("\n\n\t\tTiempo empleado eliminar una mascota de la HashTable: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             mascotaService.deleteMascota(id_mascota);
             Usuario user = userService.getLoggedUser();
             user.setH_cantidad_mascotas(user.getH_cantidad_mascotas() - 1);
