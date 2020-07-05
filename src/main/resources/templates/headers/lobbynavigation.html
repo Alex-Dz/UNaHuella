@@ -10,22 +10,44 @@
                 <div class="row">
                     <nav class="background-violet">
                         <div class="nav-wrapper side-padding">
-                            <a th:href="@{/}" href="#" class="brand-logo"><i class="material-icons">pets</i><span class="title-navbar">UNa Huella</span></a>
+                            <a th:href="@{/}" href="#" class="brand-logo"><i class="material-icons">pets</i><span
+                                    class="title-navbar">UNa Huella</span></a>
                             <a href="#" class="sidenav-trigger" data-target="mobile-navbar">
                                 <i class="material-icons">menu</i>
                             </a>
                             <ul class="right hide-on-med-and-down">
-                                <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
-                                <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
-                                <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
+                                <div th:if="${loggedUser == null}">
+                                    <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
+                                    <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
+                                </div>
+                                <div th:if="${loggedUser != null}">
+                                    <li><span class="side-padding" th:text="${loggedUser.a_primer_nombre}">[[${#httpServletRequest.remoteUser}]]</span>
+                                    </li>
+                                    <li><i class="material-icons">chevron_right</i></li>
+                                    <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
+                                </div>
                             </ul>
                         </div>
                     </nav>
-                    <ul class="sidenav background-grey-1" id="mobile-navbar">
-                        <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
-                        <li class=""><a href="#" th:href="@{/logout}">Cerrar Sesión</a></li>
-                        <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
-                    </ul>
+                    <div class="container no-padding no-margin sidenav background-grey-1" id="mobile-navbar">
+                        <div class="row side-padding">
+                            <div class="col s12">
+                                <ul>
+                                    <div th:if="${loggedUser == null}">
+                                        <li class=""><a href="#" th:href="@{/login}">Iniciar Sesión</a></li>
+                                        <li class=""><a href="#" th:href="@{/newUser}">Registrarse</a></li>
+                                    </div>
+                                    <div th:if="${loggedUser != null}">
+                                        <li><span class="side-padding flow-text"
+                                                  th:text="${loggedUser.a_primer_nombre}">[[${#httpServletRequest.remoteUser}]]</span>
+                                        </li>
+                                        <li class="divider grey darken-3"></li>
+                                        <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestor - Jornadas</title>
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+</head>
+
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<main class="background-grey-1">
+    <div class="container top-padding-intermediate bottom-padding-intermediate">
+
+        <div th:if="${esterList.size() > 0 || vacunList.size() > 0}">
+            <div class="row">
+                <div class="col s12 m4">
+                    <div th:if="${esterList.size() > 0}">
+                        <div class="card-panel padding background-dark-grey">
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <a th:href="@{/gestor/jornadas/ester}"
+                                       th:text="Esterilización"
+                                       class="waves-effect waves-mediumpurple btn-flat">
+                                        <i class="material-icons right">keyboard_arrow_right</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${vacunList.size() > 0}">
+                        <div class="card-panel padding background-dark-grey">
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <a th:href="@{/gestor/jornadas/vacun}"
+                                       th:text="Vacunación"
+                                       class="waves-effect waves-mediumpurple btn-flat">
+                                        <i class="material-icons right">keyboard_arrow_right</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m8">
+                    <div class="card background-grey-2">
+                        <div class="card-content">
+                            <div th:if="${esterSelected}">
+                                <h3 class="card-title flow-text bottom-padding">Esterilización</h3>
+                            </div>
+                            <div th:unless="${esterSelected}">
+                                <h3 class="card-title flow-text bottom-padding">Vacunación</h3>
+                            </div>
+                            <table class="responsive-table section">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cantidad Inscritos</th>
+                                    <th>Servicios</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div th:if="${esterSelected}">
+                                    <tr th:each="jornada : ${esterList}">
+                                        <td th:if="${jornada != null}" th:text="${jornada.b_fecha_jornada}"></td>
+                                        <td th:if="${jornada != null}" th:text="${jornada.c_cant_inscritos}"></td>
+                                        <td th:if="${jornada != null}" th:text="${jornada.d_servicios}"></td>
+                                    </tr>
+                                </div>
+                                <div th:unless="${esterSelected}">
+                                    <tr th:each="jornada : ${vacunList}">
+                                        <td th:if="${jornada != null}" th:text="${jornada.b_fecha_jornada}"></td>
+                                        <td th:if="${jornada != null}" th:text="${jornada.c_cant_inscritos}"></td>
+                                        <td th:if="${jornada != null}" th:text="${jornada.d_servicios}"></td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${esterList.size() == 0 && vacunList.size() == 0}">
+            <div class="row">
+                <div class="col s12 no-padding">
+                    <div class="card-panel no-margin background-grey-2">
+                        <div class="row">
+                            <div class="col s4 offset-s4 m2 offset-m5">
+                                <img class="responsive-img" th:src="@{/images/catX.png}">
+                            </div>
+                        </div>
+                        <h3 class="flow-text center-align"> Lo sentimos. No hay jornadas registradas.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row center">
+            <div class="col s12 no-padding">
+                <div class="col s12 m6 bottom-margin">
+                    <a class="btn-large background-blue waves-effect waves-mediumpurple"
+                       href="#" th:href="@{/gestor/newLugar}"><i class="material-icons left">add_circle_outline</i>Registrar
+                        Lugar</a>
+                </div>
+                <div class="col s12 m6 bottom-margin">
+                    <a class="btn-large background-blue waves-effect waves-mediumpurple"
+                       href="#" th:href="@{/gestor/newJornada}"><i class="material-icons left">add_circle_outline</i>Nueva Jornada</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--/*/ <th:block th:include="headers/footer :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

@@ -2,12 +2,20 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Cita;
 
+import java.util.List;
+
 public interface CitaService {
-    Iterable<Cita> listAllCitas();
-    
-    Cita getCitaById(String id);
-    
+    List<Cita> listAllCitas();
+
+    Cita getCitaById(long id);
+
     Cita saveCita(Cita cita);
-    
-    void deleteCita(String id);
+
+    List<Cita> saveAllCitas(List<Cita> citas);
+
+    void deleteCita(Cita cita);
+
+    void deleteCitaById(long id);
+
+    Cita mapCita(Cita from, Cita to);
 }

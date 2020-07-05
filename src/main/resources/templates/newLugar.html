@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Gestor - Nuevo Lugar</title>
+
+    <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
+
+</head>
+<body class="background-grey-1">
+<!--/*/ <th:block th:include="headers/gestornavbar :: usernavbar"></th:block> /*/-->
+<main>
+    <div class="container top-padding-intermediate bottom-padding-intermediate">
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel no-margin background-grey-2">
+                    <form class="padding" th:object="${lugar}"
+                          th:action="@{/gestor/saveLugar}"
+                          method="post">
+                        <div class="row">
+                            <div class="col s12 no-padding">
+                                <div class="col s12 no-padding">
+                                    <div class="col s10">
+                                        <input type="hidden" th:field="${lugar.id_lugar}"/>
+                                    </div>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                    <i class="material-icons prefix">location_on</i>
+                                    <input autofocus type="text" class="validate" id="ubicacion"
+                                           placeholder="Dirección" th:field="${lugar.a_ubicacion_lugar}"/>
+                                    <label for="ubicacion">Ubicación</label>
+                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('a_ubicacion_lugar')}"
+                                          th:errors="*{a_ubicacion_lugar}">Ubication Error</span>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                    <i class="material-icons prefix">local_hospital</i>
+                                    <input type="text" class="validate" id="nombreLugar"
+                                           placeholder="Nombre" th:field="${lugar.b_nombre_lugar}"/>
+                                    <label for="nombreLugar">Nombre</label>
+                                    <span class="helper-text materialert error" th:if="${#fields.hasErrors('b_nombre_lugar')}"
+                                          th:errors="*{b_nombre_lugar}">Nombre Error</span>
+                                </div>
+
+                                <div class="input-field col s12 m4">
+                                    <i class="material-icons prefix">pets</i>
+                                    <input type="text" class="validate" id="capacidadPacientes"
+                                           placeholder="Capacidad de Pacientes del Lugar"
+                                           th:field="${lugar.c_capacidad_pacientes}"/>
+                                    <label for="capacidadPacientes">Capacidad Pacientes</label>
+                                    <span class="helper-text" th:if="${#fields.hasErrors('c_capacidad_pacientes')}"
+                                          th:errors="*{c_capacidad_pacientes}">CantidadPacientes Error</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${lugarCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="${edit}?'Lugar actualizado':'Lugar Creado'">Lugar Creado/actualizado</span>
+                            </div>
+                        </div>
+
+                        <button class="btn waves-effect waves-light background-blue"
+                                type="submit">Guardar
+                            <i class="material-icons left ">send</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--/*/ <th:block th:include="headers/footer :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="headers/scriptfragment :: scripts"></th:block> /*/-->
+</body>
+</html>

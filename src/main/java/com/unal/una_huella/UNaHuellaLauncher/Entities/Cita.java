@@ -2,29 +2,45 @@ package com.unal.una_huella.UNaHuellaLauncher.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Time;
 import javax.persistence.*;
 
 @Entity
-@IdClass(CitaId.class)
-@Table (name = "CITA", indexes = {@Index(name = "RELACION_CITA_MASCOTA", columnList = "ID_MASCOTA"),
-        @Index(name = "RELACION_CITA_JORNADA", columnList="ID_JORNADA")})
-public class Cita {
+@Table(name = "CITA")
+public class Cita implements Serializable {
 
     @Id
+    @Column(name = "ID_CITA")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private long id_cita;
+
     @ManyToOne
     @JoinColumn(name = "ID_MASCOTA")
-    @GeneratedValue (strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
     private Mascota a_id_mascota;
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "ID_JORNADA")
     private Jornada b_id_jornada;
-    @Column(name = "FECHA_CITA", nullable = false)
-    private Date a_fecha_cita;
+
+    @Column(name = "HORA_CITA", nullable = false)
+    private Time c_hora_cita;
+
     @Column(name = "ESPECIFICACION", nullable = false)
-    private String b_especificacion_cita;
+    private String d_especificacion_cita;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_LUGAR")
+    private Lugar lugar;
+
+    public long getId_cita() {
+        return id_cita;
+    }
+
+    public void setId_cita(long id_cita) {
+        this.id_cita = id_cita;
+    }
 
     public Mascota getA_id_mascota() {
         return a_id_mascota;
@@ -42,20 +58,27 @@ public class Cita {
         this.b_id_jornada = b_id_jornada;
     }
 
-    public Date getFecha_cita() {
-        return a_fecha_cita;
+    public Time getC_hora_cita() {
+        return c_hora_cita;
     }
 
-    public void setFecha_cita(Date fecha_cita) {
-        this.a_fecha_cita = fecha_cita;
+    public void setC_hora_cita(Time a_hora_cita) {
+        this.c_hora_cita = a_hora_cita;
     }
 
-    public String getEspecificacion_cita() {
-        return b_especificacion_cita;
+    public String getD_especificacion_cita() {
+        return d_especificacion_cita;
     }
 
-    public void setEspecificacion_cita(String especificacion_cita) {
-        this.b_especificacion_cita = especificacion_cita;
+    public void setD_especificacion_cita(String b_especificacion_cita) {
+        this.d_especificacion_cita = b_especificacion_cita;
     }
 
+    public Lugar getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(Lugar lugar) {
+        this.lugar = lugar;
+    }
 }

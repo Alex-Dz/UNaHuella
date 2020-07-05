@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 </head>
 <body>
@@ -17,18 +18,19 @@
                                     <i class="material-icons">menu</i>
                                 </a>
                                 <ul class="right hide-on-med-and-down">
-                                    <li><span class="flow-text side-padding">[[${#httpServletRequest.remoteUser}]]</span></li>
+                                    <li><span class="side-padding" th:text="${loggedUser.a_primer_nombre}">[[${#httpServletRequest.remoteUser}]]</span>
+                                    </li>
                                     <li><i class="material-icons">chevron_right</i></li>
                                     <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
                                 </ul>
                             </div>
                             <div class="nav-content center-align">
                                 <ul class="tabs tabs-transparent">
-                                    <li class="tab"><a th:href="${'/gestor/profile/' + #httpServletRequest.remoteUser}" href="#">Mis datos</a></li>
-                                    <li class="tab disabled"><a href="#"> <!--th:href="@{/gestor/jornadas}"-->Jornadas (próximamente)</a></li>
-                                    <li class="tab disabled"><a href="#"><!--th:href="@{/gestor/jornadas/new}"-->Nueva Jornada (próximamente)</a></li>
-                                    <li class="tab disabled"><a href="#"> <!--th:href="@{/gestor/calendario}"-->Calendario (próximamente)</a></li>
-                                    <li class="tab"><a class="dropdawn dropdown-trigger hide-on-med-and-down" href="#!" data-target="dropdown-listas">Listas<i
+                                    <li class="tab"><a th:href="${'/gestor/profile/' + #httpServletRequest.remoteUser}"
+                                                       href="#">Mis datos</a></li>
+                                    <li class="tab"><a href="#" th:href="@{/gestor/jornadas/ester}">Jornadas</a></li>
+                                    <li class="tab"><a class="dropdawn dropdown-trigger hide-on-med-and-down" href="#!"
+                                                       data-target="dropdown-listas">Listas<i
                                             class="material-icons right">arrow_drop_down</i></a>
                                     </li>
                                     <li class="tab"><a th:href="@{/gestor/searchUser}" href="#">Buscar</a></li>
@@ -37,19 +39,23 @@
                         </nav>
                     </div>
                     <ul id="dropdown-listas" class="background-violet dropdown-content drop-position-fixed">
-                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/particular-list}" href="#">Particulares</a></li>
-                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/vet-list}" href="#">Veterinarios</a></li>
-                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/gestor-list}" href="#">Gestores</a></li>
+                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/particular-list}" href="#">Particulares</a>
+                        </li>
+                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/vet-list}" href="#">Veterinarios</a>
+                        </li>
+                        <li class="top-padding"><a class="text-center" th:href="@{/gestor/gestor-list}" href="#">Gestores</a>
+                        </li>
                     </ul>
                     <div class="container no-padding no-margin sidenav background-grey-1" id="mobile-navbar">
                         <div class="row side-padding">
                             <div class="col s12">
                                 <ul>
-                                    <li><span class="side-padding flow-text">[[${#httpServletRequest.remoteUser}]]</span></li>
+                                    <li><span class="side-padding flow-text" th:text="${loggedUser.a_primer_nombre}">[[${#httpServletRequest.remoteUser}]]</span>
+                                    </li>
                                     <li class="divider grey darken-3"></li>
                                     <li class=""><a th:href="@{/gestor/particular-list}" href="#">Particulares</a></li>
-                                    <li class="disabled"><a href="#">lista 2</a></li>
-                                    <li class="disabled"><a href="#">lista 3</a></li>
+                                    <li class=""><a th:href="@{/gestor/vet-list}" href="#">Veterinarios</a></li>
+                                    <li class=""><a th:href="@{/gestor/gestor-list}" href="#">Gestores</a></li>
                                     <li><a th:href="@{/logout}" href="#">Cerrar Sesión</a></li>
                                 </ul>
                             </div>

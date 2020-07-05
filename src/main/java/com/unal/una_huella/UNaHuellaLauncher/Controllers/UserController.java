@@ -2,9 +2,12 @@ package com.unal.una_huella.UNaHuellaLauncher.Controllers;
 
 import com.unal.una_huella.UNaHuellaLauncher.ED.AVLTree;
 import com.unal.una_huella.UNaHuellaLauncher.ED.LinkedStack;
+import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Mascota;
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Usuario;
 import com.unal.una_huella.UNaHuellaLauncher.Repositories.RoleRepo;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.JornadaService;
+import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.LugarService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.MascotaService;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import com.unal.una_huella.UNaHuellaLauncher.util.OrderPair;
@@ -17,14 +20,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
 
-    /*@Autowired
-    private ParticularService particularService;*/
     @Autowired
     UserService userService;
     @Autowired
@@ -33,6 +37,10 @@ public class UserController {
     private MascotaService mascotaService;
     @Autowired
     IndexController indexController;
+    @Autowired
+    JornadaService jornadaService;
+    @Autowired
+    LugarService lugarService;
 
 
     private static final int PARTICULAR = 1;
@@ -42,6 +50,8 @@ public class UserController {
 
     LinkedStack<Usuario[]> prevPag = new LinkedStack<>();
     LinkedStack<Usuario[]> nextPag = new LinkedStack<>();
+
+    int tipo = 0;
 
     int[] regsPerPage = {10, 20, 30, 50, 100, 500};
     int pagDefault = 10;
@@ -54,38 +64,40 @@ public class UserController {
     SortParams[] sortGestorParams = null;
 
     AVLTree<Usuario> avl = null;
-    private AVLTree<Mascota> pets = null;
+    //AVLTree<Mascota> pets = null;
 
 
-    Instant tInicial = Instant.now();
-    //double d = (double) tInicial.getEpochSecond() + (double) tInicial.getNano() / 1_000_000_000;
+
     Instant time_start;
     Instant time_end;
 
     DecimalFormat formatoDecimal = new DecimalFormat("0.000000000");
 
+
+    @ModelAttribute
+    public void addLoggedUserToView(Model model) {
+        model.addAttribute("loggedUser", userService.getLoggedUser());
+    }
+
     @RequestMapping("/particular")
-    public String particular() {
+    public String particular(Model model) {
         if (avl == null) {
             getUsers(sortDefault);
         }
-        if (pets == null) {
-            pets = new AVLTree<Mascota>(AVLTree.ID_DUEÑO);
-            for (Mascota mascota : mascotaService.listAllMascotas()) {
-                if (mascota != null) {
-                    try {
-                        pets.insertAVL(mascota);
-                    } catch (Exception e) {
-                        continue;
-                    }
-                }
-            }
+
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e) {
+            System.err.println("No se han podido cargar las jornadas");
         }
+
         return "particular";
     }
 
     @RequestMapping("/gestor")
-    String gestor() {
+    String gestor(Model model) {
         SortParams temp;
 
         if (sortPartiParams == null || sortVetParams == null || sortGestorParams == null) {
@@ -114,55 +126,38 @@ public class UserController {
         if (avl == null) {
             getUsers(sortDefault);
         }
+
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e) {
+            System.err.println("No se han podido cargar las jornadas");
+        }
+
+
         return "gestor";
     }
 
     @RequestMapping("/vet")
-    public String vet() {
+    public String vet(Model model) {
         if (avl == null) {
             getUsers(sortDefault);
         }
+        List<Jornada> proximasJornadas = proximasJornadas();
+        try {
+            model.addAttribute("listaProxJornadas", proximasJornadas);
+            model.addAttribute("proxJornada", proximasJornadas.get(0));
+        } catch (Exception e) {
+            System.err.println("No se han podido cargar las jornadas");
+        }
         return "veterinario";
-    }
-
-    /*@RequestMapping("particular/new")
-    public String newParticular(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo = 0);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/particular/profile/{id}")
-    public String showParticular(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "particularshow";
-    }*/
-
-    /*@RequestMapping("/particular/edit/{id}")
-    public String editPart(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 1);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-particular", method = RequestMethod.POST)
-    public String saveParticular(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/particular/profile/" + particular.getId_particular();
-    }*/
-
-
-    public AVLTree<Mascota> getMascotas() {
-        return pets;
     }
 
     public AVLTree<Usuario> getUsers(int sortBy) {
         if (avl == null) {
             avl = new AVLTree<Usuario>(AVLTree.ID);
 
-            //time_start = 0;
             time_start = Instant.now();
 
             for (Usuario user : userService.listAllUser()) {
@@ -174,7 +169,6 @@ public class UserController {
                 }
             }
 
-            //time_end = 0;
             time_end = Instant.now();
             System.out.println("\n\n\t\tTiempo empleado en crear arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
         } else {
@@ -211,7 +205,6 @@ public class UserController {
                     }
                 }
 
-                //time_start = 0;
                 time_start = Instant.now();
 
                 for (Usuario user : userService.listAllUser()) {
@@ -223,7 +216,6 @@ public class UserController {
                     }
                 }
 
-                //time_end = 0;
                 time_end = Instant.now();
                 System.out.println("\n\n\t\tTiempo empleado en reconstruir arbol AVL de usuarios: " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
             }
@@ -231,34 +223,13 @@ public class UserController {
         return avl;
     }
 
-
-    /*public DoubleLinkedList<Particular> getRegisters() {
-        time_start = 0;
-        time_start = System.currentTimeMillis();
-        DoubleLinkedList<Particular> list = new DoubleLinkedList<Particular>();
-
-        for (Particular particular : particularService.listAllParticulars()) {
-            list.pushBack(particular);
-        }
-        time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en crear y llenar DoubleLinkedList " + (time_end - time_start) + " milliseconds");
-        return list;
-    }*/
-
     public void getPaginas(int regsPerPage, int tipo) {
         nextPag.emptyStack();
         prevPag.emptyStack();
 
         long count = 0;
-        /*time_start = 0;
-        time_start = System.currentTimeMillis();*/
         java.util.List<Usuario> listaUsuarios = avl.getList(tipo);
-        /*time_end = 0;
-        time_end = System.currentTimeMillis();
-        System.out.println("\n\n\t\tTiempo empleado en migrar usuarios del arbol a lista: " + formatoDecimal.format(time_end - time_start) + " milliseconds");*/
 
-        //time_start = 0;
         time_start = Instant.now();
         double time_temp_start = 0;
         double time_temp_end = 0;
@@ -286,133 +257,13 @@ public class UserController {
                 time_acumulado += time_temp_end - time_temp_start;
             }
         }
-        //time_end = 0;
         time_end = Instant.now();
         System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
 
-
-        /*if (tipo == PARTICULAR) {
-            java.util.List<Usuario> listaParticulares = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == PARTICULAR) {
-                        listaParticulares.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaParticulares.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaParticulares.size()) {
-                        reg = listaParticulares.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        } else if (tipo == VETERINARIO) {
-            java.util.List<Usuario> listaVets = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == VETERINARIO) {
-                        listaVets.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaVets.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaVets.size()) {
-                        reg = listaVets.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        } else {
-            java.util.List<Usuario> listaGestores = new ArrayList<Usuario>();
-            for (int i = 0; i < listaUsuarios.size(); i++) {
-                Usuario temp = listaUsuarios.get(i);
-                try {
-                    if (userService.getRoles(temp).get(0).getId() == GESTOR) {
-                        listaGestores.add(temp);
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-
-            time_start = 0;
-            time_start = System.currentTimeMillis();
-            while (count < listaGestores.size()) {
-                Usuario[] pagina = new Usuario[regsPerPage];
-                for (int i = 0; i < regsPerPage; i++) {
-                    Usuario reg;
-                    if (count < listaGestores.size()) {
-                        reg = listaGestores.get((int) count);
-                    } else {
-                        reg = null;
-                    }
-                    ++count;
-                    if (reg == null) {
-                        break;
-                    } else {
-                        pagina[i] = reg;
-                    }
-                }
-                if (pagina[0] != null) {
-                    prevPag.push(pagina);
-                }
-            }
-            time_end = 0;
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n\t\tTiempo empleado en llenar Stack prevPag " + (time_end - time_start) + " milliseconds");
-        }*/
-
-        //time_start = 0;
         time_start = Instant.now();
         while (!prevPag.isEmpty()) {
             nextPag.push(prevPag.pop());
         }
-        //time_end = 0;
         time_end = Instant.now();
         System.out.println("\n\n\t\tTiempo empleado en  llenar Stack nextPag " + formatoDecimal.format(((double) time_end.getEpochSecond() + (double) time_end.getNano() / 1_000_000_000) - ((double) time_start.getEpochSecond() + (double) time_start.getNano() / 1_000_000_000)) + " segundos");
     }
@@ -608,12 +459,6 @@ public class UserController {
         return prevPage(model);
     }
 
-    /*@RequestMapping("/particular/delete/{id}")
-    public String deleteParticular(@PathVariable String id) {
-        particularService.deleteParticular(id);
-        return "redirect:/particulares";
-    }*/
-
     @RequestMapping("/particular/inscribirMascota")
     String inscribirMascota() {
         return "inscribirMascota";
@@ -624,71 +469,11 @@ public class UserController {
         return "asignarCita";
     }
 
-    /*  de aquí para abajo son controladores que se deben mover a su respectiva clase después   */
-
-    int tipo = 0;
-
-    /*@RequestMapping("/vet/profile/{id}")
-    public String vetProfile(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "vetshow";
-    }*/
-
-
-   /* @RequestMapping("/vet/new")
-    public String newVet(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/vet/edit/{id}")
-    public String editVete(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 2);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-vet", method = RequestMethod.POST)
-    public String saveVet(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/vet/profile/" + particular.getId_particular();
-    }*/
-
-    /*@RequestMapping("/gestor/profile/{id}")
-    public String gestorProfile(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        return "gestorshow";
-    }*/
-
-    /*@RequestMapping("/gestor/new")
-    public String newGestor(Model model) {
-        model.addAttribute("particular", new Particular());
-        model.addAttribute("edit", false);
-        model.addAttribute("tipo", tipo);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping("/gestor/edit/{id}")
-    public String editGestor(@PathVariable String id, Model model) {
-        model.addAttribute("particular", getRegisters().findById(id));
-        model.addAttribute("edit", true);
-        model.addAttribute("tipo", tipo = 3);
-        return "formulario";
-    }*/
-
-    /*@RequestMapping(value = "/save-gestor", method = RequestMethod.POST)
-    public String saveGestor(Particular particular) {
-        particularService.saveParticular(particular);
-        return "redirect:/gestor/profile/" + particular.getId_particular();
-    }*/
-
     /*  de aquí para abajo van controladores de usuario unificado   */
 
-    @RequestMapping("/newUser")
-    public String formNewUser(Model model) {
+    @GetMapping("/newUser")
+    public String newUser(Model model) {
+        avl = getUsers(sortDefault);
         model.addAttribute("edit", false);
         model.addAttribute("user", new Usuario());
         model.addAttribute("userCreated", false);
@@ -697,15 +482,67 @@ public class UserController {
         return "formulario";
     }
 
+    @PostMapping("/newUser-2")
+    public String newUser2(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("tipo", 0);
+            model.addAttribute("roles", roleRepo.findAll());
+            return "formulario";
+        } else {
+            try {
+                if (userService.checkUsernameAvailable(user) && userService.checkPasswordValid(user)) {
+                    if (user.getRole() == PARTICULAR) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", PARTICULAR);
+                        model.addAttribute("roles", roleRepo.findAll());
+                    }
+                    if (user.getRole() == VETERINARIO) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", VETERINARIO);
+                        model.addAttribute("roles", roleRepo.findAll());
+                        model.addAttribute("lugares", lugarService.listAllLugares());
+                    }
+                    if (user.getRole() == GESTOR) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("edit", false);
+                        model.addAttribute("tipo", GESTOR);
+                        model.addAttribute("roles", roleRepo.findAll());
+                    }
+                } else {
+                    model.addAttribute("user", user);
+                    model.addAttribute("edit", false);
+                    model.addAttribute("tipo", 0);
+                    model.addAttribute("roles", roleRepo.findAll());
+                }
+            } catch (Exception e) {
+                model.addAttribute("formErrorMessage", e.getMessage());
+                model.addAttribute("user", user);
+                model.addAttribute("edit", false);
+                model.addAttribute("tipo", 0);
+                model.addAttribute("roles", roleRepo.findAll());
+            }
+
+            return "formulario";
+        }
+    }
+
     @PostMapping("/saveUser")
     public String createUser(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
+            model.addAttribute("edit", false);
+            model.addAttribute("tipo", user.getRole());
         } else {
             try {
                 userService.createUser(user);
                 model.addAttribute("userCreated", true);
+                model.addAttribute("user", new Usuario());
                 model.addAttribute("edit", false);
+                model.addAttribute("tipo", 0);
                 model.addAttribute("roles", roleRepo.findAll());
                 avl.insertAVL(user);
                 return "formulario";
@@ -723,32 +560,9 @@ public class UserController {
         return "formulario";
     }
 
-    /*@PostMapping("/updateUser")
-    public String updateUser(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
-        if (result.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("edit", true);
-        } else {
-            try {
-                userService.updateUser(user);
-                model.addAttribute("userCreated", true);
-                model.addAttribute("edit", false);
-            } catch (Exception e) {
-                model.addAttribute("formErrorMessage", e.getMessage());
-                model.addAttribute("user", user);
-                model.addAttribute("userCreated", false);
-                model.addAttribute("edit", true);
-                model.addAttribute("roles", roleRepo.findAll());
-            }
-        }
-        model.addAttribute("roles", roleRepo.findAll());
-
-        return "formulario";
-    }*/
-
     @GetMapping("/editUser/cancel")
     public String cancelEditUser() {
-        return "redirect:/usuarios";
+        return "redirect://";
     }
 
     @GetMapping("/usuarios")
@@ -756,37 +570,6 @@ public class UserController {
         model.addAttribute("usuarios", userService.listAllUser());
         return "usuarios";
     }
-
-    /*@GetMapping("/user/edit/{id}")
-    public String editUser(@PathVariable String id, Model model) {
-        try {
-            model.addAttribute("user", userService.getUserById(id));
-        } catch (Exception e) {
-            model.addAttribute("formErrorMessage", e.getMessage());
-            model.addAttribute("edit", true);
-            model.addAttribute("userCreated", false);
-            model.addAttribute("roles", roleRepo.findAll());
-        }
-        model.addAttribute("edit", true);
-        model.addAttribute("userCreated", false);
-        model.addAttribute("roles", roleRepo.findAll());
-        return "createUserForm";
-    }*/
-
-    /*@GetMapping("/user/delete/{id}")
-    public String deleteUs(@PathVariable String id, Model model) {
-        try {
-            userService.deleteUser(id);
-            model.addAttribute("deleteSuccess", true);
-            model.addAttribute("deleteError", false);
-            model.addAttribute("deleteSuccessMessage", "Usuario eliminado");
-        } catch (Exception e) {
-            model.addAttribute("deleteSuccess", false);
-            model.addAttribute("deleteError", true);
-            model.addAttribute("deleteErrorMessage", e.getMessage());
-        }
-        return "redirect:/usuarios";
-    }*/
 
     @RequestMapping("/particular/profile/{id}")
     public String partiProfile(@PathVariable String id, Model model) throws Exception {
@@ -824,7 +607,7 @@ public class UserController {
     }
 
     @PostMapping("/particular/updateUser")
-    public String updateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateParticular(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -889,7 +672,7 @@ public class UserController {
     }
 
     @PostMapping("/vet/updateUser")
-    public String updateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateVet(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -955,7 +738,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateUser")
-    public String updateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String updateGestor(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1049,7 +832,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateParticular")
-    public String gestorUpdateParticular(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateParticular(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1114,7 +897,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateVet")
-    public String gestorUpdateVet(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateVet(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1180,7 +963,7 @@ public class UserController {
     }
 
     @PostMapping("/gestor/updateGestor")
-    public String gestorUpdateGestor(/*@Valid*/ @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
+    public String gestorUpdateGestor(@Valid @ModelAttribute("user") Usuario user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("edit", true);
@@ -1306,4 +1089,24 @@ public class UserController {
         return "gestores";
     }
 
+    public List<Jornada> getJornadas() {
+        List<Jornada> listaJornadas = new ArrayList<Jornada>();
+        for (Jornada jornada : jornadaService.listAllJornadas()) {
+            listaJornadas.add(jornada);
+        }
+
+        return listaJornadas;
+    }
+
+    public List<Jornada> proximasJornadas() {
+        //fecha-mes-dia
+        Date fechaActual = new Date(System.currentTimeMillis());
+        List<Jornada> proximasJornadas = new ArrayList<Jornada>();
+        for (Jornada jornada : getJornadas()) {
+            if (jornada.getB_fecha_jornada().after(fechaActual)) {
+                proximasJornadas.add(jornada);
+            }
+        }
+        return proximasJornadas;
+    }
 }

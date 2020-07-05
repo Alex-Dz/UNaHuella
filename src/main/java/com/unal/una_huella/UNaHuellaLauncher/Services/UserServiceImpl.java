@@ -7,6 +7,8 @@ import com.unal.una_huella.UNaHuellaLauncher.Repositories.UserRepo;
 import com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Mascota> getMascotas (Usuario user) throws Exception{
+    public List<Mascota> getMascotas(Usuario user) throws Exception {
         return getUserById(user.getId_usuario()).getMismascotas();
     }
 
@@ -95,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private boolean checkUsernameAvailable(Usuario user) throws Exception {
+    public boolean checkUsernameAvailable(Usuario user) throws Exception {
         Optional<Usuario> userFound = userRepo.findById(user.getId_usuario());
         if (userFound.isPresent()) {
             throw new Exception("Ya existe un registro con este documento");
@@ -103,10 +105,29 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    private boolean checkPasswordValid(Usuario user) throws Exception {
+    public boolean checkPasswordValid(Usuario user) throws Exception {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new Exception("Campo contraseña y confirmar contraseña no coinciden");
         }
         return true;
+    }
+
+    public Usuario getLoggedUser() {
+        //obtiene el usuario loggeado
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        UserDetails loggedUser = null;
+        //verifica si el objetro traido de la sesión es el usuario
+        if (principal instanceof UserDetails){
+            loggedUser = (UserDetails) principal;
+        }
+        Usuario user;
+        try {
+            user = userRepo.findById(loggedUser.getUsername()).orElse(null);
+        }catch (Exception e){
+            user = null;
+        }
+
+        return user;
     }
 }

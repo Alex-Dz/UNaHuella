@@ -5,22 +5,381 @@
     <!--/*/ <th:block th:include="headers/headerfragment :: head"></th:block> /*/-->
 </head>
 
-<body>
+<body class="background-grey-1">
 <!--/*/ <th:block th:include="headers/particularnavbar :: usernavbar"></th:block> /*/-->
 <main>
-    <div class="container top-padding-intermediate">
+    <div class="container top-padding-intermediate bottom-padding-intermediate">
         <div class="row">
             <div class="col s12 m8 offset-m2 no-padding">
-                <form class="card-panel no-margin background-grey-2">
+                <div th:if="${jornadas == null && lugares == null && (selectCita == false || selectCita == null)}">
+                    <form class="card-panel no-margin background-grey-2" th:object="${cita}"
+                          th:action="@{/particular/newCita-2}" method="get">
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_one</i>
+                                    <select autofocus id="mascotaSelect" th:field="${cita.a_id_mascota}">
+                                        <option value="" disabled selected>Selecciona a tu mascota</option>
+                                        <option th:each="mascota : ${mascotas}" th:value="${mascota.id_mascota}"
+                                                th:text="${mascota.b_nombre_mascota}"></option>
+                                    </select>
+                                    <label for="mascotaSelect">Mascota</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_two</i>
+                                    <select id="servicioSelect" name="servicioSelect"
+                                            th:field="${cita.d_especificacion_cita}">
+                                        <option value="" disabled selected>Selecciona un servicio</option>
+                                        <option th:value="'vacunación'">Vacunación</option>
+                                        <option th:value="'esterilización'">Esterilización</option>
+                                    </select>
+                                    <label for="servicioSelect">Servicio</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${noJornadas}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button disabled class="btn-large background-blue waves-effect waves-mediumpurple">
+                                        Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${noJornadas == null || noJornadas == false}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit">Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${noJornadas}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span>No hay jornadas</span>
+                            </div>
+                        </div>
+                        <div th:if="${citaCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="'Cita agendada'">cita eliminada/actualizado</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div th:if="${jornadas != null && lugares == null}">
+                    <form class="card-panel no-margin background-grey-2" th:object="${cita}"
+                          th:action="@{/particular/newCita-3}" method="get">
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_one</i>
+                                    <select id="mascotaSelect" th:field="${cita.a_id_mascota}">
+                                        <option selected th:value="${cita.a_id_mascota.id_mascota}"
+                                                th:text="${cita.a_id_mascota.b_nombre_mascota}"></option>
+                                    </select>
+                                    <label for="mascotaSelect">Mascota</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_two</i>
+                                    <select id="servicioSelect" name="servicioSelect"
+                                            th:field="${cita.d_especificacion_cita}">
+                                        <option value="" disabled selected>Selecciona un servicio</option>
+                                        <option selected th:value="${cita.d_especificacion_cita}"
+                                                th:text="${cita.d_especificacion_cita}"></option>
+                                    </select>
+                                    <label for="servicioSelect">Servicio</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div id="inputJornada" class="input-field">
+                                    <i class="material-icons prefix">looks_3</i>
+                                    <select autofocus id="jornadaSelect" name="jornadaSelect"
+                                            th:field="${cita.b_id_jornada}">
+                                        <option value="" disabled selected>Seleccione una jornada</option>
+                                        <option th:each="jornada : ${jornadas}" th:value="${jornada.id_jornada}"
+                                                th:text="${jornada.b_fecha_jornada}"></option>
+                                    </select>
+                                    <label for="jornadaSelect">Fecha</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${noLugares}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit">Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span>No hay lugares con citas disponibles en esta fecha, por favor selecciona otra</span>
+                            </div>
+                        </div>
+                        <div th:if="${noLugares == null || noLugares == false}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit">Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${citaCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="'Cita agendada'">cita eliminada/actualizado</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div th:if="${jornadas != null && lugares != null}">
+                    <form class="card-panel no-margin background-grey-2" th:object="${cita}"
+                          th:action="@{/particular/newCita-4}" method="get">
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_one</i>
+                                    <select id="mascotaSelect" th:field="${cita.a_id_mascota}">
+                                        <option selected th:value="${cita.a_id_mascota.id_mascota}"
+                                                th:text="${cita.a_id_mascota.b_nombre_mascota}"></option>
+                                    </select>
+                                    <label for="mascotaSelect">Mascota</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_two</i>
+                                    <select id="servicioSelect" name="servicioSelect"
+                                            th:field="${cita.d_especificacion_cita}">
+                                        <option value="" disabled selected>Selecciona un servicio</option>
+                                        <option selected th:value="${cita.d_especificacion_cita}"
+                                                th:text="${cita.d_especificacion_cita}"></option>
+                                    </select>
+                                    <label for="servicioSelect">Servicio</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div id="inputJornada" class="input-field">
+                                    <i class="material-icons prefix">looks_3</i>
+                                    <select autofocus id="jornadaSelect" name="jornadaSelect"
+                                            th:field="${cita.b_id_jornada}">
+                                        <option value="" disabled selected>Seleccione una jornada</option>
+                                        <option th:each="jornada : ${jornadas}" th:value="${jornada.id_jornada}"
+                                                th:text="${jornada.b_fecha_jornada}"></option>
+                                    </select>
+                                    <label for="jornadaSelect">Fecha</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_4</i>
+                                    <select id="lugarSelect" th:field="${cita.lugar}">
+                                        <option value="" disabled selected>Selecciona una hora</option>
+                                        <option th:each="lugar : ${lugares}" th:value="${lugar.id_lugar}"
+                                                th:text="${lugar.b_nombre_lugar}"></option>
+                                    </select>
+                                    <label for="lugarSelect">Lugar</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${noLugares}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit">Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span>No hay lugares con citas disponibles en esta fecha, por favor selecciona otra</span>
+                            </div>
+                        </div>
+                        <div th:if="${noLugares == null || noLugares == false}">
+                            <div class="row top-margin">
+                                <div class="col s12 m12 center-align">
+                                    <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                            type="submit">Siguiente
+                                        <i class="material-icons right">chevron_right</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${citaCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="'Cita agendada'">cita eliminada/actualizado</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div th:if="${jornadas == null && lugares == null && selectCita == true}">
+                    <form class="card-panel no-margin background-grey-2" th:object="${cita}"
+                          th:action="@{/particular/saveCita}" method="post">
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_one</i>
+                                    <select id="mascotaSelect" th:field="${cita.a_id_mascota}">
+                                        <option selected th:value="${cita.a_id_mascota.id_mascota}"
+                                                th:text="${cita.a_id_mascota.b_nombre_mascota}"></option>
+                                    </select>
+                                    <label for="mascotaSelect">Mascota</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_two</i>
+                                    <select id="servicioSelect" name="servicioSelect"
+                                            th:field="${cita.d_especificacion_cita}">
+                                        <option value="" disabled selected>Selecciona un servicio</option>
+                                        <option selected th:value="${cita.d_especificacion_cita}"
+                                                th:text="${cita.d_especificacion_cita}"></option>
+                                    </select>
+                                    <label for="servicioSelect">Servicio</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div id="inputJornada" class="input-field">
+                                    <i class="material-icons prefix">looks_3</i>
+                                    <select autofocus id="jornadaSelect" name="jornadaSelect"
+                                            th:field="${cita.b_id_jornada}">
+                                        <option selected th:value="${cita.b_id_jornada.id_jornada}"
+                                                th:text="${cita.b_id_jornada.b_fecha_jornada}"></option>
+                                    </select>
+                                    <label for="jornadaSelect">Fecha</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_4</i>
+                                    <select id="lugarSelect" th:field="${cita.lugar}">
+                                        <option selected th:value="${cita.lugar.id_lugar}"
+                                                th:text="${cita.lugar.b_nombre_lugar}"></option>
+                                    </select>
+                                    <label for="lugarSelect">Lugar</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_5</i>
+                                    <select id="citaSelect" th:field="${cita.c_hora_cita}">
+                                        <option value="" selected disabled>Seleccione una hora</option>
+                                        <option th:each="cita : ${citas}" th:value="${cita.c_hora_cita}"
+                                                th:text="${cita.c_hora_cita}"></option>
+                                    </select>
+                                    <label for="citaSelect">Hora</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row top-margin">
+                            <div class="col s12 m12 center-align">
+                                <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                        type="submit">Asignar cita
+                                    <i class="material-icons left">add_circle_outline</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div th:if="${formErrorMessage}">
+                            <div class="materialert error">
+                                <div class="material-icons">error_outline</div>
+                                <span th:text="${formErrorMessage}">Error Message</span>
+                            </div>
+                        </div>
+                        <div th:if="${citaCreated}">
+                            <div class="materialert success">
+                                <div class="material-icons">check</div>
+                                <span th:text="'Cita agendada'">cita eliminada/actualizado</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!--<form class="card-panel no-margin background-grey-2" th:object="${cita}"
+                      th:action="@{/particular/saveCita}" method="post">
                     <div class="row no-margin">
                         <div class="col s12 m8 offset-m2">
                             <div class="input-field">
                                 <i class="material-icons prefix">looks_one</i>
-                                <select>
+                                <select id="mascotaSelect" th:field="${cita.a_id_mascota}">
                                     <option value="" disabled selected>Selecciona a tu mascota</option>
-                                    <option value="1">GuauGuau</option>
-                                    <option value="2">Mishi</option>
+                                    <option th:each="mascota : ${mascotas}" th:value="${mascota.id_mascota}"
+                                            th:text="${mascota.b_nombre_mascota}"></option>
                                 </select>
+                                <label for="mascotaSelect">Mascota</label>
                             </div>
                         </div>
                     </div>
@@ -29,55 +388,118 @@
                         <div class="col s12 m8 offset-m2">
                             <div class="input-field">
                                 <i class="material-icons prefix">looks_two</i>
-                                <select>
+                                <select id="servicioSelect" name="servicioSelect"
+                                        th:field="${cita.d_especificacion_cita}">
                                     <option value="" disabled selected>Selecciona un servicio</option>
-                                    <option value="1">Vacunación</option>
-                                    <option value="2">Esterilización</option>
+                                    <option th:value="'vacunación'">Vacunación</option>
+                                    <option th:value="'esterilización'">Esterilización</option>
                                 </select>
+                                <label for="servicioSelect">Servicio</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row no-margin">
-                        <div class="col s12 m8 offset-m2">
-                            <div class="input-field">
-                                <i class="material-icons prefix">looks_3</i>
-                                <input type="text" class="datepicker" placeholder="Seleccione una fecha">
+                    <div th:if="${jornadas != null}">
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div id="inputJornada" class="input-field">
+                                    <i class="material-icons prefix">looks_3</i>
+                                    <select id="jornadaSelect" name="jornadaSelect" th:field="${cita.b_id_jornada}">
+                                        <option value="" disabled selected>Seleccione una jornada</option>
+                                        <option th:each="jornada : ${jornadas}" th:value="${jornada.id_jornada}"
+                                                th:text="${jornada.b_fecha_jornada}"></option>
+                                    </select>
+                                    <label for="jornadaSelect">Fecha</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-margin">
+                            <div class="col s12 m8 offset-m2">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">looks_4</i>
+                                    <select id="citasSelect" th:field="${cita.c_hora_cita}">
+                                        <option value="" disabled selected>Selecciona una hora</option>
+                                        <option th:each="citalibre : ${citasLibres}" th:value="${citalibre.c_hora_cita}"
+                                                th:text="${citalibre.c_hora_cita}"></option>
+                                    </select>
+                                    <label for="citasSelect">Hora</label>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row no-margin">
-                        <div class="col s12 m8 offset-m2">
-                            <div class="input-field">
-                                <i class="material-icons prefix">looks_4</i>
-                                <select>
-                                    <option value="" disabled selected>Selecciona una hora</option>
-                                    <option value="1">9:00</option>
-                                    <option value="2">9:10</option>
-                                    <option value="2">10:20</option>
-                                </select>
+                    <div th:if="${jornadas == null}">
+                        <div class="row top-margin">
+                            <div class="col s12 m12 center-align">
+                                <a class="btn-large background-blue waves-effect waves-mediumpurple"
+                                   th:href="@{/particular/newCita-2}">Siguiente
+                                    <i class="material-icons right">chevron_right</i>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row top-margin">
-                        <div class="col s12 m12 center-align">
-                            <button class="btn-large background-blue waves-effect waves-mediumpurple"
-                                    type="submit" name="action">Asignar cita
-                                <i class="material-icons left">add_circle_outline</i>
-                            </button>
+                    <div th:if="${jornadas != null && lugares == null}">
+                        <div class="row top-margin">
+                            <div class="col s12 m12 center-align">
+                                <a class="btn-large background-blue waves-effect waves-mediumpurple"
+                                   th:href="@{/particular/newCita-3}">Asignar cita
+                                    <i class="material-icons left">add_circle_outline</i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="row no-margin">
+
+
+                    <div th:if="${citasLibres != null}">
+                        <div class="row top-margin">
+                            <div class="col s12 m12 center-align">
+                                <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                        type="submit">Asignar cita
+                                    <i class="material-icons left">add_circle_outline</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:unless="${citasLibres != null}">
+                        <div class="row top-margin">
+                            <div class="col s12 m12 center-align">
+                                <div class="materialert error">
+                                    <div class="material-icons">error_outline</div>
+                                    <span>No hay citas disponibles</span>
+                                </div>
+                                <button disabled class="btn-large background-blue waves-effect waves-mediumpurple">
+                                    Asignar cita
+                                    <i class="material-icons left">add_circle_outline</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash;<div class="row no-margin">
                         <div class="col s12 m12 center-align bottom-margin">
-                            <button class="btn-large background-blue waves-effect
-                                        waves-mediumpurple">Cancelar cita
+                            <button class="btn-large background-blue waves-effect waves-mediumpurple"
+                                    type="reset">Cancelar cita
                                 <i class="material-icons left">highlight_off</i>
                             </button>
                         </div>
+                    </div>&ndash;&gt;
+
+                    <div th:if="${formErrorMessage}">
+                        <div class="materialert error">
+                            <div class="material-icons">error_outline</div>
+                            <span th:text="${formErrorMessage}">Error Message</span>
+                        </div>
                     </div>
-                </form>
+                    <div th:if="${citaCreated}">
+                        <div class="materialert success">
+                            <div class="material-icons">check</div>
+                            <span th:text="'Cita agendada'">cita eliminada/actualizado</span>
+                        </div>
+                    </div>
+                </form>-->
             </div>
         </div>
     </div>

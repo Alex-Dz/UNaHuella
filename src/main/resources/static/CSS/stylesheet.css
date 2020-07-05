@@ -98,8 +98,16 @@
     padding-top: 1em;
 }
 
+.top-margin-little {
+    margin-top: 0.5em;
+}
+
 .top-padding-intermediate{
     padding-top: 3em;
+}
+
+.bottom-padding {
+    padding-bottom: 1em;
 }
 
 .bottom-padding-intermediate {
@@ -170,7 +178,7 @@
 }
 
 .background-grey-1 {
-    background-color: #D9D3D2;
+    background-color: #E9E3E2;
 }
 
 .background-grey-2 {
@@ -203,3 +211,11 @@ body {
 main {
     flex: 1 0 auto;
 }
+.carousel .indicators .indicator-item.active{
+    background-color: #70B8FF;
+}
+
+/*.card {
+    width: 30em;
+    height: 35em;
+}*/

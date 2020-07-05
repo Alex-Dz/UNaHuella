@@ -20,22 +20,22 @@ public class Usuario implements Serializable {
 
     @Column(name = "PRIMER_NOMBRE")
     @NotBlank
-    @Size(min = 2, max = 30, message = "Primer nombre obligatorio, máximo 30 caracteres")
+    @Size(min = 2, max = 30, message = "Campo obligatorio")
     private String a_primer_nombre;
 
     @Column(name = "PRIMER_APELLIDO")
     @NotBlank
-    @Size(min = 2, max = 30, message = "Primer apellido obligatorio, máximo 30 caracteres")
+    @Size(min = 2, max = 30, message = "Campo obligatorio")
     private String b_primer_apellido;
 
     @Column(name = "DIRECCION")
     @NotBlank
-    @Size(min = 2, max = 50, message = "Dirección obligatoria, máximo 50 caracteres")
+    @Size(min = 2, max = 70, message = "Campo obligatorio")
     private String c_direccion;
 
     @Column(name = "TELEFONO")
     @NotBlank
-    @Size(min = 7, max = 11, message = "Número no valido, mínimo 7 caracteres, máximo 11 caracteres")
+    @Size(min = 7, max = 11, message = "Campo obligatorio")
     private String d_telefono;
 
     @Column(name = "SEGUNDO_NOMBRE", nullable = true)
@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "CORREO")
     @NotBlank
-    @Size(min = 6, max = 40, message = "E-mail obligatorio, máximo 30 caracteres")
+    @Size(min = 6, max = 50, message = "Campo obligatorio")
     private String g_correo;
 
     // ATRIBUTOS PROPIOS DE PARTICULAR
@@ -73,6 +73,18 @@ public class Usuario implements Serializable {
     private String m_especializacion;
     @Column(name = "EXPERIENCIA_VET", nullable = true, length = 10)
     private int n_anos_experiencia;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "VET_JORNADA",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "jornada_id"))
+    private List<Jornada> o_jornadas;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "VET_LUGAR",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "lugar_id"))
+    private List<Lugar> p_lugares;
 
     @Column
     @NotBlank
@@ -241,7 +253,7 @@ public class Usuario implements Serializable {
     }
 
     public void setRoles(List<Role> roles) {
-        this.role = roles.get(0).getId();
+        this.role =  roles.get(0).getId().intValue();
         this.roles = roles;
     }
 
@@ -251,6 +263,22 @@ public class Usuario implements Serializable {
 
     public void setMismascotas(List<Mascota> mismascotas) {
         this.mismascotas = mismascotas;
+    }
+
+    public List<Jornada> getO_jornadas() {
+        return o_jornadas;
+    }
+
+    public void setO_jornadas(List<Jornada> o_jornadas) {
+        this.o_jornadas = o_jornadas;
+    }
+
+    public List<Lugar> getP_lugares() {
+        return p_lugares;
+    }
+
+    public void setP_lugares(List<Lugar> p_lugares) {
+        this.p_lugares = p_lugares;
     }
 
     @Override
@@ -272,7 +300,10 @@ public class Usuario implements Serializable {
                 ", l_num_tarjetaprof='" + l_num_tarjetaprof + '\'' +
                 ", m_especializacion='" + m_especializacion + '\'' +
                 ", n_anos_experiencia=" + n_anos_experiencia +
+                ", o_jornadas=" + o_jornadas +
+                ", p_lugares=" + p_lugares +
                 ", password='" + password + '\'' +
+                ", role=" + role +
                 ", confirmPassword='" + confirmPassword + '\'' +
                 ", roles=" + roles +
                 '}';

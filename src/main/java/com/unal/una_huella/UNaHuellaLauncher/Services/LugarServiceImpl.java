@@ -6,23 +6,21 @@ import com.unal.una_huella.UNaHuellaLauncher.Repositories.LugarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LugarServiceImpl implements LugarService {
 
+    @Autowired
     private LugarRepository lugarRepository;
 
-    @Autowired
-    public void setLugarRepository(LugarRepository lugarRepository) {
-        this.lugarRepository = lugarRepository;
-    }
-
     @Override
-    public Iterable<Lugar> listAllLugares() {
+    public List<Lugar> listAllLugares() {
         return lugarRepository.findAll();
     }
 
     @Override
-    public Lugar getLugarById(String id) {
+    public Lugar getLugarById(long id) {
         return lugarRepository.findById(id)
                 .orElse(new Lugar());
     }
@@ -33,7 +31,7 @@ public class LugarServiceImpl implements LugarService {
     }
 
     @Override
-    public void deleteLugar(String id) {
+    public void deleteLugar(long id) {
         lugarRepository.deleteById(id);
     }
 

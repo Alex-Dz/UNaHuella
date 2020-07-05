@@ -2,12 +2,14 @@ package com.unal.una_huella.UNaHuellaLauncher.Services.Interfaces;
 
 import com.unal.una_huella.UNaHuellaLauncher.Entities.Jornada;
 
+import java.util.List;
+
 public interface JornadaService {
-    Iterable<Jornada> listAllJornadas();
+    List<Jornada> listAllJornadas();
     
-    Jornada getJornadaById(String id);
+    Jornada getJornadaById(long id);
     
     Jornada saveJornada(Jornada jornada);
     
-    void deleteJornada(String id);
+    void deleteJornada(long id);
 }

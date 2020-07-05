@@ -24,8 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers(resources).permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/", "/index").permitAll()
-                .antMatchers("/newUser", "/saveUser").permitAll()
+                .antMatchers("/newUser","/newUser-2", "/saveUser").permitAll()
                 .antMatchers("/gestor*").access("hasRole('GESTOR')")
                 .antMatchers("/particular*").access("hasRole('PARTICULAR')")
                 .antMatchers("/vet*").access("hasRole('VETERINARIO')")
