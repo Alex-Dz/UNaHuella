@@ -46,7 +46,7 @@ public class Mascota implements Serializable {
     @Size(max = 500, message = "Máximo 500 caracteres")
     private String f_historial_cirugias;
 
-    @Column(name = "PORTADOR_PARASITO", length = 15, nullable = false)
+    @Column(name = "PORTADOR_PARASITO", length = 20, nullable = false)
     private String g_portador_parasito;
 
     @Column(name = "CARNET_VACUNACION", nullable = true)
