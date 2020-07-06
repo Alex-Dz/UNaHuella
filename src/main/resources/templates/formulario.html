@@ -706,6 +706,9 @@
                                                placeholder="Numero de Tarjeta Profesional"
                                                th:field="${user.l_num_tarjetaprof}"/>
                                         <label for="tarjetaPro">Numero de Tarjeta Profesional</label>
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('l_num_tarjetaprof')}"
+                                              th:errors="*{l_num_tarjetaprof}">UserName Error</span>
                                     </div>
 
                                     <div class="input-field col s12 m8">
@@ -713,6 +716,9 @@
                                         <input type="text" class="validate" id="especializacion"
                                                placeholder="Especializacion" th:field="${user.m_especializacion}"/>
                                         <label for="especializacion">Especialización</label>
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('m_especializacion')}"
+                                              th:errors="*{m_especializacion}">UserName Error</span>
                                     </div>
                                 </div>
 
@@ -722,6 +728,9 @@
                                         <input type="number" class="validate" id="experiencia"
                                                placeholder="Años de experiencia" th:field="${user.n_anos_experiencia}"/>
                                         <label for="experiencia">Años de Experiencia</label>
+                                        <span class="helper-text materialert error"
+                                              th:if="${#fields.hasErrors('n_anos_experiencia')}"
+                                              th:errors="*{n_anos_experiencia}">UserName Error</span>
                                     </div>
                                     <div class="input-field col s12 m9">
                                         <i class="material-icons prefix">location_on</i>
@@ -803,11 +812,17 @@
                                     <i class="material-icons prefix">developer_board</i>
                                     <input type="text" class="validate" id="funciones"
                                            placeholder="Funciones" th:field="${user.j_funciones}"/>
+                                    <span class="helper-text materialert error"
+                                          th:if="${#fields.hasErrors('j_funciones')}"
+                                          th:errors="*{j_funciones}">UserName Error</span>
                                 </div>
                                 <div class="input-field col s12 m5">
                                     <i class="material-icons prefix">equalizer</i>
                                     <input type="number" class="validate" id="nivelAcceso"
                                            placeholder="Nivel de Acceso" th:field="${user.k_nivel_acceso}"/>
+                                    <span class="helper-text materialert error"
+                                          th:if="${#fields.hasErrors('k_nivel_acceso')}"
+                                          th:errors="*{k_nivel_acceso}">UserName Error</span>
                                 </div>
                             </div>
 
