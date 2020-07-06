@@ -66,12 +66,12 @@ public class Usuario implements Serializable {
     @Size (min = 0, max = 50, message = "Máximo 50 carácteres")
     private String j_funciones;
     @Column(name = "NIVEL_ACCESO_GESTOR", nullable = true)
-    @Size (min = 1, max = 1, message = "Mínimo 1, máximo 5")
+    @Size (min = 1, max = 1, message = "Nivel mínimo 1, máximo 5")
     private String k_nivel_acceso;
 
     // ATRIBUTOS PROPIOS DE VETERINARIO
     @Column(name = "TARJETA_PROFESIONAL", nullable = true)
-    @Size (min = 8, max = 20, message = "Máximo 20 carácteres")
+    @Size (min = 5, max = 20, message = "Mínimo 5, máximo 20 carácteres")
     private String l_num_tarjetaprof;
     @Column(name = "ESPECIALIZACION", nullable = true)
     @Size (min = 0, max = 50, message = "Máximo 50 carácteres")

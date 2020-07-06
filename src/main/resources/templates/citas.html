@@ -24,7 +24,6 @@
                             <th>Especificación</th>
                             <th>Lugar</th>
                             <th>Dirección</th>
-                            <th>Reagendar Cita</th>
                             <th>Cancelar Cita</th>
                         </tr>
                         </thead>
@@ -43,11 +42,6 @@
                             <td th:if="${cita != null}"
                                 th:text="${cita.lugar.a_ubicacion_lugar}"></td>
 
-                            <td th:if="${cita != null}" class="center">
-                                <a ><!--th:href="${'/particular/editCita/' + cita.getId_cita()}"-->
-                                    <i class="material-icons">assignment</i>
-                                </a>
-                            </td>
                             <td th:if="${cita != null}" class="center">
                                 <a th:href="${'/particular/deleteCita/' + cita.getId_cita()}">
                                     <i class="material-icons">event_busy</i>
