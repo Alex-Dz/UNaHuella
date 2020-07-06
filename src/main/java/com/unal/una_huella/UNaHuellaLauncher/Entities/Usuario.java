@@ -54,24 +54,29 @@ public class Usuario implements Serializable {
     // ATRIBUTOS PROPIOS DE PARTICULAR
     @Column(name = "CANTIDAD_MASCOTAS_INSCRITAS", nullable = true)
     private int h_cantidad_mascotas;
-    @Column(name = "ESTRATO", nullable = true, length = 1)
+    @Column(name = "ESTRATO", nullable = true)
+    @Size (min = 1, max = 1, message = "Estrato mínimo 0, máximo 6")
     private String i_estrato;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "i_id_dueño")
     @Column(name = "MIS_MASCOTAS")
     private List<Mascota> mismascotas;
 
     // ATRIBUTOS PROPIOS DE GESTOR
-    @Column(name = "FUNCIONES_GESTOR", nullable = true, length = 50)
+    @Column(name = "FUNCIONES_GESTOR", nullable = true)
+    @Size (min = 0, max = 50, message = "Máximo 50 carácteres")
     private String j_funciones;
-    @Column(name = "NIVEL_ACCESO_GESTOR", nullable = true, length = 1)
+    @Column(name = "NIVEL_ACCESO_GESTOR", nullable = true)
+    @Size (min = 1, max = 1, message = "Nivel mínimo 1, máximo 5")
     private String k_nivel_acceso;
 
     // ATRIBUTOS PROPIOS DE VETERINARIO
-    @Column(name = "TARJETA_PROFESIONAL", nullable = true, length = 20)
+    @Column(name = "TARJETA_PROFESIONAL", nullable = true)
+    @Size (min = 5, max = 20, message = "Mínimo 5, máximo 20 carácteres")
     private String l_num_tarjetaprof;
-    @Column(name = "ESPECIALIZACION", nullable = true, length = 50)
+    @Column(name = "ESPECIALIZACION", nullable = true)
+    @Size (min = 0, max = 50, message = "Máximo 50 carácteres")
     private String m_especializacion;
-    @Column(name = "EXPERIENCIA_VET", nullable = true, length = 10)
+    @Column(name = "EXPERIENCIA_VET", nullable = true)
     private int n_anos_experiencia;
 
     @ManyToMany(fetch = FetchType.LAZY)
