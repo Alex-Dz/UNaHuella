@@ -11,11 +11,11 @@ public class HashTable {
     private Mascota[] array;
     private long count;
     private ArrayList<Long> primos;
-    private float factorCarga;
+    private double factorCarga;
     private int colider;
 
     public HashTable() {
-        this.array = new Mascota[107];
+        this.array = new Mascota[10007];
         this.count = 0;
         this.primos = null;
         this.factorCarga = 0;
@@ -56,23 +56,22 @@ public class HashTable {
         return -1;
     }
 
-    private long h1(long x) {
-
-        long hash = x % array.length;
-        return (hash + f(x)) % array.length;
+    private long h1(long x, long N) {
+        long hash = x % N;
+        return (hash + f(x, N)) % N;
     }
 
-    private long h2(long x) {
-        long R = getPrime(array.length, -1);
+    private long h2(long x, long N) {
+        long R = getPrime(N, -1);
         return R - (x % R);
     }
 
-    private long f(long x) {
-        return colider * h2(x);
+    private long f(long x, long N) {
+        return colider * h2(x, N);
     }
 
-    private float getCarga() {
-        factorCarga = count / array.length;
+    private double getCarga() {
+        factorCarga = (double) count / (double) array.length;
         return factorCarga;
     }
 
@@ -80,25 +79,26 @@ public class HashTable {
         colider = 0;
         long id = Long.parseLong(mascota.getI_id_dueño().getId_usuario());
         long hash = id % array.length;
-        long pos = 0;
-        getCarga();
+        long pos = hash;
         if (factorCarga < 0.85) {
-            if (array[(int) hash] == null || array[(int) hash].getI_id_dueño() == null) {
-                array[(int) hash] = mascota;
+            if (array[(int) pos] == null || array[(int) pos].getI_id_dueño() == null) {
+                array[(int) pos] = mascota;
                 count++;
+                getCarga();
             } else {
                 colider++;
-                pos = h1(id);
+                pos = h1(id, array.length);
                 while (array[(int) pos] != null) {
                     if (array[(int) pos] != null && array[(int) pos].getI_id_dueño() == null) {
                         break;
                     }
                     colider++;
-                    pos = h1(id);
+                    pos = h1(id, array.length);
                 }
                 array[(int) pos] = mascota;
                 pos = 0;
                 count++;
+                getCarga();
                 colider = 0;
             }
         } else {
@@ -119,7 +119,7 @@ public class HashTable {
             return array[(int) pos];
         } else {
             colider++;
-            pos = h1(id);
+            pos = h1(id, array.length);
             while (array[(int) pos] != null) {
                 if (array[(int) pos] != null
                         && array[(int) pos].getI_id_dueño() != null
@@ -128,7 +128,7 @@ public class HashTable {
                     break;
                 }
                 colider++;
-                pos = h1(id);
+                pos = h1(id, array.length);
             }
             if (array[(int) pos] == null) {
                 return null;
@@ -152,7 +152,7 @@ public class HashTable {
                     mascotas.add(array[(int) pos]);
                 }
                 colider++;
-                pos = h1(id);
+                pos = h1(id, array.length);
             }
             pos = 0;
             colider = 0;
@@ -199,7 +199,7 @@ public class HashTable {
         } else {
             do {
                 colider++;
-                pos = h1(id);
+                pos = h1(id, array.length);
                 if (array[(int) pos] != null
                         && array[(int) pos].getI_id_dueño() != null
                         && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
@@ -234,29 +234,36 @@ public class HashTable {
         N = getPrime(N, 1);
         Mascota[] temp = new Mascota[(int) N];
         factorCarga = 0;
+        long tcount = 0;
         for (long i = 0; i < array.length; i++) {
-            if (array[(int) i] != null) {
+            if (array[(int) i] != null
+                    && array[(int) i].getI_id_dueño() != null) {
                 colider = 0;
                 long id = Long.parseLong(array[(int) i].getI_id_dueño().getId_usuario());
                 long hash = id % temp.length;
-                long pos = 0;
-                getCarga();
-                if (temp[(int) hash] == null) {
-                    temp[(int) hash] = array[(int) i];
-                    count++;
+                long pos = hash;
+                if (temp[(int) pos] == null) {
+                    temp[(int) pos] = array[(int) i];
+                    tcount++;
+                    factorCarga = (double) tcount / (double) temp.length;
                 } else {
                     do {
                         colider++;
-                        pos = h1(id);
+                        pos = h1(id, N);
+                        if (temp[(int) pos] == null || temp[(int) pos].getI_id_dueño() == null) {
+                            break;
+                        }
                     } while (temp[(int) pos] != null);
                     temp[(int) pos] = array[(int) i];
                     pos = 0;
-                    count++;
+                    tcount++;
+                    factorCarga = (double) tcount / (double) temp.length;
                     colider = 0;
                 }
 
             }
         }
+        count = tcount;
         array = temp;
     }
 
