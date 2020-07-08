@@ -181,6 +181,7 @@ public class HashTable {
         long hash = id % array.length;
         long pos = hash;
         if (array[(int) pos] != null
+                && array[(int) pos].getI_id_dueño() != null
                 && array[(int) pos].getI_id_dueño().getId_usuario().equals(mascota.getI_id_dueño().getId_usuario())
                 && array[(int) pos].getId_mascota() == mascota.getId_mascota()) {
             array[(int) pos].setI_id_dueño(null);

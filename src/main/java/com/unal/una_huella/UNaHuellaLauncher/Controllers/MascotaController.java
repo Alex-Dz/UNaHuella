@@ -163,10 +163,10 @@ public class MascotaController {
             try {
                 pet.setI_id_dueño(userService.getLoggedUser());
                 pet = mascotaService.saveMascota(pet);
+                petsTable.insert(pet);
                 Usuario user = userService.getLoggedUser();
                 user.setH_cantidad_mascotas(user.getH_cantidad_mascotas() + 1);
                 userService.updateUser(user);
-                petsTable.insert(pet);
                 userService.mapUser(user, userController.avl.find(user, userController.avl.getRoot()));
                 model.addAttribute("petCreated", true);
                 model.addAttribute("edit", false);
